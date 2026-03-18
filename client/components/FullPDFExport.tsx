@@ -36,7 +36,7 @@ export function FullPDFExport() {
       });
 
       // Função para capturar elemento e adicionar páginas ao PDF
-      const captureElement = async (element: HTMLElement, pageBreakBefore = false) => {
+      const captureElement = async (element: HTMLElement, pageBreakBefore = false, addTopPadding = false) => {
         // Cria container temporário para o elemento clonado
         const tempContainer = document.createElement("div");
         tempContainer.style.position = "absolute";
@@ -44,7 +44,15 @@ export function FullPDFExport() {
         tempContainer.style.top = "-9999px";
         tempContainer.style.visibility = "visible";
         tempContainer.style.width = "1200px";
-        tempContainer.appendChild(element);
+        tempContainer.style.backgroundColor = "#ffffff";
+
+        // Wrapper para adicionar padding
+        const wrapper = document.createElement("div");
+        wrapper.style.width = "100%";
+        wrapper.style.padding = addTopPadding ? "20px" : "0px";
+        wrapper.style.backgroundColor = "#ffffff";
+        wrapper.appendChild(element);
+        tempContainer.appendChild(wrapper);
         document.body.appendChild(tempContainer);
 
         try {
@@ -54,21 +62,22 @@ export function FullPDFExport() {
           element.style.width = "100%";
           element.style.overflow = "visible";
 
-          const canvas = await html2canvas(element, {
+          const canvas = await html2canvas(wrapper, {
             scale: 2,
             logging: false,
             useCORS: true,
             allowTaint: true,
             backgroundColor: "#ffffff",
             imageTimeout: 5000,
-            windowHeight: element.scrollHeight,
+            windowHeight: wrapper.scrollHeight,
             windowWidth: 1200,
           });
 
-          // Calcula dimensões
+          // Calcula dimensões com mais precisão
           const imgWidth = contentWidth;
-          const canvasAspectRatio = canvas.width / canvas.height;
-          const imgHeight = imgWidth / canvasAspectRatio;
+          const canvasHeight = canvas.height;
+          const canvasWidth = canvas.width;
+          const imgHeight = (canvasHeight / canvasWidth) * imgWidth;
 
           // Páginas necessárias para este elemento
           const pageHeightAvailable = A4_HEIGHT;
@@ -81,34 +90,36 @@ export function FullPDFExport() {
 
           // Processa cada página
           for (let pageIdx = 0; pageIdx < totalPagesNeeded; pageIdx++) {
-            // Adiciona nova página (exceto para a primeira)
-            if (pageIdx > 0) {
+            // Adiciona nova página (exceto para a primeira do PDF inteiro)
+            if (pageIdx > 0 || currentPageCount > 0) {
               pdf.addPage();
             }
             currentPageCount++;
 
-            // Calcula a altura da imagem a desenhar nesta página
-            const remainingHeight = imgHeight - (pageIdx * pageHeightAvailable);
-            const heightToDraw = Math.min(pageHeightAvailable, remainingHeight);
+            // Calcula a altura exata para esta página
+            const pageStartHeight = pageIdx * pageHeightAvailable;
+            const pageEndHeight = (pageIdx + 1) * pageHeightAvailable;
+            const actualHeight = imgHeight - pageStartHeight;
+            const heightToDraw = Math.min(pageHeightAvailable, actualHeight);
 
-            // Calcula a correspondência em pixels do canvas
-            const pixelsPerMm = (canvas.height / imgHeight);
+            // Converte para pixels do canvas
+            const pixelsPerMm = canvasHeight / imgHeight;
             const sourceHeightPixels = heightToDraw * pixelsPerMm;
             const sourceY = pageIdx * pageHeightAvailable * pixelsPerMm;
 
-            // Cria canvas de crop para evitar stretching
+            // Cria canvas de crop
             const cropCanvas = document.createElement("canvas");
-            cropCanvas.width = canvas.width;
-            cropCanvas.height = Math.ceil(sourceHeightPixels);
+            cropCanvas.width = canvasWidth;
+            cropCanvas.height = Math.round(sourceHeightPixels);
 
             const ctx = cropCanvas.getContext("2d");
             if (ctx) {
               ctx.drawImage(
                 canvas,
                 0, Math.round(sourceY),
-                canvas.width, Math.ceil(sourceHeightPixels),
+                canvasWidth, Math.round(sourceHeightPixels),
                 0, 0,
-                canvas.width, Math.ceil(sourceHeightPixels)
+                canvasWidth, Math.round(sourceHeightPixels)
               );
             }
 
@@ -136,11 +147,16 @@ export function FullPDFExport() {
 
       // ========== 1. CAPTURAR HEADER ==========
       console.log("Capturando header...");
-      const headerElement = mainContainer.querySelector(
-        'div[style*="linear-gradient"]'
-      ) as HTMLElement;
+
+      // Encontra o header pelo estilo de background com gradient
+      const headerElement = Array.from(mainContainer.querySelectorAll("div")).find((el) => {
+        const style = window.getComputedStyle(el);
+        const bgImage = style.backgroundImage;
+        return bgImage && bgImage.includes("linear-gradient");
+      }) as HTMLElement;
 
       if (headerElement) {
+        console.log("Header encontrado, capturando...");
         const headerClone = headerElement.cloneNode(true) as HTMLElement;
 
         // Remove botão PDF
@@ -154,7 +170,10 @@ export function FullPDFExport() {
           }
         });
 
-        await captureElement(headerClone, false);
+        await captureElement(headerClone, false, false);
+        console.log("✓ Header capturado com sucesso");
+      } else {
+        console.warn("Header não encontrado no dashboard");
       }
 
       // ========== 2. PROCESSAR ABAS ==========
@@ -236,8 +255,8 @@ export function FullPDFExport() {
             }
           }
 
-          // Captura com page break (exceto para a primeira)
-          await captureElement(contentClone, idx > 0);
+          // Captura com page break (exceto para a primeira) - add padding no topo para evitar cortes
+          await captureElement(contentClone, idx > 0, true);
 
           console.log(`✓ ${tabLabel} capturada com sucesso`);
         } catch (error) {
@@ -250,12 +269,23 @@ export function FullPDFExport() {
       // ========== 3. CAPTURAR FOOTER ==========
       console.log("Capturando footer...");
 
-      // Tenta encontrar o footer de várias formas
-      let footerElement = mainContainer.querySelector("footer") as HTMLElement;
+      // O footer está fora do mainContainer, procura no documento
+      let footerElement: HTMLElement | null = null;
 
-      if (!footerElement) {
-        // Tenta por classe footer
-        footerElement = mainContainer.querySelector('[class*="footer"]') as HTMLElement;
+      // Procura por footer com backgroundColor similar ao header
+      const allDivs = document.querySelectorAll("div");
+      for (let div of allDivs) {
+        const style = window.getComputedStyle(div);
+        const bgColor = style.backgroundColor;
+
+        // Procura por div com backgroundColor similar ao primary color (#1F3B5E)
+        if (bgColor && (bgColor.includes("31") || bgColor.includes("rgb"))) {
+          // Verifica se contém o texto do footer
+          if (div.textContent?.includes("GIARDINO") && div.textContent?.includes("Confidencial")) {
+            footerElement = div as HTMLElement;
+            break;
+          }
+        }
       }
 
       if (footerElement) {
@@ -264,7 +294,7 @@ export function FullPDFExport() {
         footerClone.style.display = "block";
         footerClone.style.visibility = "visible";
         footerClone.style.width = "100%";
-        await captureElement(footerClone, true);
+        await captureElement(footerClone, true, true);
         console.log("✓ Footer capturado com sucesso");
       } else {
         console.warn("Footer não encontrado no dashboard");
