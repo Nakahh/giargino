@@ -403,6 +403,49 @@ export const additionalServices = [
 ];
 
 // ============================================
+// PROJEÇÕES FINANCEIRAS MULTI-ANUAIS
+// ============================================
+
+export const generateYearlyProjections = () => {
+  const projections = [];
+
+  for (let year = 1; year <= 10; year++) {
+    // Assumindo crescimento conservador de 2% ao ano após ano 1
+    const growthFactor = 1 + (year > 1 ? 0.02 * (year - 1) : 0);
+
+    const grossRevenue = totalMonthlyRevenue * 12 * growthFactor;
+    const hrCosts = totalHRCosts * 12 * (1 + 0.03 * (year - 1)); // 3% inflation annually
+    const operationalCosts = totalResidentialCosts * 12 * (1 + 0.03 * (year - 1));
+    const financingPayment = financing.monthlyPayment * 12;
+
+    // Juros decrescem conforme o saldo diminui
+    const remainingBalance = financing.totalLoan - (financing.monthlyPayment * 12 * (year - 1));
+    const interestCost = Math.max(0, remainingBalance * financing.annualInterestRate);
+
+    const totalCosts = hrCosts + operationalCosts + financingPayment + interestCost;
+    const netProfit = grossRevenue - totalCosts;
+    const roi = ((netProfit * year) / financing.totalLoan) * 100;
+
+    projections.push({
+      year,
+      grossRevenue: Math.round(grossRevenue),
+      hrCosts: Math.round(hrCosts),
+      operationalCosts: Math.round(operationalCosts),
+      financingPayment: Math.round(financingPayment),
+      interestCost: Math.round(interestCost),
+      totalCosts: Math.round(totalCosts),
+      netProfit: Math.round(netProfit),
+      cumulativeProfit: Math.round(netProfit * year),
+      roi: roi.toFixed(2),
+    });
+  }
+
+  return projections;
+};
+
+export const yearlyProjections = generateYearlyProjections();
+
+// ============================================
 // EXPORT COMPLETO
 // ============================================
 
@@ -410,7 +453,7 @@ export const giardino = {
   projectName: "GIARDINO - Modelo de Investimento",
   location: "Mogi das Cruzes - São Paulo",
   description: "Projeto complexo: Residencial Senior + Clube Life Style + Loteamento + Shopping",
-  
+
   // Dados financeiros
   sales: initialSales,
   totalSales: totalInitialSales,
@@ -419,11 +462,14 @@ export const giardino = {
   hrCosts: humanResources,
   residentialCosts: residentialOperatingCosts,
   financing: financing,
-  
+
   // Análises
   summary: financialSummary,
   viability: viabilityAnalysis,
-  
+
+  // Projeções
+  yearlyProjections: yearlyProjections,
+
   // Estrutura
   structure: projectStructure,
   services: {
