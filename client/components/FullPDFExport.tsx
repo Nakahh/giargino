@@ -86,15 +86,19 @@ export function FullPDFExport() {
           // Adiciona página break se necessário ANTES de adicionar o elemento
           if (pageBreakBefore && currentPageCount > 0) {
             pdf.addPage();
+            currentPageCount++;
           }
 
           // Processa cada página
           for (let pageIdx = 0; pageIdx < totalPagesNeeded; pageIdx++) {
-            // Adiciona nova página (exceto para a primeira do PDF inteiro)
-            if (pageIdx > 0 || currentPageCount > 0) {
+            // Adiciona nova página SOMENTE se necessário
+            if (pageIdx > 0) {
               pdf.addPage();
+              currentPageCount++;
+            } else if (currentPageCount === 0) {
+              // Primeira página do PDF
+              currentPageCount++;
             }
-            currentPageCount++;
 
             // Calcula a altura exata para esta página
             const pageStartHeight = pageIdx * pageHeightAvailable;
@@ -124,7 +128,11 @@ export function FullPDFExport() {
             }
 
             const croppedData = cropCanvas.toDataURL("image/png", 0.95);
-            pdf.addImage(croppedData, "PNG", margin, margin, imgWidth, heightToDraw);
+
+            // Verifica se há conteúdo real antes de adicionar imagem
+            if (cropCanvas.height > 0) {
+              pdf.addImage(croppedData, "PNG", margin, margin, imgWidth, heightToDraw);
+            }
           }
 
           isFirstImage = false;
@@ -202,9 +210,33 @@ export function FullPDFExport() {
         // Clica na aba
         tabBtn.click();
 
-        // Aguarda renderização completa (mais tempo para galeria carregar)
-        const waitTime = tabLabel.includes("Viabilidade") ? 4000 : 2500;
+        // Aguarda renderização completa (mais tempo para gráficos e galeria carregarem)
+        let waitTime = 3500; // padrão para gráficos
+        if (tabLabel.includes("Viabilidade")) waitTime = 5500; // galeria demora mais
+        if (tabLabel.includes("Receitas") || tabLabel.includes("Custos")) waitTime = 4500; // gráficos
+        if (tabLabel.includes("Geral")) waitTime = 4000; // geral tem vários gráficos
+
         await new Promise((resolve) => setTimeout(resolve, waitTime));
+
+        // Força rendering dos gráficos Recharts
+        const charts = mainContainer.querySelectorAll(".recharts-responsive-container");
+        for (let chart of charts) {
+          const el = chart as HTMLElement;
+          el.style.display = "block";
+          el.style.visibility = "visible";
+          el.style.overflow = "visible";
+        }
+
+        // Força SVGs serem renderizáveis
+        const svgElements = mainContainer.querySelectorAll("svg");
+        for (let svg of svgElements) {
+          const el = svg as HTMLElement;
+          el.setAttribute("width", el.getAttribute("width") || "100%");
+          el.setAttribute("height", el.getAttribute("height") || "auto");
+          el.style.display = "block";
+          el.style.visibility = "visible";
+          el.style.overflow = "visible";
+        }
 
         try {
           // Encontra o conteúdo
@@ -236,11 +268,54 @@ export function FullPDFExport() {
             (m as HTMLElement).style.display = "none";
           });
 
+          // Remove espaços vazios e padding desnecessário
+          const allElements = contentClone.querySelectorAll("*");
+          allElements.forEach((el) => {
+            const elem = el as HTMLElement;
+            // Remove margin-top e margin-bottom grandes
+            const marginTop = window.getComputedStyle(elem).marginTop;
+            const marginBottom = window.getComputedStyle(elem).marginBottom;
+            if (marginTop && (parseInt(marginTop) > 30)) elem.style.marginTop = "10px";
+            if (marginBottom && (parseInt(marginBottom) > 30)) elem.style.marginBottom = "10px";
+          });
+
+          // Garante que gráficos estão visíveis
+          const chartsInContent = contentClone.querySelectorAll(".recharts-responsive-container");
+          chartsInContent.forEach((chart) => {
+            const el = chart as HTMLElement;
+            el.style.display = "block";
+            el.style.visibility = "visible";
+            el.style.minHeight = "300px";
+          });
+
+          // Melhora legenda dos gráficos
+          const legends = contentClone.querySelectorAll(".recharts-default-legend");
+          legends.forEach((legend) => {
+            const el = legend as HTMLElement;
+            el.style.fontSize = "14px";
+            el.style.padding = "15px 0";
+            el.style.marginTop = "10px";
+            el.style.display = "flex";
+            el.style.flexWrap = "wrap";
+            el.style.justifyContent = "center";
+            el.style.gap = "20px";
+          });
+
+          // Garante que SVGs dos gráficos estão visíveis
+          const svgs = contentClone.querySelectorAll("svg");
+          svgs.forEach((svg) => {
+            const el = svg as HTMLElement;
+            el.style.display = "block";
+            el.style.visibility = "visible";
+            el.style.overflow = "visible";
+          });
+
           // Garante que o conteúdo está visível e tem altura
           contentClone.style.display = "block";
           contentClone.style.visibility = "visible";
           contentClone.style.height = "auto";
           contentClone.style.minHeight = "auto";
+          contentClone.style.overflow = "visible";
 
           // Para a aba de Viabilidade, garante que a galeria está expandida
           if (tabLabel.includes("Viabilidade")) {
@@ -305,12 +380,9 @@ export function FullPDFExport() {
         modal.style.display = "";
       });
 
-      // ========== 5. VOLTAR PARA PRIMEIRA ABA ==========
-      console.log("Voltando para primeira aba...");
-      if (tabButtons.length > 0) {
-        tabButtons[0].click();
-        await new Promise((resolve) => setTimeout(resolve, 800));
-      }
+      // ========== 5. NÃO VOLTA PARA PRIMEIRA ABA ==========
+      // Removido: não queremos que o menu de abas apareça no PDF final
+      console.log("Finalizando captura PDF...");
 
       // ========== 6. SALVAR PDF ==========
       // Remove páginas em branco no final
