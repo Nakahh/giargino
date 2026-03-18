@@ -71,6 +71,16 @@ export default function Dashboard() {
   const tabsContainerRef = useRef<HTMLDivElement>(null);
   const activeTabButtonRef = useRef<HTMLButtonElement>(null);
 
+  // Refs para cada seção de aba
+  const sectionRefs = useRef({
+    overview: null as HTMLDivElement | null,
+    revenue: null as HTMLDivElement | null,
+    costs: null as HTMLDivElement | null,
+    hr: null as HTMLDivElement | null,
+    viability: null as HTMLDivElement | null,
+    project: null as HTMLDivElement | null,
+  });
+
   // Auto-scroll para a aba ativa no mobile
   useEffect(() => {
     if (activeTabButtonRef.current && tabsContainerRef.current) {
@@ -86,6 +96,40 @@ export default function Dashboard() {
       }, 0);
     }
   }, [activeTab]);
+
+  // Intersection Observer para mudar aba ao fazer scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const tabId = entry.target.id.replace("tab-", "") as
+              | "overview"
+              | "revenue"
+              | "costs"
+              | "hr"
+              | "viability"
+              | "project";
+            setActiveTab(tabId);
+          }
+        });
+      },
+      {
+        threshold: 0.3,
+        rootMargin: "-50px 0px -50% 0px",
+      }
+    );
+
+    Object.values(sectionRefs.current).forEach((section) => {
+      if (section) observer.observe(section);
+    });
+
+    return () => {
+      Object.values(sectionRefs.current).forEach((section) => {
+        if (section) observer.unobserve(section);
+      });
+    };
+  }, []);
 
   // Dados de receitas mensais
   const revenueData = [
@@ -298,9 +342,16 @@ export default function Dashboard() {
       </div>
 
       {/* Navigation Tabs Premium - Mobile Optimized */}
-      <div className="bg-white border-b-2 sticky top-0 z-10 shadow-md overflow-x-auto" style={{ borderColor: `${GIARDINO_COLORS.accent}40` }}>
+      <div
+        className="bg-white sticky top-0 z-10 shadow-lg overflow-x-auto transition-all duration-300"
+        style={{
+          background: `linear-gradient(180deg, ${GIARDINO_COLORS.light} 0%, ${GIARDINO_COLORS.light}dd 100%)`,
+          backdropFilter: "blur(8px)",
+          borderBottom: `3px solid ${GIARDINO_COLORS.accent}20`,
+        }}
+      >
         <div className="max-w-7xl mx-auto px-1 sm:px-2 md:px-6">
-          <div ref={tabsContainerRef} className="flex gap-1 md:gap-2 overflow-x-auto scrollbar-hide py-1 md:py-0">
+          <div ref={tabsContainerRef} className="flex gap-1 md:gap-2 overflow-x-auto scrollbar-hide py-2 md:py-0">
             {[
               { id: "overview", label: "📊 Geral" },
               { id: "revenue", label: "💰 Receitas" },
@@ -323,10 +374,10 @@ export default function Dashboard() {
                       | "project"
                   )
                 }
-                className={`px-2.5 sm:px-4 md:px-6 py-2 md:py-4 text-xs sm:text-sm md:text-base font-semibold border-b-2 transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
+                className={`px-3 sm:px-4 md:px-6 py-2.5 md:py-4 text-xs sm:text-sm md:text-base font-bold border-b-3 transition-all duration-300 whitespace-nowrap flex-shrink-0 rounded-t-lg ${
                   activeTab === tab.id
-                    ? "text-white border-b-3"
-                    : "text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300"
+                    ? "shadow-md transform scale-100"
+                    : "text-gray-700 border-transparent hover:text-gray-900 hover:bg-gray-50 transform scale-95 hover:scale-100"
                 }`}
                 style={
                   activeTab === tab.id
@@ -334,6 +385,7 @@ export default function Dashboard() {
                         backgroundColor: GIARDINO_COLORS.primary,
                         borderColor: GIARDINO_COLORS.accent,
                         color: GIARDINO_COLORS.light,
+                        boxShadow: `0 4px 12px ${GIARDINO_COLORS.primary}30`,
                       }
                     : {}
                 }
@@ -349,12 +401,18 @@ export default function Dashboard() {
       <div id="dashboard-content" className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10">
         {/* TAB: OVERVIEW */}
         {activeTab === "overview" && (
-          <div className="space-y-8 fade-in slide-in-up">
+          <div
+            id="tab-overview"
+            ref={(el) => {
+              if (el) sectionRefs.current.overview = el;
+            }}
+            className="space-y-8 fade-in slide-in-up"
+          >
             {/* KPI Cards Luxury Premium - Mobile Optimized */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
               {/* Card 1: Receita Mensal */}
               <div
-                className="rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                className="rounded-xl p-5 sm:p-6 md:p-7 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 group hover:scale-105 cursor-pointer fade-in gradient-card hover-lift"
                 style={{
                   backgroundColor: GIARDINO_COLORS.light,
                   borderLeftColor: GIARDINO_COLORS.primary
@@ -362,10 +420,10 @@ export default function Dashboard() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs sm:text-sm font-semibold mb-1" style={{ color: GIARDINO_COLORS.secondary }}>
+                    <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.secondary }}>
                       RECEITA MENSAL
                     </p>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary, wordWrap: "break-word" }}>
+                    <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary, wordWrap: "break-word" }}>
                       {formatCurrency(giardino.totalMonthlyRevenue)}
                     </h3>
                     <p className="text-xs text-gray-500">Faturamento/mês</p>
@@ -376,7 +434,7 @@ export default function Dashboard() {
 
               {/* Card 2: Total de Vendas */}
               <div
-                className="rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                className="rounded-xl p-5 sm:p-6 md:p-7 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 group hover:scale-105 cursor-pointer fade-in gradient-card hover-lift"
                 style={{
                   backgroundColor: GIARDINO_COLORS.light,
                   borderLeftColor: GIARDINO_COLORS.secondary
@@ -384,10 +442,10 @@ export default function Dashboard() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs sm:text-sm font-semibold mb-1" style={{ color: GIARDINO_COLORS.primary }}>
+                    <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.primary }}>
                       TOTAL VENDAS
                     </p>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary, wordWrap: "break-word" }}>
+                    <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary, wordWrap: "break-word" }}>
                       {formatCurrency(giardino.totalSales)}
                     </h3>
                     <p className="text-xs text-gray-500">Capital inicial</p>
@@ -398,7 +456,7 @@ export default function Dashboard() {
 
               {/* Card 3: Custos Mensais */}
               <div
-                className="rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                className="rounded-xl p-5 sm:p-6 md:p-7 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 group hover:scale-105 cursor-pointer fade-in gradient-card hover-lift"
                 style={{
                   backgroundColor: GIARDINO_COLORS.light,
                   borderLeftColor: GIARDINO_COLORS.gold
@@ -406,10 +464,10 @@ export default function Dashboard() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs sm:text-sm font-semibold mb-1 text-gray-600">
+                    <p className="text-sm sm:text-base font-bold mb-2 text-gray-600 tracking-wide">
                       CUSTOS MENSAIS
                     </p>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold, wordWrap: "break-word" }}>
+                    <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold, wordWrap: "break-word" }}>
                       {formatCurrency(469_000 + 4_320_000)}
                     </h3>
                     <p className="text-xs text-gray-500">RH + Operacional</p>
@@ -420,7 +478,7 @@ export default function Dashboard() {
 
               {/* Card 4: Lucro Líquido */}
               <div
-                className="rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                className="rounded-xl p-5 sm:p-6 md:p-7 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 group hover:scale-105 cursor-pointer fade-in gradient-card hover-lift"
                 style={{
                   backgroundColor: GIARDINO_COLORS.light,
                   borderLeftColor: GIARDINO_COLORS.accent
@@ -428,10 +486,10 @@ export default function Dashboard() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs sm:text-sm font-semibold mb-1 text-gray-600">
+                    <p className="text-sm sm:text-base font-bold mb-2 text-gray-600 tracking-wide">
                       LUCRO LÍQUIDO
                     </p>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent, wordWrap: "break-word" }}>
+                    <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent, wordWrap: "break-word" }}>
                       {formatCurrency(
                         giardino.totalMonthlyRevenue -
                         (469_000 + 4_320_000 + 1_000_000 + 500_000)
@@ -455,10 +513,10 @@ export default function Dashboard() {
                 }}
               >
                 <div className="mb-4 sm:mb-6">
-                  <h2 className="text-xl sm:text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.primary }}>
+                  <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary }}>
                     📊 Distribuição de Receitas
                   </h2>
-                  <p className="text-xs sm:text-sm text-gray-600">Contribuição de cada segmento na receita bruta mensal</p>
+                  <p className="text-sm sm:text-base text-gray-600">Contribuição de cada segmento na receita bruta mensal</p>
                 </div>
                 <ResponsiveContainer width="100%" height={380}>
                   <PieChart>
@@ -506,10 +564,10 @@ export default function Dashboard() {
                 }}
               >
                 <div className="mb-4 sm:mb-6">
-                  <h2 className="text-lg sm:text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.secondary }}>
+                  <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary }}>
                     💼 Capital por Segmento
                   </h2>
-                  <p className="text-xs sm:text-sm text-gray-600">Vendas iniciais (CAPEX) por segmento - Total R$ 606,6 milhões</p>
+                  <p className="text-sm sm:text-base text-gray-600">Vendas iniciais (CAPEX) por segmento - Total R$ 606,6 milhões</p>
                 </div>
                 <ResponsiveContainer width="100%" height={360}>
                   <BarChart data={salesDistribution} margin={{ top: 5, right: 10, left: 0, bottom: 60 }}>
@@ -549,10 +607,10 @@ export default function Dashboard() {
               }}
             >
               <div className="mb-4 sm:mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.accent }}>
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent }}>
                   📈 Fluxo de Caixa — 12 Meses
                 </h2>
-                <p className="text-xs sm:text-sm text-gray-600">Projeção mensal de receitas, custos e lucro líquido ao longo de 1 ano</p>
+                <p className="text-sm sm:text-base text-gray-600">Projeção mensal de receitas, custos e lucro líquido ao longo de 1 ano</p>
               </div>
               <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={cashFlowData} margin={{ top: 5, right: 10, left: 0, bottom: 50 }}>
@@ -620,7 +678,13 @@ export default function Dashboard() {
 
         {/* TAB: REVENUE */}
         {activeTab === "revenue" && (
-          <div className="space-y-8 fade-in slide-in-up">
+          <div
+            id="tab-revenue"
+            ref={(el) => {
+              if (el) sectionRefs.current.revenue = el;
+            }}
+            className="space-y-8 fade-in slide-in-up"
+          >
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
               <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.primary}30` }}></div>
@@ -650,7 +714,7 @@ export default function Dashboard() {
                     borderTopColor: GIARDINO_COLORS.primary
                   }}
                 >
-                  <h3 className="text-base sm:text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.primary }}>
+                  <h3 className="text-lg sm:text-xl font-bold mb-4" style={{ color: GIARDINO_COLORS.primary }}>
                     📊 Receitas Mensais por Segmento
                   </h3>
                   <ResponsiveContainer width="100%" height={280}>
@@ -746,7 +810,13 @@ export default function Dashboard() {
 
         {/* TAB: COSTS */}
         {activeTab === "costs" && (
-          <div className="space-y-8 fade-in slide-in-up">
+          <div
+            id="tab-costs"
+            ref={(el) => {
+              if (el) sectionRefs.current.costs = el;
+            }}
+            className="space-y-8 fade-in slide-in-up"
+          >
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
               <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.gold}30` }}></div>
@@ -867,7 +937,13 @@ export default function Dashboard() {
 
         {/* TAB: HR */}
         {activeTab === "hr" && (
-          <div className="space-y-8 fade-in slide-in-up">
+          <div
+            id="tab-hr"
+            ref={(el) => {
+              if (el) sectionRefs.current.hr = el;
+            }}
+            className="space-y-8 fade-in slide-in-up"
+          >
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
               <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.secondary}30` }}></div>
@@ -965,7 +1041,13 @@ export default function Dashboard() {
 
         {/* TAB: VIABILITY */}
         {activeTab === "viability" && (
-          <div className="space-y-8 fade-in slide-in-up">
+          <div
+            id="tab-viability"
+            ref={(el) => {
+              if (el) sectionRefs.current.viability = el;
+            }}
+            className="space-y-8 fade-in slide-in-up"
+          >
             <div
               className="rounded-xl shadow-lg p-6 md:p-8 border-l-8"
               style={{
@@ -1221,7 +1303,13 @@ export default function Dashboard() {
 
         {/* TAB: PROJECT */}
         {activeTab === "project" && (
-          <div className="space-y-8 fade-in slide-in-up">
+          <div
+            id="tab-project"
+            ref={(el) => {
+              if (el) sectionRefs.current.project = el;
+            }}
+            className="space-y-8 fade-in slide-in-up"
+          >
             <div
               className="rounded-xl shadow-lg p-6 md:p-8 border-l-8"
               style={{
