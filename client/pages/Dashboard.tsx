@@ -222,16 +222,16 @@ export default function Dashboard() {
       {/* Header Premium com Logo - Mobile Optimized */}
       <div
         className="py-8 md:py-12 px-4 md:px-6 shadow-xl"
-        style={{ background: `linear-gradient(135deg, ${GIARDINO_COLORS.primary} 0%, ${GIARDINO_COLORS.secondary} 100%)` }}
+        style={{ background: `linear-gradient(135deg, #2C3E50 0%, #1F3B5E 100%)` }}
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-              {/* Logo GIARDINO - Oficial (SVG sem fundo branco) */}
+              {/* Logo GIARDINO - Oficial (sem fundo branco) */}
               <img
-                src="/giardino-logo.svg"
+                src="https://cdn.builder.io/api/v1/image/assets%2F1f5c753434a147ec852674a7cae5983c%2F5fcc06ba8d4a407c8933fa63bcffec84?format=webp&width=800&height=1200"
                 alt="GIARDINO Logo"
-                className="h-24 md:h-28 w-auto object-contain drop-shadow-lg"
+                className="h-24 md:h-32 w-auto object-contain drop-shadow-lg"
               />
               <div>
                 <h1 className="text-4xl md:text-5xl font-bold mb-1 text-center md:text-left" style={{ color: GIARDINO_COLORS.accent }}>
