@@ -1,0 +1,95 @@
+<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle for logo -->
+  <defs>
+    <style>
+      .giardino-text { font-family: 'Playfair Display', serif; font-size: 72px; font-weight: 700; fill: #1B3A5C; }
+      .giardino-subtitle { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 600; fill: #1B3A5C; letter-spacing: 2px; }
+    </style>
+  </defs>
+  
+  <!-- Crown #1B3A5C -->
+  <g transform="translate(150, 40)">
+    <!-- Crown base -->
+    <path d="M -35 15 L -25 -15 L -10 5 L 0 -20 L 10 5 L 25 -15 L 35 15 Q 35 20 30 20 L -30 20 Q -35 20 -35 15 Z" 
+          fill="#1B3A5C" stroke="#1B3A5C" stroke-width="1.5"/>
+    <!-- Crown dots -->
+    <circle cx="-20" cy="8" r="3" fill="#1B3A5C"/>
+    <circle cx="0" cy="8" r="3" fill="#1B3A5C"/>
+    <circle cx="20" cy="8" r="3" fill="#1B3A5C"/>
+  </g>
+  
+  <!-- Main flower - Rose #FFD700 -->
+  <g transform="translate(150, 90)">
+    <!-- Petals -->
+    <circle cx="0" cy="-8" r="12" fill="#FFD700" opacity="0.9"/>
+    <circle cx="8" cy="-4" r="12" fill="#FFD700" opacity="0.85"/>
+    <circle cx="8" cy="4" r="12" fill="#FFD700" opacity="0.8"/>
+    <circle cx="0" cy="8" r="12" fill="#FFD700"/>
+    <circle cx="-8" cy="4" r="12" fill="#FFD700" opacity="0.8"/>
+    <circle cx="-8" cy="-4" r="12" fill="#FFD700" opacity="0.85"/>
+    <!-- Center -->
+    <circle cx="0" cy="0" r="6" fill="#FFC700"/>
+  </g>
+  
+  <!-- Left small flower -->
+  <g transform="translate(80, 70)">
+    <circle cx="0" cy="-4" r="6" fill="#FFD700"/>
+    <circle cx="4" cy="-2" r="6" fill="#FFD700" opacity="0.9"/>
+    <circle cx="4" cy="2" r="6" fill="#FFD700"/>
+    <circle cx="0" cy="4" r="6" fill="#FFD700"/>
+    <circle cx="-4" cy="2" r="6" fill="#FFD700"/>
+    <circle cx="-4" cy="-2" r="6" fill="#FFD700" opacity="0.9"/>
+  </g>
+  
+  <!-- Right small flower -->
+  <g transform="translate(220, 70)">
+    <circle cx="0" cy="-4" r="6" fill="#FFD700"/>
+    <circle cx="4" cy="-2" r="6" fill="#FFD700" opacity="0.9"/>
+    <circle cx="4" cy="2" r="6" fill="#FFD700"/>
+    <circle cx="0" cy="4" r="6" fill="#FFD700"/>
+    <circle cx="-4" cy="2" r="6" fill="#FFD700"/>
+    <circle cx="-4" cy="-2" r="6" fill="#FFD700" opacity="0.9"/>
+  </g>
+  
+  <!-- Stems and leaves - #4B7C4F -->
+  <!-- Main stem -->
+  <path d="M 150 115 Q 140 150 120 170" stroke="#4B7C4F" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M 150 115 Q 160 150 180 170" stroke="#4B7C4F" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Left leaves -->
+  <g transform="translate(120, 140)">
+    <ellipse cx="0" cy="0" rx="8" ry="15" fill="#4B7C4F" transform="rotate(-45)"/>
+    <ellipse cx="0" cy="8" rx="8" ry="15" fill="#4B7C4F" transform="rotate(45)"/>
+  </g>
+  
+  <!-- Right leaves -->
+  <g transform="translate(180, 140)">
+    <ellipse cx="0" cy="0" rx="8" ry="15" fill="#4B7C4F" transform="rotate(45)"/>
+    <ellipse cx="0" cy="8" rx="8" ry="15" fill="#4B7C4F" transform="rotate(-45)"/>
+  </g>
+  
+  <!-- Text: Giardino -->
+  <text x="150" y="280" text-anchor="middle" class="giardino-text">Giardino</text>
+  
+  <!-- Text: RESIDENCIAL SÊNIOR -->
+  <text x="150" y="330" text-anchor="middle" class="giardino-subtitle">RESIDENCIAL SÊNIOR</text>
+  
+  <!-- Bottom decorative flowers -->
+  <g transform="translate(60, 320)">
+    <circle cx="0" cy="-2" r="4" fill="#FFD700"/>
+    <circle cx="2" cy="-1" r="4" fill="#FFD700" opacity="0.9"/>
+    <circle cx="2" cy="1" r="4" fill="#FFD700"/>
+    <circle cx="0" cy="2" r="4" fill="#FFD700"/>
+    <circle cx="-2" cy="1" r="4" fill="#FFD700"/>
+    <circle cx="-2" cy="-1" r="4" fill="#FFD700" opacity="0.9"/>
+  </g>
+  
+  <g transform="translate(240, 320)">
+    <circle cx="0" cy="-2" r="4" fill="#FFD700"/>
+    <circle cx="2" cy="-1" r="4" fill="#FFD700" opacity="0.9"/>
+    <circle cx="2" cy="1" r="4" fill="#FFD700"/>
+    <circle cx="0" cy="2" r="4" fill="#FFD700"/>
+    <circle cx="-2" cy="1" r="4" fill="#FFD700"/>
+    <circle cx="-2" cy="-1" r="4" fill="#FFD700" opacity="0.9"/>
+  </g>
+</svg>
