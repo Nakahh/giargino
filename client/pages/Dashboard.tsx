@@ -17,7 +17,7 @@ import {
   Area,
 } from "recharts";
 import { KPICard } from "@/components/KPICard";
-import { ComprehensivePDFReport } from "@/components/ComprehensivePDFReport";
+import { FullPDFExport } from "@/components/FullPDFExport";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { ResponsiveTable } from "@/components/ResponsiveTable";
 import { giardino } from "@shared/giardino-data";
@@ -241,7 +241,7 @@ export default function Dashboard() {
 
             {/* Botão de Exportação Único - PDF Completo */}
             <div className="flex gap-2 md:gap-3 flex-wrap justify-center md:justify-end">
-              <ComprehensivePDFReport />
+              <FullPDFExport />
             </div>
           </div>
 
