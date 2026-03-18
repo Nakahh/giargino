@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import {
   BarChart,
   Bar,
@@ -20,6 +21,11 @@ import { KPICard } from "@/components/KPICard";
 import { SimplePDFExport } from "@/components/SimplePDFExport";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { ResponsiveTable } from "@/components/ResponsiveTable";
+import { PremiumHeader } from "@/components/PremiumHeader";
+import { PremiumTabNav } from "@/components/PremiumTabNav";
+import { PremiumKPICard } from "@/components/PremiumKPICard";
+import { PremiumGallery } from "@/components/PremiumGallery";
+import { PremiumFooter } from "@/components/PremiumFooter";
 import { giardino } from "@shared/giardino-data";
 import {
   TrendingUp,
@@ -282,120 +288,43 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: GIARDINO_COLORS.light }}>
       {/* Header Premium com Logo - Mobile Optimized */}
-      <div
-        className="py-6 md:py-8 px-4 md:px-6 shadow-xl"
-        style={{ background: `linear-gradient(135deg, #2C3E50 0%, #1F3B5E 100%)` }}
+      <PremiumHeader
+        title="GIARDINO"
+        subtitle="RESIDENCIAL SÊNIOR"
+        description="Modelo de Investimento Premium"
+        backgroundColor="#2C3E50"
+        accentColor={GIARDINO_COLORS.accent}
+        lightColor={GIARDINO_COLORS.light}
       >
-        <div className="max-w-7xl mx-auto">
-          {/* Título e Descrição - Topo */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
-            <div className="flex-1">
-              <h1 className="text-4xl md:text-5xl font-bold mb-1 text-center md:text-left" style={{ color: GIARDINO_COLORS.accent }}>
-                GIARDINO
-              </h1>
-              <p className="text-sm md:text-base font-semibold text-center md:text-left" style={{ color: GIARDINO_COLORS.light }}>
-                RESIDENCIAL SÊNIOR
-              </p>
-              <p className="text-xs md:text-sm font-light text-center md:text-left mt-1" style={{ color: `${GIARDINO_COLORS.light}cc` }}>
-                Modelo de Investimento Premium
-              </p>
-            </div>
-
-            {/* Botão de Exportação Único - PDF Completo */}
-            <div className="flex gap-2 md:gap-3 flex-wrap justify-center md:justify-end">
-              <SimplePDFExport />
-            </div>
-          </div>
-
-          {/* Logo - Centralizada com Fundo Branco */}
-          <div className="flex justify-center mb-0 py-8 md:py-12 px-6 md:px-12 rounded-xl" style={{ backgroundColor: GIARDINO_COLORS.light }}>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets%2F1f5c753434a147ec852674a7cae5983c%2F5fcc06ba8d4a407c8933fa63bcffec84?format=webp&width=800&height=1200"
-              alt="GIARDINO Logo"
-              className="h-28 md:h-40 w-auto object-contain"
-            />
-          </div>
-
-          <div className="border-t-2 pt-6" style={{ borderColor: `${GIARDINO_COLORS.accent}60` }}>
-            {/* Decorative divider with leaf */}
-            <div className="flex items-center justify-center mb-4 gap-2">
-              <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.accent}40` }}></div>
-              <Flower className="w-5 h-5" style={{ color: GIARDINO_COLORS.accent }} />
-              <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.accent}40` }}></div>
-            </div>
-
-            <h2 className="text-2xl font-light mb-2 text-center" style={{ color: GIARDINO_COLORS.light }}>
-              Modelo de Investimento Premium
-            </h2>
-            <p className="text-base mb-3 text-center" style={{ color: `${GIARDINO_COLORS.light}dd` }}>
-              Residencial Senior + Clube Life Style + Loteamento + Centro Comercial
-            </p>
-            <div className="flex items-center justify-center gap-2">
-              <Leaf className="w-4 h-4" style={{ color: GIARDINO_COLORS.accent }} />
-              <p className="text-sm font-semibold" style={{ color: `${GIARDINO_COLORS.light}ee` }}>
-                Localização: Mogi das Cruzes, São Paulo — Área: 258.900 m²
-              </p>
-              <Leaf className="w-4 h-4" style={{ color: GIARDINO_COLORS.accent }} />
-            </div>
-          </div>
-        </div>
-      </div>
+        <SimplePDFExport />
+      </PremiumHeader>
 
       {/* Navigation Tabs Premium - Mobile Optimized */}
-      <div
-        className="bg-white sticky top-0 z-10 shadow-lg overflow-x-auto transition-all duration-300"
-        style={{
-          background: `linear-gradient(180deg, ${GIARDINO_COLORS.light} 0%, ${GIARDINO_COLORS.light}dd 100%)`,
-          backdropFilter: "blur(8px)",
-          borderBottom: `3px solid ${GIARDINO_COLORS.accent}20`,
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-1 sm:px-2 md:px-6">
-          <div ref={tabsContainerRef} className="flex gap-1 md:gap-2 overflow-x-auto scrollbar-hide py-2 md:py-0">
-            {[
-              { id: "overview", label: "📊 Geral" },
-              { id: "revenue", label: "💰 Receitas" },
-              { id: "costs", label: "📉 Custos" },
-              { id: "hr", label: "👥 RH" },
-              { id: "viability", label: "✓ Viabilidade" },
-              { id: "project", label: "🏢 Sobre" },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                ref={activeTab === tab.id ? activeTabButtonRef : null}
-                onClick={() =>
-                  setActiveTab(
-                    tab.id as
-                      | "overview"
-                      | "revenue"
-                      | "costs"
-                      | "hr"
-                      | "viability"
-                      | "project"
-                  )
-                }
-                className={`px-3 sm:px-4 md:px-6 py-2.5 md:py-4 text-xs sm:text-sm md:text-base font-bold border-b-3 transition-all duration-300 whitespace-nowrap flex-shrink-0 rounded-t-lg ${
-                  activeTab === tab.id
-                    ? "shadow-md transform scale-100"
-                    : "text-gray-700 border-transparent hover:text-gray-900 hover:bg-gray-50 transform scale-95 hover:scale-100"
-                }`}
-                style={
-                  activeTab === tab.id
-                    ? {
-                        backgroundColor: GIARDINO_COLORS.primary,
-                        borderColor: GIARDINO_COLORS.accent,
-                        color: GIARDINO_COLORS.light,
-                        boxShadow: `0 4px 12px ${GIARDINO_COLORS.primary}30`,
-                      }
-                    : {}
-                }
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+      <PremiumTabNav
+        tabs={[
+          { id: "overview", label: "📊 Geral" },
+          { id: "revenue", label: "💰 Receitas" },
+          { id: "costs", label: "📉 Custos" },
+          { id: "hr", label: "👥 RH" },
+          { id: "viability", label: "✓ Viabilidade" },
+          { id: "project", label: "🏢 Sobre" },
+        ]}
+        activeTab={activeTab}
+        onTabChange={(tabId) =>
+          setActiveTab(
+            tabId as
+              | "overview"
+              | "revenue"
+              | "costs"
+              | "hr"
+              | "viability"
+              | "project"
+          )
+        }
+        primaryColor={GIARDINO_COLORS.primary}
+        accentColor={GIARDINO_COLORS.accent}
+        lightColor={GIARDINO_COLORS.light}
+      />
 
       {/* Content - Mobile Optimized */}
       <div id="dashboard-content" className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10">
