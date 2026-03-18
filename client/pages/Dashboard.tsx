@@ -486,24 +486,32 @@ export default function Dashboard() {
                 }}
               >
                 <div className="mb-4 sm:mb-6">
-                  <h2 className="text-xl sm:text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.secondary }}>
+                  <h2 className="text-lg sm:text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.secondary }}>
                     💼 Capital por Segmento
                   </h2>
-                  <p className="text-xs sm:text-sm text-gray-600">Vendas iniciais (CAPEX) por segmento - Total R$ 606,6 mi</p>
+                  <p className="text-xs sm:text-sm text-gray-600">Vendas iniciais (CAPEX) por segmento - Total R$ 606,6 milhões</p>
                 </div>
-                <ResponsiveContainer width="100%" height={250}>
-                  <BarChart data={salesDistribution}>
+                <ResponsiveContainer width="100%" height={280}>
+                  <BarChart data={salesDistribution} margin={{ top: 5, right: 10, left: 0, bottom: 40 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                     <XAxis
                       dataKey="name"
                       stroke="#6b7280"
-                      style={{ fontSize: "12px" }}
+                      style={{ fontSize: "11px" }}
+                      angle={-45}
+                      textAnchor="end"
+                      height={80}
                     />
-                    <YAxis stroke="#6b7280" />
+                    <YAxis stroke="#6b7280" style={{ fontSize: "11px" }} />
                     <Tooltip
                       formatter={(value: number) => formatCurrency(value)}
+                      contentStyle={{
+                        backgroundColor: "#fff",
+                        border: "2px solid #2D5016",
+                        borderRadius: "8px"
+                      }}
                     />
-                    <Bar dataKey="value" fill="#3B82F6" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="value" fill={GIARDINO_COLORS.secondary} radius={[8, 8, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -523,48 +531,58 @@ export default function Dashboard() {
                 </h2>
                 <p className="text-xs sm:text-sm text-gray-600">Projeção mensal de receitas, custos e lucro líquido ao longo de 1 ano</p>
               </div>
-              <ResponsiveContainer width="100%" height={280}>
-                <AreaChart data={cashFlowData}>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={cashFlowData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis dataKey="month" stroke="#6b7280" style={{ fontSize: "12px" }} />
-                  <YAxis stroke="#6b7280" />
+                  <XAxis
+                    dataKey="month"
+                    stroke="#6b7280"
+                    style={{ fontSize: "11px" }}
+                    tick={{ dy: 5 }}
+                  />
+                  <YAxis stroke="#6b7280" style={{ fontSize: "11px" }} />
                   <Tooltip
                     formatter={(value: number) => formatCurrency(value)}
                     contentStyle={{
                       backgroundColor: "#fff",
-                      border: "1px solid #e5e7eb",
+                      border: "2px solid #1F3B5E",
                       borderRadius: "8px",
+                      padding: "8px"
                     }}
+                    labelStyle={{ color: "#1F3B5E", fontWeight: "bold" }}
                   />
-                  <Legend />
-                  <Area
+                  <Legend
+                    wrapperStyle={{ paddingTop: "10px" }}
+                    iconType="line"
+                  />
+                  <Line
                     type="monotone"
                     dataKey="receita"
-                    stackId="1"
-                    stroke="#10B981"
-                    fill="#10B981"
-                    name="Receita"
-                    opacity={0.6}
+                    stroke={GIARDINO_COLORS.secondary}
+                    strokeWidth={3}
+                    dot={{ fill: GIARDINO_COLORS.secondary, r: 4 }}
+                    activeDot={{ r: 6 }}
+                    name="Receita Bruta"
                   />
-                  <Area
+                  <Line
                     type="monotone"
                     dataKey="custos"
-                    stackId="2"
                     stroke="#EF4444"
-                    fill="#EF4444"
-                    name="Custos"
-                    opacity={0.6}
+                    strokeWidth={3}
+                    dot={{ fill: "#EF4444", r: 4 }}
+                    activeDot={{ r: 6 }}
+                    name="Custos Totais"
                   />
-                  <Area
+                  <Line
                     type="monotone"
                     dataKey="lucro"
-                    stackId="3"
-                    stroke="#3B82F6"
-                    fill="#3B82F6"
-                    name="Lucro"
-                    opacity={0.6}
+                    stroke={GIARDINO_COLORS.accent}
+                    strokeWidth={3}
+                    dot={{ fill: GIARDINO_COLORS.accent, r: 4 }}
+                    activeDot={{ r: 6 }}
+                    name="Lucro Líquido"
                   />
-                </AreaChart>
+                </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
@@ -596,28 +614,36 @@ export default function Dashboard() {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <div
-                  className="rounded-lg p-6 border-t-4"
+                  className="rounded-lg p-4 sm:p-6 border-t-4"
                   style={{
                     backgroundColor: `${GIARDINO_COLORS.primary}08`,
                     borderTopColor: GIARDINO_COLORS.primary
                   }}
                 >
-                  <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.primary }}>
+                  <h3 className="text-base sm:text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.primary }}>
                     📊 Receitas Mensais por Segmento
                   </h3>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={revenueData}>
+                  <ResponsiveContainer width="100%" height={280}>
+                    <BarChart data={revenueData} margin={{ top: 5, right: 10, left: 0, bottom: 40 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                       <XAxis
                         dataKey="name"
                         stroke="#6b7280"
-                        style={{ fontSize: "12px" }}
+                        style={{ fontSize: "11px" }}
+                        angle={-45}
+                        textAnchor="end"
+                        height={80}
                       />
-                      <YAxis stroke="#6b7280" />
+                      <YAxis stroke="#6b7280" style={{ fontSize: "11px" }} />
                       <Tooltip
                         formatter={(value: number) => formatCurrency(value)}
+                        contentStyle={{
+                          backgroundColor: "#fff",
+                          border: "2px solid #1F3B5E",
+                          borderRadius: "8px"
+                        }}
                       />
-                      <Bar dataKey="value" fill="#3B82F6" radius={[8, 8, 0, 0]} />
+                      <Bar dataKey="value" fill={GIARDINO_COLORS.primary} radius={[8, 8, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
