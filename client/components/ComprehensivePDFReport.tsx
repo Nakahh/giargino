@@ -757,12 +757,13 @@ export function ComprehensivePDFReport() {
         }
 
         xPos = margin;
+        const roiValue = typeof proj.roi === 'string' ? proj.roi : (typeof proj.roi === 'number' ? proj.roi.toFixed(2) : '0.00');
         const row = [
           proj.year.toString(),
           formatCurrency(proj.grossRevenue),
           formatCurrency(proj.totalCosts),
           formatCurrency(proj.netProfit),
-          `${proj.roi.toFixed(1)}%`,
+          `${roiValue}%`,
         ];
 
         row.forEach((cell, cellIdx) => {
