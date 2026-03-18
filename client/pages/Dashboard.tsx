@@ -17,11 +17,7 @@ import {
   Area,
 } from "recharts";
 import { KPICard } from "@/components/KPICard";
-import { PDFExport } from "@/components/PDFExport";
-import { DownloadReportButton } from "@/components/DownloadReportButton";
-import { GenerateCompletePDF } from "@/components/GenerateCompletePDF";
-import { ProfessionalPDFReport } from "@/components/ProfessionalPDFReport";
-import { OptimizedPDFReport } from "@/components/OptimizedPDFReport";
+import { ComprehensivePDFReport } from "@/components/ComprehensivePDFReport";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { ResponsiveTable } from "@/components/ResponsiveTable";
 import { giardino } from "@shared/giardino-data";
@@ -250,21 +246,9 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Botões de Exportação - Responsivos */}
+            {/* Botão de Exportação Único - PDF Completo */}
             <div className="flex gap-2 md:gap-3 flex-wrap justify-center md:justify-end w-full md:w-auto">
-              <OptimizedPDFReport />
-              <ProfessionalPDFReport />
-              <DownloadReportButton />
-              <PDFExport
-                elementId="dashboard-content"
-                filename="GIARDINO-Dashboard-Completo.pdf"
-                buttonLabel="📊 Dashboard"
-              />
-              <GenerateCompletePDF
-                dashboardContentId="dashboard-content"
-                filename="GIARDINO-Dashboard-Todas-Abas-Completo.pdf"
-                buttonLabel="📋 PDF Abas"
-              />
+              <ComprehensivePDFReport />
             </div>
           </div>
 
