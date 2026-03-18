@@ -20,6 +20,7 @@ import { KPICard } from "@/components/KPICard";
 import { PDFExport } from "@/components/PDFExport";
 import { DownloadReportButton } from "@/components/DownloadReportButton";
 import { GenerateCompletePDF } from "@/components/GenerateCompletePDF";
+import { ProfessionalPDFReport } from "@/components/ProfessionalPDFReport";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { giardino } from "@shared/giardino-data";
 import {
@@ -35,25 +36,25 @@ import {
   Crown,
 } from "lucide-react";
 
-// Paleta de cores GIARDINO - Luxury Premium
+// Paleta de cores GIARDINO - Baseado na Logo Oficial
 const GIARDINO_COLORS = {
-  primary: "#0F3460",      // Azul Marinho Profundo
-  accent: "#FCD34D",       // Amarelo Dourado
-  secondary: "#065f46",    // Verde Luxuoso
-  gold: "#D4AF37",         // Ouro Champanhe
-  text: "#1F2937",         // Cinza Escuro
-  light: "#F9FAFB",        // Branco Puro
+  primary: "#1F3B5E",      // Azul Marinho da Logo (Crown)
+  accent: "#F4C430",       // Amarelo/Ouro das Flores
+  secondary: "#2D5016",    // Verde das Folhas
+  gold: "#F4C430",         // Ouro/Dourado (Flores)
+  text: "#374151",         // Cinza Escuro para textos (legível)
+  light: "#FFFFFF",        // Branco Puro
 };
 
 const CHART_COLORS = [
-  "#0F3460", // Azul marinho
-  "#065f46", // Verde
-  "#D4AF37", // Dourado
-  "#E5A712", // Âmbar
+  "#1F3B5E", // Azul marinho (Logo)
+  "#2D5016", // Verde (Logo)
+  "#F4C430", // Amarelo/Ouro (Logo)
   "#8B5CF6", // Roxo
   "#EC4899", // Rosa
   "#06B6D4", // Ciano
   "#6366F1", // Índigo
+  "#10B981", // Verde esmeralda
 ];
 
 function formatCurrency(value: number): string {
@@ -249,6 +250,7 @@ export default function Dashboard() {
 
             {/* Botões de Exportação - Responsivos */}
             <div className="flex gap-2 md:gap-3 flex-wrap justify-center md:justify-end w-full md:w-auto">
+              <ProfessionalPDFReport />
               <DownloadReportButton />
               <PDFExport
                 elementId="dashboard-content"
@@ -290,10 +292,10 @@ export default function Dashboard() {
 
       {/* Navigation Tabs Premium - Mobile Optimized */}
       <div className="bg-white border-b-2 sticky top-0 z-10 shadow-sm overflow-x-auto" style={{ borderColor: `${GIARDINO_COLORS.accent}40` }}>
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="flex gap-1 overflow-x-auto">
+        <div className="max-w-7xl mx-auto px-2 md:px-6">
+          <div className="flex gap-0.5 md:gap-1 overflow-x-auto scrollbar-hide">
             {[
-              { id: "overview", label: "📊 Visão Geral" },
+              { id: "overview", label: "📊 Geral" },
               { id: "revenue", label: "💰 Receitas" },
               { id: "costs", label: "📉 Custos" },
               { id: "hr", label: "👥 RH" },
@@ -313,7 +315,7 @@ export default function Dashboard() {
                       | "project"
                   )
                 }
-                className={`px-3 md:px-6 py-3 md:py-4 text-sm md:text-base font-semibold border-b-3 transition-all whitespace-nowrap ${
+                className={`px-2 md:px-6 py-3 md:py-4 text-xs md:text-base font-semibold border-b-3 transition-all whitespace-nowrap ${
                   activeTab === tab.id
                     ? "text-white border-b-4"
                     : "text-gray-600 border-transparent hover:text-gray-900"
@@ -341,87 +343,87 @@ export default function Dashboard() {
         {activeTab === "overview" && (
           <div className="space-y-8">
             {/* KPI Cards Luxury Premium - Mobile Optimized */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {/* Card 1: Receita Mensal */}
               <div
-                className="rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                className="rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
                 style={{
                   backgroundColor: GIARDINO_COLORS.light,
                   borderLeftColor: GIARDINO_COLORS.primary
                 }}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold mb-1" style={{ color: GIARDINO_COLORS.secondary }}>
-                      RECEITA MENSAL BRUTA
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs sm:text-sm font-semibold mb-1 truncate" style={{ color: GIARDINO_COLORS.secondary }}>
+                      RECEITA MENSAL
                     </p>
-                    <h3 className="text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary }}>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2 truncate" style={{ color: GIARDINO_COLORS.primary }}>
                       {formatCurrency(giardino.totalMonthlyRevenue)}
                     </h3>
-                    <p className="text-xs text-gray-500">Faturamento total mês</p>
+                    <p className="text-xs text-gray-500">Faturamento/mês</p>
                   </div>
-                  <DollarSign className="w-8 h-8" style={{ color: GIARDINO_COLORS.primary }} />
+                  <DollarSign className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.primary }} />
                 </div>
               </div>
 
               {/* Card 2: Total de Vendas */}
               <div
-                className="rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                className="rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
                 style={{
                   backgroundColor: GIARDINO_COLORS.light,
                   borderLeftColor: GIARDINO_COLORS.secondary
                 }}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold mb-1" style={{ color: GIARDINO_COLORS.primary }}>
-                      TOTAL DE VENDAS INICIAIS
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs sm:text-sm font-semibold mb-1 truncate" style={{ color: GIARDINO_COLORS.primary }}>
+                      TOTAL VENDAS
                     </p>
-                    <h3 className="text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary }}>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2 truncate" style={{ color: GIARDINO_COLORS.secondary }}>
                       {formatCurrency(giardino.totalSales)}
                     </h3>
-                    <p className="text-xs text-gray-500">Capital inicial captado</p>
+                    <p className="text-xs text-gray-500">Capital inicial</p>
                   </div>
-                  <ShoppingCart className="w-8 h-8" style={{ color: GIARDINO_COLORS.secondary }} />
+                  <ShoppingCart className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.secondary }} />
                 </div>
               </div>
 
               {/* Card 3: Custos Mensais */}
               <div
-                className="rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                className="rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
                 style={{
                   backgroundColor: GIARDINO_COLORS.light,
                   borderLeftColor: GIARDINO_COLORS.gold
                 }}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold mb-1 text-gray-600">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs sm:text-sm font-semibold mb-1 text-gray-600 truncate">
                       CUSTOS MENSAIS
                     </p>
-                    <h3 className="text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold }}>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2 truncate" style={{ color: GIARDINO_COLORS.gold }}>
                       {formatCurrency(469_000 + 4_320_000)}
                     </h3>
                     <p className="text-xs text-gray-500">RH + Operacional</p>
                   </div>
-                  <Zap className="w-8 h-8" style={{ color: GIARDINO_COLORS.gold }} />
+                  <Zap className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.gold }} />
                 </div>
               </div>
 
               {/* Card 4: Lucro Líquido */}
               <div
-                className="rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                className="rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
                 style={{
                   backgroundColor: GIARDINO_COLORS.light,
                   borderLeftColor: GIARDINO_COLORS.accent
                 }}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold mb-1 text-gray-600">
-                      LUCRO LÍQUIDO ESTIMADO
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs sm:text-sm font-semibold mb-1 text-gray-600 truncate">
+                      LUCRO LÍQUIDO
                     </p>
-                    <h3 className="text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent }}>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2 truncate" style={{ color: GIARDINO_COLORS.accent }}>
                       {formatCurrency(
                         giardino.totalMonthlyRevenue -
                         (469_000 + 4_320_000 + 1_000_000 + 500_000)
@@ -429,28 +431,28 @@ export default function Dashboard() {
                     </h3>
                     <p className="text-xs text-gray-500">Mensal (aprox.)</p>
                   </div>
-                  <TrendingUp className="w-8 h-8" style={{ color: GIARDINO_COLORS.accent }} />
+                  <TrendingUp className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.accent }} />
                 </div>
               </div>
             </div>
 
             {/* Charts - Mobile Optimized */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
               {/* Distribuição de Receitas Mensais */}
               <div
-                className="rounded-xl shadow-lg p-6 md:p-8 border-t-4"
+                className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
                 style={{
                   backgroundColor: GIARDINO_COLORS.light,
                   borderTopColor: GIARDINO_COLORS.primary
                 }}
               >
-                <div className="mb-6">
-                  <h2 className="text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.primary }}>
-                    📊 Distribuição de Receitas Mensais
+                <div className="mb-4 sm:mb-6">
+                  <h2 className="text-xl sm:text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.primary }}>
+                    📊 Distribuição de Receitas
                   </h2>
-                  <p className="text-sm text-gray-600">Percentual de contribuição de cada segmento na receita bruta mensal de R$ 13,7 milhões</p>
+                  <p className="text-xs sm:text-sm text-gray-600">Contribuição de cada segmento na receita bruta mensal</p>
                 </div>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={250}>
                   <PieChart>
                     <Pie
                       data={revenueData}
@@ -477,19 +479,19 @@ export default function Dashboard() {
 
               {/* Distribuição de Vendas Iniciais */}
               <div
-                className="rounded-xl shadow-lg p-6 md:p-8 border-t-4"
+                className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
                 style={{
                   backgroundColor: GIARDINO_COLORS.light,
                   borderTopColor: GIARDINO_COLORS.secondary
                 }}
               >
-                <div className="mb-6">
-                  <h2 className="text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.secondary }}>
-                    💼 Capital Inicial por Segmento
+                <div className="mb-4 sm:mb-6">
+                  <h2 className="text-xl sm:text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.secondary }}>
+                    💼 Capital por Segmento
                   </h2>
-                  <p className="text-sm text-gray-600">Vendas iniciais (CAPEX) por segmento - Total de R$ 606,6 milhões em receitas de vendas</p>
+                  <p className="text-xs sm:text-sm text-gray-600">Vendas iniciais (CAPEX) por segmento - Total R$ 606,6 mi</p>
                 </div>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={250}>
                   <BarChart data={salesDistribution}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                     <XAxis
@@ -509,19 +511,19 @@ export default function Dashboard() {
 
             {/* Fluxo de Caixa Projetado */}
             <div
-              className="rounded-xl shadow-lg p-6 md:p-8 border-t-4"
+              className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
               style={{
                 backgroundColor: GIARDINO_COLORS.light,
                 borderTopColor: GIARDINO_COLORS.accent
               }}
             >
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.accent }}>
-                  📈 Fluxo de Caixa Projetado — 12 Meses
+              <div className="mb-4 sm:mb-6">
+                <h2 className="text-xl sm:text-2xl font-bold mb-1" style={{ color: GIARDINO_COLORS.accent }}>
+                  📈 Fluxo de Caixa — 12 Meses
                 </h2>
-                <p className="text-sm text-gray-600">Projeção mensal de receitas, custos operacionais e lucro líquido ao longo de 1 ano de operação</p>
+                <p className="text-xs sm:text-sm text-gray-600">Projeção mensal de receitas, custos e lucro líquido ao longo de 1 ano</p>
               </div>
-              <ResponsiveContainer width="100%" height={350}>
+              <ResponsiveContainer width="100%" height={280}>
                 <AreaChart data={cashFlowData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                   <XAxis dataKey="month" stroke="#6b7280" style={{ fontSize: "12px" }} />
