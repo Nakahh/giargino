@@ -23,24 +23,25 @@
     --popover: 0 0% 100%;
     --popover-foreground: 219 20% 15%;
 
-    --primary: 219 76% 25%;
+    /* GIARDINO Colors - Logo Official */
+    --primary: 213 51% 30%;        /* Azul Marinho #1B3A5C */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 100 43% 20%;
+    --secondary: 119 22% 34%;      /* Verde Escuro #4B7C4F */
     --secondary-foreground: 210 40% 98%;
 
     --muted: 220 13% 91%;
     --muted-foreground: 215 15% 52%;
 
-    --accent: 45 92% 50%;
-    --accent-foreground: 219 76% 15%;
+    --accent: 43 100% 52%;         /* Amarelo Ouro #FFD700 */
+    --accent-foreground: 213 51% 15%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 45 92% 50%;
+    --ring: 43 100% 52%;
 
     --radius: 0.75rem;
 
