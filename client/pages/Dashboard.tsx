@@ -21,7 +21,9 @@ import { PDFExport } from "@/components/PDFExport";
 import { DownloadReportButton } from "@/components/DownloadReportButton";
 import { GenerateCompletePDF } from "@/components/GenerateCompletePDF";
 import { ProfessionalPDFReport } from "@/components/ProfessionalPDFReport";
+import { OptimizedPDFReport } from "@/components/OptimizedPDFReport";
 import { ProjectGallery } from "@/components/ProjectGallery";
+import { ResponsiveTable } from "@/components/ResponsiveTable";
 import { giardino } from "@shared/giardino-data";
 import {
   TrendingUp,
@@ -229,9 +231,9 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-              {/* Logo GIARDINO - Oficial */}
+              {/* Logo GIARDINO - Oficial (SVG sem fundo branco) */}
               <img
-                src="/giardino-logo.png"
+                src="/giardino-logo.svg"
                 alt="GIARDINO Logo"
                 className="h-24 md:h-28 w-auto object-contain drop-shadow-lg"
               />
@@ -250,6 +252,7 @@ export default function Dashboard() {
 
             {/* Botões de Exportação - Responsivos */}
             <div className="flex gap-2 md:gap-3 flex-wrap justify-center md:justify-end w-full md:w-auto">
+              <OptimizedPDFReport />
               <ProfessionalPDFReport />
               <DownloadReportButton />
               <PDFExport
@@ -472,6 +475,13 @@ export default function Dashboard() {
                     </Pie>
                     <Tooltip
                       formatter={(value: number) => formatCurrency(value)}
+                      contentStyle={{
+                        backgroundColor: "#fff",
+                        border: "2px solid #1F3B5E",
+                        borderRadius: "8px",
+                        padding: "8px",
+                        boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
+                      }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
@@ -508,8 +518,11 @@ export default function Dashboard() {
                       contentStyle={{
                         backgroundColor: "#fff",
                         border: "2px solid #2D5016",
-                        borderRadius: "8px"
+                        borderRadius: "8px",
+                        padding: "8px",
+                        boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
                       }}
+                      labelStyle={{ color: "#2D5016", fontWeight: "bold" }}
                     />
                     <Bar dataKey="value" fill={GIARDINO_COLORS.secondary} radius={[8, 8, 0, 0]} />
                   </BarChart>
@@ -542,18 +555,21 @@ export default function Dashboard() {
                   />
                   <YAxis stroke="#6b7280" style={{ fontSize: "11px" }} />
                   <Tooltip
-                    formatter={(value: number) => formatCurrency(value)}
+                    formatter={(value: number, name: string) => [formatCurrency(value), name]}
                     contentStyle={{
                       backgroundColor: "#fff",
                       border: "2px solid #1F3B5E",
                       borderRadius: "8px",
-                      padding: "8px"
+                      padding: "10px",
+                      boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
                     }}
-                    labelStyle={{ color: "#1F3B5E", fontWeight: "bold" }}
+                    labelStyle={{ color: "#1F3B5E", fontWeight: "bold", marginBottom: "4px" }}
                   />
                   <Legend
-                    wrapperStyle={{ paddingTop: "10px" }}
+                    wrapperStyle={{ paddingTop: "12px", fontSize: "13px" }}
                     iconType="line"
+                    verticalAlign="bottom"
+                    height={30}
                   />
                   <Line
                     type="monotone"
@@ -640,8 +656,11 @@ export default function Dashboard() {
                         contentStyle={{
                           backgroundColor: "#fff",
                           border: "2px solid #1F3B5E",
-                          borderRadius: "8px"
+                          borderRadius: "8px",
+                          padding: "8px",
+                          boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
                         }}
+                        labelStyle={{ color: "#1F3B5E", fontWeight: "bold" }}
                       />
                       <Bar dataKey="value" fill={GIARDINO_COLORS.primary} radius={[8, 8, 0, 0]} />
                     </BarChart>
@@ -688,92 +707,25 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Tabela Detalhada de Receitas */}
-              <div className="overflow-x-auto rounded-lg border-t-4" style={{ borderTopColor: GIARDINO_COLORS.primary }}>
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b-2" style={{ backgroundColor: `${GIARDINO_COLORS.primary}15`, borderBottomColor: GIARDINO_COLORS.primary }}>
-                      <th className="px-6 py-4 text-left text-sm font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                        Segmento
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                        Unidades
-                      </th>
-                      <th className="px-6 py-4 text-right text-sm font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                        Valor Unit.
-                      </th>
-                      <th className="px-6 py-4 text-right text-sm font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                        Total Mensal
-                      </th>
-                      <th className="px-6 py-4 text-right text-sm font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                        % do Total
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        Residencial Senior
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">240</td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-medium">
-                        {formatCurrency(35_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-bold">
-                        {formatCurrency(8_400_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-green-600 font-semibold">
-                        61.2%
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        Hospedagem
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">80</td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-medium">
-                        {formatCurrency(1_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-bold">
-                        {formatCurrency(756_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-blue-600 font-semibold">
-                        5.5%
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        Clube Life Style
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">6000</td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-medium">
-                        {formatCurrency(500)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-bold">
-                        {formatCurrency(3_000_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-purple-600 font-semibold">
-                        21.9%
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50 bg-blue-50">
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        Bares/Restaurantes/Lojas
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">350/dia</td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-medium">
-                        {formatCurrency(150)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-bold">
-                        {formatCurrency(1_575_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-orange-600 font-semibold">
-                        11.5%
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              {/* Tabela Detalhada de Receitas - Responsiva */}
+              <ResponsiveTable
+                columns={[
+                  { key: "segment", label: "Segmento", align: "left" },
+                  { key: "units", label: "Unidades", align: "left" },
+                  { key: "unitValue", label: "Valor Unit.", align: "right", format: (v) => formatCurrency(v) },
+                  { key: "monthlyTotal", label: "Total Mensal", align: "right", format: (v) => formatCurrency(v) },
+                  { key: "percentage", label: "% do Total", align: "right", format: (v) => `${v}%` },
+                ]}
+                data={[
+                  { segment: "Residencial Senior", units: "240", unitValue: 35_000, monthlyTotal: 8_400_000, percentage: 61.2 },
+                  { segment: "Hospedagem", units: "80", unitValue: 1_000, monthlyTotal: 756_000, percentage: 5.5 },
+                  { segment: "Clube Life Style", units: "6.000", unitValue: 500, monthlyTotal: 3_000_000, percentage: 21.9 },
+                  { segment: "Bares/Restaurantes/Lojas", units: "350/dia", unitValue: 150, monthlyTotal: 1_575_000, percentage: 11.5 },
+                ]}
+                borderTopColor={GIARDINO_COLORS.primary}
+                headerBgColor={`${GIARDINO_COLORS.primary}15`}
+                headerTextColor={GIARDINO_COLORS.primary}
+              />
             </div>
           </div>
         )}
@@ -827,6 +779,13 @@ export default function Dashboard() {
                       </Pie>
                       <Tooltip
                         formatter={(value: number) => formatCurrency(value)}
+                        contentStyle={{
+                          backgroundColor: "#fff",
+                          border: "2px solid #F4C430",
+                          borderRadius: "8px",
+                          padding: "8px",
+                          boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
+                        }}
                       />
                     </PieChart>
                   </ResponsiveContainer>
@@ -865,81 +824,24 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Tabela de Custos Detalhada */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200">
-                      <th className="px-6 py-3 text-left font-semibold text-gray-900">
-                        Categoria de Custo
-                      </th>
-                      <th className="px-6 py-3 text-right font-semibold text-gray-900">
-                        Valor Mensal
-                      </th>
-                      <th className="px-6 py-3 text-right font-semibold text-gray-900">
-                        % do Total
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-gray-700">
-                        Recursos Humanos
-                      </td>
-                      <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                        {formatCurrency(469_000)}
-                      </td>
-                      <td className="px-6 py-4 text-right text-blue-600 font-semibold">
-                        5.8%
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-gray-700">
-                        Custos Operacionais Residenciais
-                      </td>
-                      <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                        {formatCurrency(4_320_000)}
-                      </td>
-                      <td className="px-6 py-4 text-right text-blue-600 font-semibold">
-                        53.4%
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-gray-700">
-                        Pagamento Financiamento
-                      </td>
-                      <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                        {formatCurrency(1_000_000)}
-                      </td>
-                      <td className="px-6 py-4 text-right text-orange-600 font-semibold">
-                        12.3%
-                      </td>
-                    </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50 bg-red-50">
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        Juros do Financiamento (~6% a.a.)
-                      </td>
-                      <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                        {formatCurrency(500_000)}
-                      </td>
-                      <td className="px-6 py-4 text-right text-orange-600 font-semibold">
-                        6.2%
-                      </td>
-                    </tr>
-                    <tr className="bg-red-50 border-t-2 border-red-200">
-                      <td className="px-6 py-4 font-bold text-red-900">
-                        TOTAL DE CUSTOS MENSAIS
-                      </td>
-                      <td className="px-6 py-4 text-right font-bold text-red-900 text-lg">
-                        {formatCurrency(469_000 + 4_320_000 + 1_000_000 + 500_000)}
-                      </td>
-                      <td className="px-6 py-4 text-right font-bold text-red-900">
-                        100%
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              {/* Tabela de Custos Detalhada - Responsiva */}
+              <ResponsiveTable
+                columns={[
+                  { key: "category", label: "Categoria de Custo", align: "left" },
+                  { key: "monthlyValue", label: "Valor Mensal", align: "right", format: (v) => formatCurrency(v) },
+                  { key: "percentage", label: "% do Total", align: "right", format: (v) => `${v}%` },
+                ]}
+                data={[
+                  { category: "Recursos Humanos", monthlyValue: 469_000, percentage: 5.8 },
+                  { category: "Custos Operacionais Residenciais", monthlyValue: 4_320_000, percentage: 53.4 },
+                  { category: "Pagamento Financiamento", monthlyValue: 1_000_000, percentage: 12.3 },
+                  { category: "Juros do Financiamento (~6% a.a.)", monthlyValue: 500_000, percentage: 6.2 },
+                  { category: "TOTAL DE CUSTOS MENSAIS", monthlyValue: 469_000 + 4_320_000 + 1_000_000 + 500_000, percentage: 100 },
+                ]}
+                borderTopColor={GIARDINO_COLORS.gold}
+                headerBgColor={`${GIARDINO_COLORS.gold}15`}
+                headerTextColor={GIARDINO_COLORS.gold}
+              />
             </div>
           </div>
         )}
@@ -984,8 +886,21 @@ export default function Dashboard() {
                       height={100}
                     />
                     <YAxis stroke="#6b7280" />
-                    <Tooltip />
-                    <Legend />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#fff",
+                        border: "2px solid #2D5016",
+                        borderRadius: "8px",
+                        padding: "8px",
+                        boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
+                      }}
+                      labelStyle={{ color: "#2D5016", fontWeight: "bold" }}
+                    />
+                    <Legend
+                      wrapperStyle={{ paddingTop: "12px", fontSize: "12px" }}
+                      verticalAlign="bottom"
+                      height={30}
+                    />
                     <Bar
                       dataKey="count"
                       fill="#3B82F6"
@@ -996,71 +911,35 @@ export default function Dashboard() {
                 </ResponsiveContainer>
               </div>
 
-              {/* Tabela Interativa de RH */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200">
-                      <th className="px-6 py-3 text-left font-semibold text-gray-900">
-                        Departamento
-                      </th>
-                      <th className="px-6 py-3 text-center font-semibold text-gray-900">
-                        Quantidade
-                      </th>
-                      <th className="px-6 py-3 text-right font-semibold text-gray-900">
-                        Salário Unit.
-                      </th>
-                      <th className="px-6 py-3 text-right font-semibold text-gray-900">
-                        Total Mensal
-                      </th>
-                      <th className="px-6 py-3 text-right font-semibold text-gray-900">
-                        Total Anual
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {hrData.map((dept, idx) => (
-                      <tr
-                        key={idx}
-                        className="border-b border-gray-200 hover:bg-blue-50 transition-colors"
-                      >
-                        <td className="px-6 py-4 font-medium text-gray-700">
-                          {dept.department}
-                        </td>
-                        <td className="px-6 py-4 text-center font-bold text-gray-900">
-                          {dept.count}
-                        </td>
-                        <td className="px-6 py-4 text-right text-gray-900">
-                          {formatCurrency(dept.salary)}
-                        </td>
-                        <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                          {formatCurrency(dept.total)}
-                        </td>
-                        <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                          {formatCurrency(dept.total * 12)}
-                        </td>
-                      </tr>
-                    ))}
-                    <tr className="bg-blue-50 border-t-2 border-blue-200">
-                      <td className="px-6 py-4 font-bold text-blue-900">
-                        TOTAL DE FUNCIONÁRIOS
-                      </td>
-                      <td className="px-6 py-4 text-center font-bold text-blue-900 text-lg">
-                        {hrData.reduce((sum, d) => sum + d.count, 0)}
-                      </td>
-                      <td className="px-6 py-4"></td>
-                      <td className="px-6 py-4 text-right font-bold text-blue-900 text-lg">
-                        {formatCurrency(hrData.reduce((sum, d) => sum + d.total, 0))}
-                      </td>
-                      <td className="px-6 py-4 text-right font-bold text-blue-900 text-lg">
-                        {formatCurrency(
-                          hrData.reduce((sum, d) => sum + d.total, 0) * 12
-                        )}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              {/* Tabela Interativa de RH - Responsiva */}
+              <ResponsiveTable
+                columns={[
+                  { key: "department", label: "Departamento", align: "left" },
+                  { key: "count", label: "Quantidade", align: "left" },
+                  { key: "salary", label: "Salário Unit.", align: "right", format: (v) => formatCurrency(v) },
+                  { key: "total", label: "Total Mensal", align: "right", format: (v) => formatCurrency(v) },
+                  { key: "annual", label: "Total Anual", align: "right", format: (v) => formatCurrency(v) },
+                ]}
+                data={[
+                  ...hrData.map((dept) => ({
+                    department: dept.department,
+                    count: dept.count,
+                    salary: dept.salary,
+                    total: dept.total,
+                    annual: dept.total * 12,
+                  })),
+                  {
+                    department: "TOTAL DE FUNCIONÁRIOS",
+                    count: hrData.reduce((sum, d) => sum + d.count, 0),
+                    salary: "-",
+                    total: hrData.reduce((sum, d) => sum + d.total, 0),
+                    annual: hrData.reduce((sum, d) => sum + d.total, 0) * 12,
+                  },
+                ]}
+                borderTopColor={GIARDINO_COLORS.secondary}
+                headerBgColor={`${GIARDINO_COLORS.secondary}15`}
+                headerTextColor={GIARDINO_COLORS.secondary}
+              />
             </div>
           </div>
         )}
@@ -1290,62 +1169,27 @@ export default function Dashboard() {
                     <h3 className="text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.primary }}>
                       📊 Projeção Financeira 10 Anos
                     </h3>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr style={{ backgroundColor: `${GIARDINO_COLORS.primary}15` }}>
-                            <th className="px-4 py-3 text-left font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                              Ano
-                            </th>
-                            <th className="px-4 py-3 text-right font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                              Receita Bruta
-                            </th>
-                            <th className="px-4 py-3 text-right font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                              Custos Totais
-                            </th>
-                            <th className="px-4 py-3 text-right font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                              Lucro Líquido
-                            </th>
-                            <th className="px-4 py-3 text-right font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                              Lucro Acumulado
-                            </th>
-                            <th className="px-4 py-3 text-right font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                              ROI (%)
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {giardino.yearlyProjections.map((proj, idx) => (
-                            <tr
-                              key={idx}
-                              style={{
-                                backgroundColor: idx % 2 === 0 ? "white" : `${GIARDINO_COLORS.accent}08`,
-                                borderBottom: `1px solid ${GIARDINO_COLORS.accent}30`
-                              }}
-                            >
-                              <td className="px-4 py-3 font-semibold" style={{ color: GIARDINO_COLORS.primary }}>
-                                Ano {proj.year}
-                              </td>
-                              <td className="px-4 py-3 text-right text-green-700 font-medium">
-                                {formatCurrency(proj.grossRevenue)}
-                              </td>
-                              <td className="px-4 py-3 text-right text-red-700 font-medium">
-                                {formatCurrency(proj.totalCosts)}
-                              </td>
-                              <td className="px-4 py-3 text-right font-bold" style={{ color: GIARDINO_COLORS.secondary }}>
-                                {formatCurrency(proj.netProfit)}
-                              </td>
-                              <td className="px-4 py-3 text-right font-bold" style={{ color: GIARDINO_COLORS.accent }}>
-                                {formatCurrency(proj.cumulativeProfit)}
-                              </td>
-                              <td className="px-4 py-3 text-right font-bold" style={{ color: GIARDINO_COLORS.primary }}>
-                                {proj.roi}%
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                    <ResponsiveTable
+                      columns={[
+                        { key: "year", label: "Ano", align: "left" },
+                        { key: "grossRevenue", label: "Receita Bruta", align: "right", format: (v) => formatCurrency(v) },
+                        { key: "totalCosts", label: "Custos Totais", align: "right", format: (v) => formatCurrency(v) },
+                        { key: "netProfit", label: "Lucro Líquido", align: "right", format: (v) => formatCurrency(v) },
+                        { key: "cumulativeProfit", label: "Lucro Acumulado", align: "right", format: (v) => formatCurrency(v) },
+                        { key: "roi", label: "ROI (%)", align: "right", format: (v) => `${v}%` },
+                      ]}
+                      data={giardino.yearlyProjections.map((proj) => ({
+                        year: `Ano ${proj.year}`,
+                        grossRevenue: proj.grossRevenue,
+                        totalCosts: proj.totalCosts,
+                        netProfit: proj.netProfit,
+                        cumulativeProfit: proj.cumulativeProfit,
+                        roi: proj.roi,
+                      }))}
+                      borderTopColor={GIARDINO_COLORS.primary}
+                      headerBgColor={`${GIARDINO_COLORS.primary}15`}
+                      headerTextColor={GIARDINO_COLORS.primary}
+                    />
                     <p className="text-xs text-gray-600 mt-4 italic">
                       * Projeção com crescimento conservador de 2% a.a. e inflação de 3% a.a. nos custos. ROI calculado com base no investimento inicial de R$ 100M.
                     </p>
