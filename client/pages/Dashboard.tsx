@@ -19,6 +19,7 @@ import {
 import { KPICard } from "@/components/KPICard";
 import { PDFExport } from "@/components/PDFExport";
 import { DownloadReportButton } from "@/components/DownloadReportButton";
+import { ProjectGallery } from "@/components/ProjectGallery";
 import { giardino } from "@shared/giardino-data";
 import {
   TrendingUp,
@@ -1500,6 +1501,11 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Gallery Section */}
+              <div className="mt-16">
+                <ProjectGallery />
               </div>
             </div>
           </div>
