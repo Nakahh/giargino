@@ -19,6 +19,8 @@ import {
 import { KPICard } from "@/components/KPICard";
 import { PDFExport } from "@/components/PDFExport";
 import { DownloadReportButton } from "@/components/DownloadReportButton";
+import { GenerateCompletePDF } from "@/components/GenerateCompletePDF";
+import { ProjectGallery } from "@/components/ProjectGallery";
 import { giardino } from "@shared/giardino-data";
 import {
   TrendingUp,
@@ -244,12 +246,17 @@ export default function Dashboard() {
             </div>
 
             {/* Botões de Exportação */}
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
               <DownloadReportButton />
               <PDFExport
                 elementId="dashboard-content"
                 filename="GIARDINO-Dashboard-Completo.pdf"
                 buttonLabel="📊 Dashboard PDF"
+              />
+              <GenerateCompletePDF
+                dashboardContentId="dashboard-content"
+                filename="GIARDINO-Dashboard-Todas-Abas-Completo.pdf"
+                buttonLabel="📋 PDF Todas as Abas"
               />
             </div>
           </div>
@@ -1500,6 +1507,11 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Gallery Section */}
+              <div className="mt-16">
+                <ProjectGallery />
               </div>
             </div>
           </div>
