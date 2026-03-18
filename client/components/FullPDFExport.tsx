@@ -46,10 +46,13 @@ export function FullPDFExport() {
         tempContainer.style.width = "1200px";
         tempContainer.style.backgroundColor = "#ffffff";
 
-        // Wrapper para adicionar padding
+        // Wrapper para adicionar padding (sem padding no topo para evitar cortes)
         const wrapper = document.createElement("div");
         wrapper.style.width = "100%";
-        wrapper.style.padding = addTopPadding ? "20px" : "0px";
+        wrapper.style.paddingTop = addTopPadding ? "0px" : "0px"; // Remove padding do topo
+        wrapper.style.paddingBottom = addTopPadding ? "20px" : "0px"; // Padding só no fim
+        wrapper.style.paddingLeft = "0px";
+        wrapper.style.paddingRight = "0px";
         wrapper.style.backgroundColor = "#ffffff";
         wrapper.appendChild(element);
         tempContainer.appendChild(wrapper);
@@ -156,12 +159,24 @@ export function FullPDFExport() {
       // ========== 1. CAPTURAR HEADER ==========
       console.log("Capturando header...");
 
-      // Encontra o header pelo estilo de background com gradient
-      const headerElement = Array.from(mainContainer.querySelectorAll("div")).find((el) => {
+      // O header é o PRIMEIRO child do mainContainer com gradient
+      let headerElement: HTMLElement | null = null;
+      const mainChildren = mainContainer.children;
+
+      // Procura o header como o primeiro div com background gradient
+      for (let i = 0; i < mainChildren.length; i++) {
+        const el = mainChildren[i] as HTMLElement;
         const style = window.getComputedStyle(el);
         const bgImage = style.backgroundImage;
-        return bgImage && bgImage.includes("linear-gradient");
-      }) as HTMLElement;
+        const bgColor = style.backgroundColor;
+
+        // Header tem gradient ou background azul marinho
+        if ((bgImage && bgImage.includes("linear-gradient")) ||
+            (bgColor && (bgColor.includes("rgb(31, 59, 94)") || bgColor.includes("#1F3B5E") || bgColor.includes("#2C3E50")))) {
+          headerElement = el as HTMLElement;
+          break;
+        }
+      }
 
       if (headerElement) {
         console.log("Header encontrado, capturando...");
@@ -177,6 +192,11 @@ export function FullPDFExport() {
             btn.style.display = "none";
           }
         });
+
+        // Garante que o header está completamente visível
+        headerClone.style.display = "block";
+        headerClone.style.visibility = "visible";
+        headerClone.style.width = "100%";
 
         await captureElement(headerClone, false, false);
         console.log("✓ Header capturado com sucesso");
@@ -299,6 +319,19 @@ export function FullPDFExport() {
             el.style.flexWrap = "wrap";
             el.style.justifyContent = "center";
             el.style.gap = "20px";
+            el.style.visibility = "visible";
+            el.style.opacity = "1";
+
+            // Garante que cada item da legenda está visível
+            const legendItems = el.querySelectorAll(".recharts-legend-item");
+            legendItems.forEach((item) => {
+              const itemEl = item as HTMLElement;
+              itemEl.style.display = "inline-flex";
+              itemEl.style.visibility = "visible";
+              itemEl.style.opacity = "1";
+              itemEl.style.fontSize = "13px";
+              itemEl.style.whiteSpace = "nowrap";
+            });
           });
 
           // Garante que SVGs dos gráficos estão visíveis
@@ -317,15 +350,29 @@ export function FullPDFExport() {
           contentClone.style.minHeight = "auto";
           contentClone.style.overflow = "visible";
 
-          // Para a aba de Viabilidade, garante que a galeria está expandida
+          // Para a aba de Viabilidade, garante que a galeria está expandida (evita duplicação)
           if (tabLabel.includes("Viabilidade")) {
+            // Remove galerias duplicadas (se houver)
+            const allGalleries = contentClone.querySelectorAll('[class*="gallery"]');
+            if (allGalleries.length > 1) {
+              // Mantém apenas a primeira galeria
+              for (let i = 1; i < allGalleries.length; i++) {
+                (allGalleries[i] as HTMLElement).style.display = "none";
+              }
+            }
+
             const galleryContainer = contentClone.querySelector('[class*="gallery"]') as HTMLElement;
             if (galleryContainer) {
+              galleryContainer.style.display = "block";
+              galleryContainer.style.visibility = "visible";
+
               // Garante que todas as imagens da galeria são visíveis
               const images = galleryContainer.querySelectorAll("img");
               images.forEach((img) => {
                 (img as HTMLElement).style.display = "block";
                 (img as HTMLElement).style.visibility = "visible";
+                (img as HTMLElement).style.height = "auto";
+                (img as HTMLElement).style.width = "auto";
               });
             }
           }
@@ -366,6 +413,23 @@ export function FullPDFExport() {
       if (footerElement) {
         console.log("Footer encontrado, capturando...");
         const footerClone = footerElement.cloneNode(true) as HTMLElement;
+
+        // Remove a barra de menu de abas que pode estar depois do footer
+        const navBars = footerClone.querySelectorAll('[class*="sticky"], [class*="overflow-x"]');
+        navBars.forEach((nav) => {
+          (nav as HTMLElement).style.display = "none";
+        });
+
+        // Remove botões de navegação
+        const navButtons = footerClone.querySelectorAll("button");
+        navButtons.forEach((btn) => {
+          const text = btn.textContent?.trim() || "";
+          if (text.includes("📊") || text.includes("💰") || text.includes("📉") ||
+              text.includes("👥") || text.includes("✓") || text.includes("🏢")) {
+            btn.style.display = "none";
+          }
+        });
+
         footerClone.style.display = "block";
         footerClone.style.visibility = "visible";
         footerClone.style.width = "100%";
