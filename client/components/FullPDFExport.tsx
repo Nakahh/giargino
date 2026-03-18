@@ -22,9 +22,8 @@ export function FullPDFExport() {
       const A4_HEIGHT = pageHeight - margin * 2;
 
       let currentPageCount = 0;
-      let isFirstImage = true;
 
-      // Remove any lightbox modals antes de começar
+      // Remove qualquer modal/dialog aberto
       const modals = document.querySelectorAll("[role='dialog'], .fixed.inset-0");
       const hiddenModals: HTMLElement[] = [];
       modals.forEach((modal) => {
@@ -36,7 +35,10 @@ export function FullPDFExport() {
       });
 
       // Função para capturar elemento e adicionar páginas ao PDF
-      const captureElement = async (element: HTMLElement, pageBreakBefore = false, addTopPadding = false) => {
+      const captureElement = async (
+        element: HTMLElement,
+        pageBreakBefore = false
+      ) => {
         // Cria container temporário para o elemento clonado
         const tempContainer = document.createElement("div");
         tempContainer.style.position = "absolute";
@@ -45,48 +47,55 @@ export function FullPDFExport() {
         tempContainer.style.visibility = "visible";
         tempContainer.style.width = "1200px";
         tempContainer.style.backgroundColor = "#ffffff";
+        tempContainer.style.overflow = "visible";
 
-        // Wrapper para adicionar padding (sem padding no topo para evitar cortes)
-        const wrapper = document.createElement("div");
-        wrapper.style.width = "100%";
-        wrapper.style.paddingTop = addTopPadding ? "0px" : "0px"; // Remove padding do topo
-        wrapper.style.paddingBottom = addTopPadding ? "20px" : "0px"; // Padding só no fim
-        wrapper.style.paddingLeft = "0px";
-        wrapper.style.paddingRight = "0px";
-        wrapper.style.backgroundColor = "#ffffff";
-        wrapper.appendChild(element);
-        tempContainer.appendChild(wrapper);
+        // Clone do elemento
+        const clone = element.cloneNode(true) as HTMLElement;
+        clone.style.width = "100%";
+        clone.style.display = "block";
+        clone.style.visibility = "visible";
+        clone.style.height = "auto";
+        clone.style.overflow = "visible";
+
+        tempContainer.appendChild(clone);
         document.body.appendChild(tempContainer);
 
         try {
-          // Garante display do elemento
-          element.style.display = "block";
-          element.style.visibility = "visible";
-          element.style.width = "100%";
-          element.style.overflow = "visible";
+          // Garantir que tudo está visível
+          clone.style.display = "block";
+          clone.style.visibility = "visible";
+          clone.style.width = "100%";
+          clone.style.overflow = "visible";
 
-          const canvas = await html2canvas(wrapper, {
+          // Remove gráficos-tooltip que aparecem ao hover
+          const tooltips = clone.querySelectorAll(".recharts-tooltip");
+          tooltips.forEach((tt) => {
+            (tt as HTMLElement).style.display = "none";
+          });
+
+          // Captura com html2canvas
+          const canvas = await html2canvas(clone, {
             scale: 2,
             logging: false,
             useCORS: true,
             allowTaint: true,
             backgroundColor: "#ffffff",
-            imageTimeout: 5000,
-            windowHeight: wrapper.scrollHeight,
+            imageTimeout: 10000,
+            windowHeight: clone.scrollHeight,
             windowWidth: 1200,
           });
 
-          // Calcula dimensões com mais precisão
+          // Processa imagem do canvas
           const imgWidth = contentWidth;
           const canvasHeight = canvas.height;
           const canvasWidth = canvas.width;
           const imgHeight = (canvasHeight / canvasWidth) * imgWidth;
 
-          // Páginas necessárias para este elemento
+          // Calcula páginas necessárias
           const pageHeightAvailable = A4_HEIGHT;
           const totalPagesNeeded = Math.ceil(imgHeight / pageHeightAvailable);
 
-          // Adiciona página break se necessário ANTES de adicionar o elemento
+          // Adiciona page break se necessário
           if (pageBreakBefore && currentPageCount > 0) {
             pdf.addPage();
             currentPageCount++;
@@ -94,16 +103,15 @@ export function FullPDFExport() {
 
           // Processa cada página
           for (let pageIdx = 0; pageIdx < totalPagesNeeded; pageIdx++) {
-            // Adiciona nova página SOMENTE se necessário
+            // Adiciona nova página se necessário
             if (pageIdx > 0) {
               pdf.addPage();
               currentPageCount++;
             } else if (currentPageCount === 0) {
-              // Primeira página do PDF
               currentPageCount++;
             }
 
-            // Calcula a altura exata para esta página
+            // Calcula altura para esta página
             const pageStartHeight = pageIdx * pageHeightAvailable;
             const pageEndHeight = (pageIdx + 1) * pageHeightAvailable;
             const actualHeight = imgHeight - pageStartHeight;
@@ -123,28 +131,37 @@ export function FullPDFExport() {
             if (ctx) {
               ctx.drawImage(
                 canvas,
-                0, Math.round(sourceY),
-                canvasWidth, Math.round(sourceHeightPixels),
-                0, 0,
-                canvasWidth, Math.round(sourceHeightPixels)
+                0,
+                Math.round(sourceY),
+                canvasWidth,
+                Math.round(sourceHeightPixels),
+                0,
+                0,
+                canvasWidth,
+                Math.round(sourceHeightPixels)
               );
             }
 
             const croppedData = cropCanvas.toDataURL("image/png", 0.95);
 
-            // Verifica se há conteúdo real antes de adicionar imagem
+            // Adiciona imagem ao PDF
             if (cropCanvas.height > 0) {
-              pdf.addImage(croppedData, "PNG", margin, margin, imgWidth, heightToDraw);
+              pdf.addImage(
+                croppedData,
+                "PNG",
+                margin,
+                margin,
+                imgWidth,
+                heightToDraw
+              );
             }
           }
 
-          isFirstImage = false;
           return true;
         } catch (error) {
           console.error("Erro ao capturar elemento:", error);
           return false;
         } finally {
-          // Remove o container temporário
           document.body.removeChild(tempContainer);
         }
       };
@@ -156,30 +173,32 @@ export function FullPDFExport() {
         return;
       }
 
-      // ========== 1. CAPTURAR HEADER ==========
-      console.log("Capturando header...");
+      console.log("Iniciando captura do PDF...");
 
-      // O header é o PRIMEIRO child do mainContainer com gradient
+      // ===== 1. CAPTURAR HEADER =====
       let headerElement: HTMLElement | null = null;
       const mainChildren = mainContainer.children;
 
-      // Procura o header como o primeiro div com background gradient
       for (let i = 0; i < mainChildren.length; i++) {
         const el = mainChildren[i] as HTMLElement;
         const style = window.getComputedStyle(el);
         const bgImage = style.backgroundImage;
         const bgColor = style.backgroundColor;
 
-        // Header tem gradient ou background azul marinho
-        if ((bgImage && bgImage.includes("linear-gradient")) ||
-            (bgColor && (bgColor.includes("rgb(31, 59, 94)") || bgColor.includes("#1F3B5E") || bgColor.includes("#2C3E50")))) {
+        if (
+          (bgImage && bgImage.includes("linear-gradient")) ||
+          (bgColor &&
+            (bgColor.includes("rgb(31, 59, 94)") ||
+              bgColor.includes("#1F3B5E") ||
+              bgColor.includes("#2C3E50")))
+        ) {
           headerElement = el as HTMLElement;
           break;
         }
       }
 
       if (headerElement) {
-        console.log("Header encontrado, capturando...");
+        console.log("✓ Capturando header...");
         const headerClone = headerElement.cloneNode(true) as HTMLElement;
 
         // Remove botão PDF
@@ -193,73 +212,76 @@ export function FullPDFExport() {
           }
         });
 
-        // Garante que o header está completamente visível
         headerClone.style.display = "block";
         headerClone.style.visibility = "visible";
         headerClone.style.width = "100%";
 
-        await captureElement(headerClone, false, false);
-        console.log("✓ Header capturado com sucesso");
-      } else {
-        console.warn("Header não encontrado no dashboard");
+        await captureElement(headerClone, false);
       }
 
-      // ========== 2. PROCESSAR ABAS ==========
-      const tabButtons = Array.from(mainContainer.querySelectorAll("button")).filter(
-        (btn) => {
-          const text = btn.textContent?.trim() || "";
-          return (
-            text.includes("📊") ||
-            text.includes("💰") ||
-            text.includes("📉") ||
-            text.includes("👥") ||
-            text.includes("✓") ||
-            text.includes("🏢")
-          );
-        }
-      ) as HTMLButtonElement[];
+      // ===== 2. CAPTURAR CONTEÚDO DAS ABAS =====
+      const tabButtons = Array.from(
+        mainContainer.querySelectorAll("button")
+      ).filter((btn) => {
+        const text = btn.textContent?.trim() || "";
+        return (
+          text.includes("📊") ||
+          text.includes("💰") ||
+          text.includes("📉") ||
+          text.includes("👥") ||
+          text.includes("✓") ||
+          text.includes("🏢")
+        );
+      }) as HTMLButtonElement[];
 
-      console.log(`Encontradas ${tabButtons.length} abas para processar`);
+      console.log(`Encontradas ${tabButtons.length} abas`);
 
       for (let idx = 0; idx < tabButtons.length; idx++) {
         const tabBtn = tabButtons[idx];
         const tabLabel = tabBtn.textContent?.trim() || `Aba ${idx + 1}`;
 
-        console.log(`Processando: ${tabLabel} (${idx + 1}/${tabButtons.length})`);
+        console.log(
+          `Processando: ${tabLabel} (${idx + 1}/${tabButtons.length})`
+        );
 
         // Clica na aba
         tabBtn.click();
 
-        // Aguarda renderização completa (mais tempo para gráficos e galeria carregarem)
-        let waitTime = 3500; // padrão para gráficos
-        if (tabLabel.includes("Viabilidade")) waitTime = 5500; // galeria demora mais
-        if (tabLabel.includes("Receitas") || tabLabel.includes("Custos")) waitTime = 4500; // gráficos
-        if (tabLabel.includes("Geral")) waitTime = 4000; // geral tem vários gráficos
+        // Aguarda renderização
+        let waitTime = 3500;
+        if (tabLabel.includes("Viabilidade")) waitTime = 5500;
+        if (
+          tabLabel.includes("Receitas") ||
+          tabLabel.includes("Custos")
+        )
+          waitTime = 4500;
+        if (tabLabel.includes("Geral")) waitTime = 4000;
 
         await new Promise((resolve) => setTimeout(resolve, waitTime));
 
-        // Força rendering dos gráficos Recharts
-        const charts = mainContainer.querySelectorAll(".recharts-responsive-container");
-        for (let chart of charts) {
+        // Força visibilidade dos gráficos
+        const charts = mainContainer.querySelectorAll(
+          ".recharts-responsive-container"
+        );
+        charts.forEach((chart) => {
           const el = chart as HTMLElement;
           el.style.display = "block";
           el.style.visibility = "visible";
           el.style.overflow = "visible";
-        }
+        });
 
-        // Força SVGs serem renderizáveis
-        const svgElements = mainContainer.querySelectorAll("svg");
-        for (let svg of svgElements) {
-          const el = svg as HTMLElement;
-          el.setAttribute("width", el.getAttribute("width") || "100%");
-          el.setAttribute("height", el.getAttribute("height") || "auto");
-          el.style.display = "block";
+        // Força visibilidade das legendas
+        const legends = mainContainer.querySelectorAll(
+          ".recharts-default-legend"
+        );
+        legends.forEach((legend) => {
+          const el = legend as HTMLElement;
           el.style.visibility = "visible";
-          el.style.overflow = "visible";
-        }
+          el.style.opacity = "1";
+          el.style.display = "flex";
+        });
 
         try {
-          // Encontra o conteúdo
           const contentElement = mainContainer.querySelector(
             "#dashboard-content"
           ) as HTMLElement;
@@ -269,7 +291,6 @@ export function FullPDFExport() {
             continue;
           }
 
-          // Clona o conteúdo
           const contentClone = contentElement.cloneNode(true) as HTMLElement;
 
           // Remove navegação e modais
@@ -280,7 +301,7 @@ export function FullPDFExport() {
             (nav as HTMLElement).style.display = "none";
           });
 
-          // Remove lightbox modal se existir
+          // Remove lightbox modals
           const modalsInClone = contentClone.querySelectorAll(
             "[role='dialog'], .fixed.inset-0"
           );
@@ -288,19 +309,22 @@ export function FullPDFExport() {
             (m as HTMLElement).style.display = "none";
           });
 
-          // Remove espaços vazios e padding desnecessário
+          // Ajusta margins grandes
           const allElements = contentClone.querySelectorAll("*");
           allElements.forEach((el) => {
             const elem = el as HTMLElement;
-            // Remove margin-top e margin-bottom grandes
             const marginTop = window.getComputedStyle(elem).marginTop;
             const marginBottom = window.getComputedStyle(elem).marginBottom;
-            if (marginTop && (parseInt(marginTop) > 30)) elem.style.marginTop = "10px";
-            if (marginBottom && (parseInt(marginBottom) > 30)) elem.style.marginBottom = "10px";
+            if (marginTop && parseInt(marginTop) > 30)
+              elem.style.marginTop = "10px";
+            if (marginBottom && parseInt(marginBottom) > 30)
+              elem.style.marginBottom = "10px";
           });
 
-          // Garante que gráficos estão visíveis
-          const chartsInContent = contentClone.querySelectorAll(".recharts-responsive-container");
+          // Garante gráficos visíveis
+          const chartsInContent = contentClone.querySelectorAll(
+            ".recharts-responsive-container"
+          );
           chartsInContent.forEach((chart) => {
             const el = chart as HTMLElement;
             el.style.display = "block";
@@ -308,79 +332,44 @@ export function FullPDFExport() {
             el.style.minHeight = "300px";
           });
 
-          // Melhora legenda dos gráficos
-          const legends = contentClone.querySelectorAll(".recharts-default-legend");
-          legends.forEach((legend) => {
+          // Garante legendas visíveis
+          const legendsInContent = contentClone.querySelectorAll(
+            ".recharts-default-legend"
+          );
+          legendsInContent.forEach((legend) => {
             const el = legend as HTMLElement;
-            el.style.fontSize = "14px";
-            el.style.padding = "15px 0";
-            el.style.marginTop = "10px";
-            el.style.display = "flex";
-            el.style.flexWrap = "wrap";
-            el.style.justifyContent = "center";
-            el.style.gap = "20px";
             el.style.visibility = "visible";
             el.style.opacity = "1";
+            el.style.display = "flex";
 
-            // Garante que cada item da legenda está visível
             const legendItems = el.querySelectorAll(".recharts-legend-item");
             legendItems.forEach((item) => {
               const itemEl = item as HTMLElement;
               itemEl.style.display = "inline-flex";
               itemEl.style.visibility = "visible";
               itemEl.style.opacity = "1";
-              itemEl.style.fontSize = "13px";
-              itemEl.style.whiteSpace = "nowrap";
             });
           });
 
-          // Garante que SVGs dos gráficos estão visíveis
-          const svgs = contentClone.querySelectorAll("svg");
-          svgs.forEach((svg) => {
-            const el = svg as HTMLElement;
-            el.style.display = "block";
-            el.style.visibility = "visible";
-            el.style.overflow = "visible";
-          });
-
-          // Garante que o conteúdo está visível e tem altura
-          contentClone.style.display = "block";
-          contentClone.style.visibility = "visible";
-          contentClone.style.height = "auto";
-          contentClone.style.minHeight = "auto";
-          contentClone.style.overflow = "visible";
-
-          // Para a aba de Viabilidade, garante que a galeria está expandida (evita duplicação)
+          // Para Viabilidade, remove duplicação de galeria
           if (tabLabel.includes("Viabilidade")) {
-            // Remove galerias duplicadas (se houver)
-            const allGalleries = contentClone.querySelectorAll('[class*="gallery"]');
+            const allGalleries = contentClone.querySelectorAll(
+              '[class*="space-y"]'
+            );
             if (allGalleries.length > 1) {
-              // Mantém apenas a primeira galeria
               for (let i = 1; i < allGalleries.length; i++) {
                 (allGalleries[i] as HTMLElement).style.display = "none";
               }
             }
-
-            const galleryContainer = contentClone.querySelector('[class*="gallery"]') as HTMLElement;
-            if (galleryContainer) {
-              galleryContainer.style.display = "block";
-              galleryContainer.style.visibility = "visible";
-
-              // Garante que todas as imagens da galeria são visíveis
-              const images = galleryContainer.querySelectorAll("img");
-              images.forEach((img) => {
-                (img as HTMLElement).style.display = "block";
-                (img as HTMLElement).style.visibility = "visible";
-                (img as HTMLElement).style.height = "auto";
-                (img as HTMLElement).style.width = "auto";
-              });
-            }
           }
 
-          // Captura com page break (exceto para a primeira) - add padding no topo para evitar cortes
-          await captureElement(contentClone, idx > 0, true);
+          contentClone.style.display = "block";
+          contentClone.style.visibility = "visible";
+          contentClone.style.height = "auto";
+          contentClone.style.overflow = "visible";
 
-          console.log(`✓ ${tabLabel} capturada com sucesso`);
+          await captureElement(contentClone, idx > 0);
+          console.log(`✓ ${tabLabel} capturada`);
         } catch (error) {
           console.error(`Erro ao processar ${tabLabel}:`, error);
         }
@@ -388,22 +377,23 @@ export function FullPDFExport() {
         await new Promise((resolve) => setTimeout(resolve, 300));
       }
 
-      // ========== 3. CAPTURAR FOOTER ==========
+      // ===== 3. CAPTURAR FOOTER =====
       console.log("Capturando footer...");
-
-      // O footer está fora do mainContainer, procura no documento
       let footerElement: HTMLElement | null = null;
 
-      // Procura por footer com backgroundColor similar ao header
       const allDivs = document.querySelectorAll("div");
       for (let div of allDivs) {
         const style = window.getComputedStyle(div);
         const bgColor = style.backgroundColor;
 
-        // Procura por div com backgroundColor similar ao primary color (#1F3B5E)
-        if (bgColor && (bgColor.includes("31") || bgColor.includes("rgb"))) {
-          // Verifica se contém o texto do footer
-          if (div.textContent?.includes("GIARDINO") && div.textContent?.includes("Confidencial")) {
+        if (
+          bgColor &&
+          (bgColor.includes("31") || bgColor.includes("rgb"))
+        ) {
+          if (
+            div.textContent?.includes("GIARDINO") &&
+            div.textContent?.includes("Confidencial")
+          ) {
             footerElement = div as HTMLElement;
             break;
           }
@@ -411,21 +401,27 @@ export function FullPDFExport() {
       }
 
       if (footerElement) {
-        console.log("Footer encontrado, capturando...");
+        console.log("✓ Capturando footer...");
         const footerClone = footerElement.cloneNode(true) as HTMLElement;
 
-        // Remove a barra de menu de abas que pode estar depois do footer
-        const navBars = footerClone.querySelectorAll('[class*="sticky"], [class*="overflow-x"]');
+        const navBars = footerClone.querySelectorAll(
+          '[class*="sticky"], [class*="overflow-x"]'
+        );
         navBars.forEach((nav) => {
           (nav as HTMLElement).style.display = "none";
         });
 
-        // Remove botões de navegação
         const navButtons = footerClone.querySelectorAll("button");
         navButtons.forEach((btn) => {
           const text = btn.textContent?.trim() || "";
-          if (text.includes("📊") || text.includes("💰") || text.includes("📉") ||
-              text.includes("👥") || text.includes("✓") || text.includes("🏢")) {
+          if (
+            text.includes("📊") ||
+            text.includes("💰") ||
+            text.includes("📉") ||
+            text.includes("👥") ||
+            text.includes("✓") ||
+            text.includes("🏢")
+          ) {
             btn.style.display = "none";
           }
         });
@@ -433,55 +429,39 @@ export function FullPDFExport() {
         footerClone.style.display = "block";
         footerClone.style.visibility = "visible";
         footerClone.style.width = "100%";
-        await captureElement(footerClone, true, true);
-        console.log("✓ Footer capturado com sucesso");
-      } else {
-        console.warn("Footer não encontrado no dashboard");
+
+        await captureElement(footerClone, true);
       }
 
-      // ========== 4. RESTAURAR ELEMENTOS OCULTOS ==========
+      // Restaurar elementos
       hiddenModals.forEach((modal) => {
         modal.style.display = "";
       });
 
-      // ========== 5. NÃO VOLTA PARA PRIMEIRA ABA ==========
-      // Removido: não queremos que o menu de abas apareça no PDF final
-      console.log("Finalizando captura PDF...");
-
-      // ========== 6. SALVAR PDF ==========
-      // Remove páginas em branco no final
-      const totalPages = pdf.getNumberOfPages();
-      console.log(`PDF com ${totalPages} páginas (antes de limpeza)`);
-
+      // Salvar PDF
       pdf.save("GIARDINO-Projeto-Completo-Premium.pdf");
 
       alert(
         "✅ PDF Completo gerado com sucesso!\n\n" +
-          "📄 GIARDINO-Projeto-Completo-Premium.pdf\n\n" +
-          `Total: ${currentPageCount} páginas\n\n` +
-          "✓ Contém:\n" +
-          "• Header com logo\n" +
-          "• 6 Abas completas:\n" +
-          "  - 📊 Geral (KPIs, gráficos, fluxo de caixa)\n" +
-          "  - 💰 Receitas (gráficos, tabelas)\n" +
-          "  - 📉 Custos (gráficos, análise)\n" +
-          "  - 👥 RH (dados de funcionários)\n" +
-          "  - ✓ Viabilidade (KPIs, análise, GALERIA)\n" +
-          "  - 🏢 Sobre (projeto info)\n" +
-          "• Footer com branding\n" +
-          "• Sem números de página\n" +
-          "• Layout responsivo A4"
+        "📄 GIARDINO-Projeto-Completo-Premium.pdf\n\n" +
+        `Total: ${currentPageCount} páginas\n\n` +
+        "✓ Inclui:\n" +
+        "• Header profissional\n" +
+        "• 6 Abas completas com todos os dados\n" +
+        "• Footer com branding\n" +
+        "• Layout A4 otimizado\n" +
+        "• Sem menu de navegação"
       );
     } catch (error) {
       console.error("Erro ao gerar PDF:", error);
       alert(
         "❌ Erro ao gerar PDF.\n\n" +
-          "Tente:\n" +
-          "1. Recarregar a página\n" +
-          "2. Aguarde o dashboard carregar completamente\n" +
-          "3. Tente novamente\n\n" +
-          "Erro: " +
-          (error instanceof Error ? error.message : "Desconhecido")
+        "Tente:\n" +
+        "1. Recarregar a página\n" +
+        "2. Aguarde o dashboard carregar completamente\n" +
+        "3. Tente novamente\n\n" +
+        "Erro: " +
+        (error instanceof Error ? error.message : "Desconhecido")
       );
     } finally {
       setIsGenerating(false);

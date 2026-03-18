@@ -17,7 +17,7 @@ import {
   Area,
 } from "recharts";
 import { KPICard } from "@/components/KPICard";
-import { FullPDFExport } from "@/components/FullPDFExport";
+import { SimplePDFExport } from "@/components/SimplePDFExport";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { ResponsiveTable } from "@/components/ResponsiveTable";
 import { giardino } from "@shared/giardino-data";
@@ -241,7 +241,7 @@ export default function Dashboard() {
 
             {/* Botão de Exportação Único - PDF Completo */}
             <div className="flex gap-2 md:gap-3 flex-wrap justify-center md:justify-end">
-              <FullPDFExport />
+              <SimplePDFExport />
             </div>
           </div>
 
@@ -343,10 +343,10 @@ export default function Dashboard() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs sm:text-sm font-semibold mb-1 truncate" style={{ color: GIARDINO_COLORS.secondary }}>
+                    <p className="text-xs sm:text-sm font-semibold mb-1" style={{ color: GIARDINO_COLORS.secondary }}>
                       RECEITA MENSAL
                     </p>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-2 truncate" style={{ color: GIARDINO_COLORS.primary }}>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary, wordWrap: "break-word" }}>
                       {formatCurrency(giardino.totalMonthlyRevenue)}
                     </h3>
                     <p className="text-xs text-gray-500">Faturamento/mês</p>
@@ -365,10 +365,10 @@ export default function Dashboard() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs sm:text-sm font-semibold mb-1 truncate" style={{ color: GIARDINO_COLORS.primary }}>
+                    <p className="text-xs sm:text-sm font-semibold mb-1" style={{ color: GIARDINO_COLORS.primary }}>
                       TOTAL VENDAS
                     </p>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-2 truncate" style={{ color: GIARDINO_COLORS.secondary }}>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary, wordWrap: "break-word" }}>
                       {formatCurrency(giardino.totalSales)}
                     </h3>
                     <p className="text-xs text-gray-500">Capital inicial</p>
@@ -387,10 +387,10 @@ export default function Dashboard() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs sm:text-sm font-semibold mb-1 text-gray-600 truncate">
+                    <p className="text-xs sm:text-sm font-semibold mb-1 text-gray-600">
                       CUSTOS MENSAIS
                     </p>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-2 truncate" style={{ color: GIARDINO_COLORS.gold }}>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold, wordWrap: "break-word" }}>
                       {formatCurrency(469_000 + 4_320_000)}
                     </h3>
                     <p className="text-xs text-gray-500">RH + Operacional</p>
@@ -409,10 +409,10 @@ export default function Dashboard() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs sm:text-sm font-semibold mb-1 text-gray-600 truncate">
+                    <p className="text-xs sm:text-sm font-semibold mb-1 text-gray-600">
                       LUCRO LÍQUIDO
                     </p>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-2 truncate" style={{ color: GIARDINO_COLORS.accent }}>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent, wordWrap: "break-word" }}>
                       {formatCurrency(
                         giardino.totalMonthlyRevenue -
                         (469_000 + 4_320_000 + 1_000_000 + 500_000)
@@ -441,17 +441,17 @@ export default function Dashboard() {
                   </h2>
                   <p className="text-xs sm:text-sm text-gray-600">Contribuição de cada segmento na receita bruta mensal</p>
                 </div>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={380}>
                   <PieChart>
                     <Pie
                       data={revenueData}
                       cx="50%"
-                      cy="45%"
+                      cy="40%"
                       labelLine={false}
                       label={({ name, value }) =>
                         `${name}: ${formatCurrency(value)}`
                       }
-                      outerRadius={100}
+                      outerRadius={90}
                       fill="#8884d8"
                       dataKey="value"
                     >
@@ -492,8 +492,8 @@ export default function Dashboard() {
                   </h2>
                   <p className="text-xs sm:text-sm text-gray-600">Vendas iniciais (CAPEX) por segmento - Total R$ 606,6 milhões</p>
                 </div>
-                <ResponsiveContainer width="100%" height={280}>
-                  <BarChart data={salesDistribution} margin={{ top: 5, right: 10, left: 0, bottom: 40 }}>
+                <ResponsiveContainer width="100%" height={360}>
+                  <BarChart data={salesDistribution} margin={{ top: 5, right: 10, left: 0, bottom: 60 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                     <XAxis
                       dataKey="name"
@@ -535,8 +535,8 @@ export default function Dashboard() {
                 </h2>
                 <p className="text-xs sm:text-sm text-gray-600">Projeção mensal de receitas, custos e lucro líquido ao longo de 1 ano</p>
               </div>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={cashFlowData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+              <ResponsiveContainer width="100%" height={400}>
+                <LineChart data={cashFlowData} margin={{ top: 5, right: 10, left: 0, bottom: 50 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                   <XAxis
                     dataKey="month"
@@ -557,10 +557,17 @@ export default function Dashboard() {
                     labelStyle={{ color: "#1F3B5E", fontWeight: "bold", marginBottom: "4px" }}
                   />
                   <Legend
-                    wrapperStyle={{ paddingTop: "12px", fontSize: "13px" }}
+                    wrapperStyle={{
+                      paddingTop: "20px",
+                      fontSize: "14px",
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: "30px",
+                      flexWrap: "wrap"
+                    }}
                     iconType="line"
                     verticalAlign="bottom"
-                    height={30}
+                    height={50}
                   />
                   <Line
                     type="monotone"
@@ -568,7 +575,6 @@ export default function Dashboard() {
                     stroke={GIARDINO_COLORS.secondary}
                     strokeWidth={3}
                     dot={{ fill: GIARDINO_COLORS.secondary, r: 4 }}
-                    activeDot={{ r: 6 }}
                     name="Receita Bruta"
                   />
                   <Line
@@ -577,7 +583,6 @@ export default function Dashboard() {
                     stroke="#EF4444"
                     strokeWidth={3}
                     dot={{ fill: "#EF4444", r: 4 }}
-                    activeDot={{ r: 6 }}
                     name="Custos Totais"
                   />
                   <Line
@@ -586,7 +591,6 @@ export default function Dashboard() {
                     stroke={GIARDINO_COLORS.accent}
                     strokeWidth={3}
                     dot={{ fill: GIARDINO_COLORS.accent, r: 4 }}
-                    activeDot={{ r: 6 }}
                     name="Lucro Líquido"
                   />
                 </LineChart>
