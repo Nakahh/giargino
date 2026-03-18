@@ -17,6 +17,7 @@ import {
   Area,
 } from "recharts";
 import { KPICard } from "@/components/KPICard";
+import { DashboardHeader } from "@/components/DashboardHeader";
 import { giardino } from "@shared/giardino-data";
 import {
   TrendingUp,
@@ -26,17 +27,20 @@ import {
   Home,
   ShoppingCart,
   Zap,
+  TrendingDown,
+  Activity,
+  PieChart as PieChartIcon,
 } from "lucide-react";
 
 const COLORS = [
-  "#3B82F6", // blue
-  "#10B981", // emerald
-  "#F59E0B", // amber
-  "#EF4444", // red
-  "#8B5CF6", // violet
-  "#EC4899", // pink
-  "#06B6D4", // cyan
-  "#6366F1", // indigo
+  "#D4A574", // warm sand/tan
+  "#8B7355", // rich brown
+  "#C9B896", // soft taupe
+  "#9B8B7A", // muted brown
+  "#A68560", // warm tan
+  "#7A6F64", // deep brown
+  "#C4A576", // golden tan
+  "#917D6D", // cool brown
 ];
 
 function formatCurrency(value: number): string {
@@ -202,31 +206,21 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-8 px-6 shadow-lg">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-2">GIARDINO</h1>
-          <p className="text-blue-100 text-lg">
-            Modelo de Investimento - Residencial Senior + Clube Life Style
-          </p>
-          <p className="text-blue-200 text-sm mt-2">
-            Localização: Mogi das Cruzes, São Paulo
-          </p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-slate-50">
+      {/* Premium Header */}
+      <DashboardHeader />
 
-      {/* Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      {/* Navigation Tabs - Premium Styling */}
+      <div className="bg-white border-b-2 border-amber-200 sticky top-0 z-10 shadow-sm">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex gap-8 overflow-x-auto">
+          <div className="flex gap-1 overflow-x-auto">
             {[
-              { id: "overview", label: "Visão Geral" },
-              { id: "revenue", label: "Receitas" },
-              { id: "costs", label: "Custos" },
-              { id: "hr", label: "Recursos Humanos" },
-              { id: "viability", label: "Viabilidade" },
-              { id: "project", label: "Sobre o Projeto" },
+              { id: "overview", label: "Visão Geral", icon: "📊" },
+              { id: "revenue", label: "Receitas", icon: "💰" },
+              { id: "costs", label: "Custos", icon: "📈" },
+              { id: "hr", label: "Recursos Humanos", icon: "👥" },
+              { id: "viability", label: "Viabilidade", icon: "🎯" },
+              { id: "project", label: "Sobre o Projeto", icon: "🏢" },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -238,14 +232,16 @@ export default function Dashboard() {
                       | "costs"
                       | "hr"
                       | "viability"
+                      | "project"
                   )
                 }
-                className={`px-4 py-4 font-semibold border-b-2 transition-all ${
+                className={`px-6 py-4 font-semibold border-b-3 transition-all duration-300 whitespace-nowrap text-sm ${
                   activeTab === tab.id
-                    ? "border-blue-600 text-blue-600"
-                    : "border-transparent text-gray-600 hover:text-gray-900"
+                    ? "border-amber-500 text-amber-700 bg-amber-50"
+                    : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                 }`}
               >
+                <span className="mr-2">{tab.icon}</span>
                 {tab.label}
               </button>
             ))}
@@ -257,147 +253,176 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto px-6 py-10">
         {/* TAB: OVERVIEW */}
         {activeTab === "overview" && (
-          <div className="space-y-8">
-            {/* KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <KPICard
-                title="Receita Mensal Bruta"
-                value={giardino.totalMonthlyRevenue}
-                subtitle="Faturamento total"
-                icon={DollarSign}
-                bgColor="bg-gradient-to-br from-green-50 to-green-100"
-                iconColor="text-green-600"
-              />
-              <KPICard
-                title="Total de Vendas Iniciais"
-                value={giardino.totalSales}
-                subtitle="Capital captado"
-                icon={ShoppingCart}
-                bgColor="bg-gradient-to-br from-blue-50 to-blue-100"
-                iconColor="text-blue-600"
-              />
-              <KPICard
-                title="Custos Mensais"
-                value={469_000 + 4_320_000}
-                subtitle="RH + Operacional"
-                icon={Zap}
-                bgColor="bg-gradient-to-br from-orange-50 to-orange-100"
-                iconColor="text-orange-600"
-              />
-              <KPICard
-                title="Lucro Líquido Estimado"
-                value={
-                  giardino.totalMonthlyRevenue -
-                  (469_000 + 4_320_000 + 1_000_000 + 500_000)
-                }
-                subtitle="Mensal (aprox)"
-                icon={TrendingUp}
-                bgColor="bg-gradient-to-br from-purple-50 to-purple-100"
-                iconColor="text-purple-600"
-                trend={{ value: 12, isPositive: true }}
-              />
+          <div className="space-y-10">
+            {/* KPI Cards Section with Premium Design */}
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900 mb-6 font-serif">Indicadores Principais (KPIs)</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <KPICard
+                  title="Receita Mensal Bruta"
+                  value={giardino.totalMonthlyRevenue}
+                  subtitle="Faturamento total"
+                  icon={DollarSign}
+                  bgColor="bg-white"
+                  iconColor="text-amber-600"
+                  accentColor="border-l-amber-500"
+                />
+                <KPICard
+                  title="Total de Vendas Iniciais"
+                  value={giardino.totalSales}
+                  subtitle="Capital captado"
+                  icon={ShoppingCart}
+                  bgColor="bg-white"
+                  iconColor="text-amber-600"
+                  accentColor="border-l-amber-500"
+                />
+                <KPICard
+                  title="Custos Mensais"
+                  value={469_000 + 4_320_000}
+                  subtitle="RH + Operacional"
+                  icon={Zap}
+                  bgColor="bg-white"
+                  iconColor="text-amber-600"
+                  accentColor="border-l-amber-500"
+                />
+                <KPICard
+                  title="Lucro Líquido Estimado"
+                  value={
+                    giardino.totalMonthlyRevenue -
+                    (469_000 + 4_320_000 + 1_000_000 + 500_000)
+                  }
+                  subtitle="Mensal (aprox)"
+                  icon={TrendingUp}
+                  bgColor="bg-white"
+                  iconColor="text-emerald-600"
+                  accentColor="border-l-emerald-500"
+                  trend={{ value: 12, isPositive: true }}
+                />
+              </div>
             </div>
 
-            {/* Charts */}
+            {/* Charts Section - Premium Design */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Distribuição de Receitas Mensais */}
-              <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
-                  Distribuição de Receitas Mensais
-                </h2>
+              <div className="bg-white rounded-lg shadow-lg p-8 border border-amber-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <PieChartIcon className="w-6 h-6 text-amber-600" />
+                  <h2 className="text-xl font-bold text-slate-900 font-serif">
+                    Distribuição de Receitas
+                  </h2>
+                </div>
+                <p className="text-sm text-slate-600 mb-6">Composição mensal por segmento de receita</p>
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
                       data={revenueData}
                       cx="50%"
                       cy="50%"
-                      labelLine={false}
-                      label={({ name, value }) =>
-                        `${name}: ${formatCurrency(value)}`
+                      labelLine={true}
+                      label={({ name, percent }) =>
+                        `${name}: ${(percent * 100).toFixed(0)}%`
                       }
-                      outerRadius={100}
-                      fill="#8884d8"
+                      outerRadius={90}
+                      fill="#D4A574"
                       dataKey="value"
                     >
                       {revenueData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                        <Cell key={`cell-${index}`} fill={COLORS[index]} />
                       ))}
                     </Pie>
                     <Tooltip
                       formatter={(value: number) => formatCurrency(value)}
+                      contentStyle={{
+                        backgroundColor: "#fff",
+                        border: "2px solid #D4A574",
+                        borderRadius: "8px",
+                      }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
 
-              {/* Distribuição de Vendas Iniciais */}
-              <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
-                  Capital Inicial por Segmento
-                </h2>
+              {/* Capital Inicial por Segmento */}
+              <div className="bg-white rounded-lg shadow-lg p-8 border border-amber-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <Activity className="w-6 h-6 text-amber-600" />
+                  <h2 className="text-xl font-bold text-slate-900 font-serif">
+                    Capital Inicial por Segmento
+                  </h2>
+                </div>
+                <p className="text-sm text-slate-600 mb-6">Distribuição de investimento inicial total</p>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={salesDistribution}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                     <XAxis
                       dataKey="name"
-                      stroke="#6b7280"
-                      style={{ fontSize: "12px" }}
+                      stroke="#8b7355"
+                      style={{ fontSize: "12px", fontWeight: "500" }}
                     />
-                    <YAxis stroke="#6b7280" />
+                    <YAxis stroke="#8b7355" />
                     <Tooltip
                       formatter={(value: number) => formatCurrency(value)}
+                      contentStyle={{
+                        backgroundColor: "#fff",
+                        border: "2px solid #D4A574",
+                        borderRadius: "8px",
+                      }}
                     />
-                    <Bar dataKey="value" fill="#3B82F6" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="value" fill="#D4A574" radius={[12, 12, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
-            {/* Fluxo de Caixa Projetado */}
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
-                Fluxo de Caixa Projetado - 12 Meses
-              </h2>
+            {/* Fluxo de Caixa Projetado - 12 Meses */}
+            <div className="bg-white rounded-lg shadow-lg p-8 border border-amber-100">
+              <div className="flex items-center gap-3 mb-6">
+                <TrendingUp className="w-6 h-6 text-emerald-600" />
+                <h2 className="text-xl font-bold text-slate-900 font-serif">
+                  Fluxo de Caixa Projetado - 12 Meses
+                </h2>
+              </div>
+              <p className="text-sm text-slate-600 mb-6">Projeção de receita, custos e lucro mensal</p>
               <ResponsiveContainer width="100%" height={350}>
                 <AreaChart data={cashFlowData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis dataKey="month" stroke="#6b7280" style={{ fontSize: "12px" }} />
-                  <YAxis stroke="#6b7280" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="month" stroke="#8b7355" style={{ fontSize: "12px" }} />
+                  <YAxis stroke="#8b7355" />
                   <Tooltip
                     formatter={(value: number) => formatCurrency(value)}
                     contentStyle={{
                       backgroundColor: "#fff",
-                      border: "1px solid #e5e7eb",
+                      border: "2px solid #D4A574",
                       borderRadius: "8px",
                     }}
                   />
-                  <Legend />
+                  <Legend wrapperStyle={{ paddingTop: "20px" }} />
                   <Area
                     type="monotone"
                     dataKey="receita"
                     stackId="1"
-                    stroke="#10B981"
-                    fill="#10B981"
-                    name="Receita"
-                    opacity={0.6}
+                    stroke="#8B7355"
+                    fill="#C9B896"
+                    name="Receita Total"
+                    opacity={0.7}
                   />
                   <Area
                     type="monotone"
                     dataKey="custos"
                     stackId="2"
-                    stroke="#EF4444"
-                    fill="#EF4444"
-                    name="Custos"
-                    opacity={0.6}
+                    stroke="#A68560"
+                    fill="#C4A576"
+                    name="Custos Totais"
+                    opacity={0.7}
                   />
                   <Area
                     type="monotone"
                     dataKey="lucro"
                     stackId="3"
-                    stroke="#3B82F6"
-                    fill="#3B82F6"
-                    name="Lucro"
-                    opacity={0.6}
+                    stroke="#2d5016"
+                    fill="#10B981"
+                    name="Lucro Líquido"
+                    opacity={0.7}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -407,147 +432,98 @@ export default function Dashboard() {
 
         {/* TAB: REVENUE */}
         {activeTab === "revenue" && (
-          <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Análise Detalhada de Receitas
-              </h2>
+          <div className="space-y-10">
+            {/* Revenue Overview */}
+            <div className="bg-gradient-to-br from-amber-50 to-white rounded-lg shadow-lg p-8 border border-amber-100">
+              <div className="flex items-center gap-3 mb-6">
+                <DollarSign className="w-6 h-6 text-amber-600" />
+                <h2 className="text-2xl font-bold text-slate-900 font-serif">
+                  Análise Detalhada de Receitas
+                </h2>
+              </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                {/* Chart */}
+                <div className="bg-white rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-slate-900 mb-4">
                     Receitas Mensais por Segmento
                   </h3>
                   <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={revenueData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                      <XAxis
-                        dataKey="name"
-                        stroke="#6b7280"
-                        style={{ fontSize: "12px" }}
-                      />
-                      <YAxis stroke="#6b7280" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <XAxis dataKey="name" stroke="#8b7355" style={{ fontSize: "12px", fontWeight: "500" }} />
+                      <YAxis stroke="#8b7355" />
                       <Tooltip
                         formatter={(value: number) => formatCurrency(value)}
+                        contentStyle={{ backgroundColor: "#fff", border: "2px solid #D4A574", borderRadius: "8px" }}
                       />
-                      <Bar dataKey="value" fill="#3B82F6" radius={[8, 8, 0, 0]} />
+                      <Bar dataKey="value" fill="#D4A574" radius={[12, 12, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
 
-                <div className="space-y-4">
+                {/* Summary Cards */}
+                <div className="space-y-3">
                   {revenueData.map((item, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200"
+                      className="flex items-center justify-between p-4 bg-white rounded-lg border-l-4 shadow hover:shadow-lg transition"
+                      style={{ borderColor: item.fill }}
                     >
                       <div className="flex items-center gap-3">
-                        <div
-                          className="w-4 h-4 rounded"
-                          style={{ backgroundColor: item.fill }}
-                        ></div>
-                        <span className="font-medium text-gray-700">
-                          {item.name}
-                        </span>
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.fill }}></div>
+                        <span className="font-semibold text-slate-700">{item.name}</span>
                       </div>
-                      <span className="font-bold text-gray-900">
-                        {formatCurrency(item.value)}
-                      </span>
+                      <span className="font-bold text-slate-900 text-lg">{formatCurrency(item.value)}</span>
                     </div>
                   ))}
-                  <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <span className="font-bold text-blue-900">
-                      Total Mensal
-                    </span>
-                    <span className="font-bold text-blue-900 text-lg">
-                      {formatCurrency(giardino.totalMonthlyRevenue)}
-                    </span>
+                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-amber-400 to-amber-500 rounded-lg shadow-lg">
+                    <span className="font-bold text-amber-900">Total Mensal</span>
+                    <span className="font-bold text-amber-900 text-xl">{formatCurrency(giardino.totalMonthlyRevenue)}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Tabela Detalhada de Receitas */}
-              <div className="overflow-x-auto">
+              {/* Detailed Revenue Table */}
+              <div className="overflow-x-auto mt-8">
                 <table className="w-full">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200">
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                        Segmento
-                      </th>
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                        Unidades
-                      </th>
-                      <th className="px-6 py-3 text-right text-sm font-semibold text-gray-900">
-                        Valor Unit.
-                      </th>
-                      <th className="px-6 py-3 text-right text-sm font-semibold text-gray-900">
-                        Total Mensal
-                      </th>
-                      <th className="px-6 py-3 text-right text-sm font-semibold text-gray-900">
-                        % do Total
-                      </th>
+                    <tr className="bg-slate-100 border-b-2 border-amber-300">
+                      <th className="px-6 py-4 text-left text-sm font-bold text-slate-900 uppercase tracking-wide">Segmento</th>
+                      <th className="px-6 py-4 text-center text-sm font-bold text-slate-900 uppercase tracking-wide">Unidades</th>
+                      <th className="px-6 py-4 text-right text-sm font-bold text-slate-900 uppercase tracking-wide">Valor Unit.</th>
+                      <th className="px-6 py-4 text-right text-sm font-bold text-slate-900 uppercase tracking-wide">Total Mensal</th>
+                      <th className="px-6 py-4 text-right text-sm font-bold text-slate-900 uppercase tracking-wide">% do Total</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        Residencial Senior
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">240</td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-medium">
-                        {formatCurrency(35_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-bold">
-                        {formatCurrency(8_400_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-green-600 font-semibold">
-                        61.2%
-                      </td>
+                    <tr className="border-b border-amber-100 hover:bg-amber-50 transition">
+                      <td className="px-6 py-4 font-medium text-slate-900">Residencial Senior</td>
+                      <td className="px-6 py-4 text-center text-slate-700">240 unidades</td>
+                      <td className="px-6 py-4 text-right font-medium text-slate-900">{formatCurrency(35_000)}</td>
+                      <td className="px-6 py-4 text-right font-bold text-slate-900">{formatCurrency(8_400_000)}</td>
+                      <td className="px-6 py-4 text-right font-semibold text-emerald-600">61.2%</td>
                     </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        Hospedagem
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">80</td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-medium">
-                        {formatCurrency(1_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-bold">
-                        {formatCurrency(756_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-blue-600 font-semibold">
-                        5.5%
-                      </td>
+                    <tr className="border-b border-amber-100 hover:bg-amber-50 transition">
+                      <td className="px-6 py-4 font-medium text-slate-900">Hospedagem (All Inclusive)</td>
+                      <td className="px-6 py-4 text-center text-slate-700">80 unidades</td>
+                      <td className="px-6 py-4 text-right font-medium text-slate-900">{formatCurrency(1_000)}</td>
+                      <td className="px-6 py-4 text-right font-bold text-slate-900">{formatCurrency(756_000)}</td>
+                      <td className="px-6 py-4 text-right font-semibold text-blue-600">5.5%</td>
                     </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        Clube Life Style
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">6000</td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-medium">
-                        {formatCurrency(500)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-bold">
-                        {formatCurrency(3_000_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-purple-600 font-semibold">
-                        21.9%
-                      </td>
+                    <tr className="border-b border-amber-100 hover:bg-amber-50 transition">
+                      <td className="px-6 py-4 font-medium text-slate-900">Clube Life Style</td>
+                      <td className="px-6 py-4 text-center text-slate-700">6.000 títulos</td>
+                      <td className="px-6 py-4 text-right font-medium text-slate-900">{formatCurrency(500)}</td>
+                      <td className="px-6 py-4 text-right font-bold text-slate-900">{formatCurrency(3_000_000)}</td>
+                      <td className="px-6 py-4 text-right font-semibold text-purple-600">21.9%</td>
                     </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50 bg-blue-50">
-                      <td className="px-6 py-4 text-sm text-gray-700">
-                        Bares/Restaurantes/Lojas
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">350/dia</td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-medium">
-                        {formatCurrency(150)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-gray-900 font-bold">
-                        {formatCurrency(1_575_000)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-right text-orange-600 font-semibold">
-                        11.5%
-                      </td>
+                    <tr className="border-b-2 border-amber-300 hover:bg-amber-50 transition bg-amber-50">
+                      <td className="px-6 py-4 font-bold text-slate-900">Bares/Restaurantes/Lojas</td>
+                      <td className="px-6 py-4 text-center text-slate-700">~350 pessoas/dia</td>
+                      <td className="px-6 py-4 text-right font-medium text-slate-900">{formatCurrency(150)}</td>
+                      <td className="px-6 py-4 text-right font-bold text-slate-900">{formatCurrency(1_575_000)}</td>
+                      <td className="px-6 py-4 text-right font-semibold text-orange-600">11.5%</td>
                     </tr>
                   </tbody>
                 </table>
@@ -558,15 +534,18 @@ export default function Dashboard() {
 
         {/* TAB: COSTS */}
         {activeTab === "costs" && (
-          <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Análise de Custos Operacionais
-              </h2>
+          <div className="space-y-10">
+            <div className="bg-gradient-to-br from-orange-50 to-white rounded-lg shadow-lg p-8 border border-orange-100">
+              <div className="flex items-center gap-3 mb-6">
+                <TrendingDown className="w-6 h-6 text-red-600" />
+                <h2 className="text-2xl font-bold text-slate-900 font-serif">
+                  Análise de Custos Operacionais
+                </h2>
+              </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                <div className="bg-white rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-slate-900 mb-4">
                     Distribuição de Custos
                   </h3>
                   <ResponsiveContainer width="100%" height={300}>
@@ -575,12 +554,12 @@ export default function Dashboard() {
                         data={costData}
                         cx="50%"
                         cy="50%"
-                        labelLine={false}
-                        label={({ name, value }) =>
-                          `${name}: ${formatCurrency(value)}`
+                        labelLine={true}
+                        label={({ name, percent }) =>
+                          `${name}: ${(percent * 100).toFixed(0)}%`
                         }
-                        outerRadius={100}
-                        fill="#8884d8"
+                        outerRadius={90}
+                        fill="#A68560"
                         dataKey="value"
                       >
                         {costData.map((entry, index) => (
@@ -594,110 +573,62 @@ export default function Dashboard() {
                   </ResponsiveContainer>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {costData.map((item, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200"
+                      className="flex items-center justify-between p-4 bg-white rounded-lg border-l-4 shadow hover:shadow-lg transition"
+                      style={{ borderColor: item.fill }}
                     >
                       <div className="flex items-center gap-3">
-                        <div
-                          className="w-4 h-4 rounded"
-                          style={{ backgroundColor: item.fill }}
-                        ></div>
-                        <span className="font-medium text-gray-700">
-                          {item.name}
-                        </span>
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.fill }}></div>
+                        <span className="font-semibold text-slate-700">{item.name}</span>
                       </div>
-                      <span className="font-bold text-gray-900">
-                        {formatCurrency(item.value)}
-                      </span>
+                      <span className="font-bold text-slate-900 text-lg">{formatCurrency(item.value)}</span>
                     </div>
                   ))}
-                  <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg border border-red-200">
-                    <span className="font-bold text-red-900">
-                      Total Mensal
-                    </span>
-                    <span className="font-bold text-red-900 text-lg">
-                      {formatCurrency(
-                        469_000 + 4_320_000 + 1_000_000 + 500_000
-                      )}
-                    </span>
+                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-lg">
+                    <span className="font-bold text-white">Total Mensal</span>
+                    <span className="font-bold text-white text-xl">{formatCurrency(469_000 + 4_320_000 + 1_000_000 + 500_000)}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Tabela de Custos Detalhada */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+              {/* Detailed Costs Table */}
+              <div className="overflow-x-auto mt-8">
+                <table className="w-full">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200">
-                      <th className="px-6 py-3 text-left font-semibold text-gray-900">
-                        Categoria de Custo
-                      </th>
-                      <th className="px-6 py-3 text-right font-semibold text-gray-900">
-                        Valor Mensal
-                      </th>
-                      <th className="px-6 py-3 text-right font-semibold text-gray-900">
-                        % do Total
-                      </th>
+                    <tr className="bg-slate-100 border-b-2 border-orange-300">
+                      <th className="px-6 py-4 text-left text-sm font-bold text-slate-900 uppercase tracking-wide">Categoria de Custo</th>
+                      <th className="px-6 py-4 text-right text-sm font-bold text-slate-900 uppercase tracking-wide">Valor Mensal</th>
+                      <th className="px-6 py-4 text-right text-sm font-bold text-slate-900 uppercase tracking-wide">% do Total</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-gray-700">
-                        Recursos Humanos
-                      </td>
-                      <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                        {formatCurrency(469_000)}
-                      </td>
-                      <td className="px-6 py-4 text-right text-blue-600 font-semibold">
-                        5.8%
-                      </td>
+                    <tr className="border-b border-orange-100 hover:bg-orange-50 transition">
+                      <td className="px-6 py-4 font-medium text-slate-900">Recursos Humanos</td>
+                      <td className="px-6 py-4 text-right font-bold text-slate-900">{formatCurrency(469_000)}</td>
+                      <td className="px-6 py-4 text-right font-semibold text-blue-600">5.8%</td>
                     </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-gray-700">
-                        Custos Operacionais Residenciais
-                      </td>
-                      <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                        {formatCurrency(4_320_000)}
-                      </td>
-                      <td className="px-6 py-4 text-right text-blue-600 font-semibold">
-                        53.4%
-                      </td>
+                    <tr className="border-b border-orange-100 hover:bg-orange-50 transition">
+                      <td className="px-6 py-4 font-medium text-slate-900">Custos Operacionais Residenciais</td>
+                      <td className="px-6 py-4 text-right font-bold text-slate-900">{formatCurrency(4_320_000)}</td>
+                      <td className="px-6 py-4 text-right font-semibold text-blue-600">53.4%</td>
                     </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-gray-700">
-                        Pagamento Financiamento
-                      </td>
-                      <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                        {formatCurrency(1_000_000)}
-                      </td>
-                      <td className="px-6 py-4 text-right text-orange-600 font-semibold">
-                        12.3%
-                      </td>
+                    <tr className="border-b border-orange-100 hover:bg-orange-50 transition">
+                      <td className="px-6 py-4 font-medium text-slate-900">Pagamento Financiamento (CAPEX - 10 anos)</td>
+                      <td className="px-6 py-4 text-right font-bold text-slate-900">{formatCurrency(1_000_000)}</td>
+                      <td className="px-6 py-4 text-right font-semibold text-orange-600">12.3%</td>
                     </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50 bg-red-50">
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        Juros do Financiamento (~6% a.a.)
-                      </td>
-                      <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                        {formatCurrency(500_000)}
-                      </td>
-                      <td className="px-6 py-4 text-right text-orange-600 font-semibold">
-                        6.2%
-                      </td>
+                    <tr className="border-b-2 border-orange-300 hover:bg-orange-50 transition bg-orange-50">
+                      <td className="px-6 py-4 font-bold text-slate-900">Juros do Financiamento (~6% a.a.)</td>
+                      <td className="px-6 py-4 text-right font-bold text-slate-900">{formatCurrency(500_000)}</td>
+                      <td className="px-6 py-4 text-right font-semibold text-orange-600">6.2%</td>
                     </tr>
-                    <tr className="bg-red-50 border-t-2 border-red-200">
-                      <td className="px-6 py-4 font-bold text-red-900">
-                        TOTAL DE CUSTOS MENSAIS
-                      </td>
-                      <td className="px-6 py-4 text-right font-bold text-red-900 text-lg">
-                        {formatCurrency(469_000 + 4_320_000 + 1_000_000 + 500_000)}
-                      </td>
-                      <td className="px-6 py-4 text-right font-bold text-red-900">
-                        100%
-                      </td>
+                    <tr className="bg-red-50">
+                      <td className="px-6 py-4 font-bold text-red-900 text-lg">TOTAL CUSTOS MENSAIS</td>
+                      <td className="px-6 py-4 text-right font-bold text-red-900 text-lg">{formatCurrency(469_000 + 4_320_000 + 1_000_000 + 500_000)}</td>
+                      <td className="px-6 py-4 text-right font-bold text-red-900 text-lg">100%</td>
                     </tr>
                   </tbody>
                 </table>
@@ -708,101 +639,73 @@ export default function Dashboard() {
 
         {/* TAB: HR */}
         {activeTab === "hr" && (
-          <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Recursos Humanos - Estrutura Completa
-              </h2>
+          <div className="space-y-10">
+            <div className="bg-gradient-to-br from-blue-50 to-white rounded-lg shadow-lg p-8 border border-blue-100">
+              <div className="flex items-center gap-3 mb-6">
+                <Users className="w-6 h-6 text-blue-600" />
+                <h2 className="text-2xl font-bold text-slate-900 font-serif">
+                  Recursos Humanos - Estrutura Completa
+                </h2>
+              </div>
 
-              <div className="mb-8">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                  Total de Funcionários por Departamento
+              <div className="mb-8 bg-white rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-slate-900 mb-4">
+                  Distribuição por Departamento
                 </h3>
                 <ResponsiveContainer width="100%" height={350}>
                   <BarChart data={hrData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                     <XAxis
                       dataKey="department"
-                      stroke="#6b7280"
-                      style={{ fontSize: "12px" }}
+                      stroke="#8b7355"
+                      style={{ fontSize: "11px", fontWeight: "500" }}
                       angle={-45}
                       textAnchor="end"
-                      height={100}
+                      height={120}
                     />
-                    <YAxis stroke="#6b7280" />
-                    <Tooltip />
-                    <Legend />
+                    <YAxis stroke="#8b7355" />
+                    <Tooltip contentStyle={{ backgroundColor: "#fff", border: "2px solid #D4A574", borderRadius: "8px" }} />
                     <Bar
                       dataKey="count"
-                      fill="#3B82F6"
-                      name="Quantidade de Funcionários"
-                      radius={[8, 8, 0, 0]}
+                      fill="#D4A574"
+                      name="Número de Funcionários"
+                      radius={[12, 12, 0, 0]}
                     />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
 
-              {/* Tabela Interativa de RH */}
+              {/* HR Table - Detailed */}
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200">
-                      <th className="px-6 py-3 text-left font-semibold text-gray-900">
-                        Departamento
-                      </th>
-                      <th className="px-6 py-3 text-center font-semibold text-gray-900">
-                        Quantidade
-                      </th>
-                      <th className="px-6 py-3 text-right font-semibold text-gray-900">
-                        Salário Unit.
-                      </th>
-                      <th className="px-6 py-3 text-right font-semibold text-gray-900">
-                        Total Mensal
-                      </th>
-                      <th className="px-6 py-3 text-right font-semibold text-gray-900">
-                        Total Anual
-                      </th>
+                    <tr className="bg-slate-100 border-b-2 border-blue-300">
+                      <th className="px-6 py-4 text-left text-sm font-bold text-slate-900 uppercase tracking-wide">Departamento</th>
+                      <th className="px-6 py-4 text-center text-sm font-bold text-slate-900 uppercase tracking-wide">Qtd.</th>
+                      <th className="px-6 py-4 text-right text-sm font-bold text-slate-900 uppercase tracking-wide">Salário Unit.</th>
+                      <th className="px-6 py-4 text-right text-sm font-bold text-slate-900 uppercase tracking-wide">Total Mensal</th>
+                      <th className="px-6 py-4 text-right text-sm font-bold text-slate-900 uppercase tracking-wide">Total Anual</th>
                     </tr>
                   </thead>
                   <tbody>
                     {hrData.map((dept, idx) => (
                       <tr
                         key={idx}
-                        className="border-b border-gray-200 hover:bg-blue-50 transition-colors"
+                        className="border-b border-blue-100 hover:bg-blue-50 transition"
                       >
-                        <td className="px-6 py-4 font-medium text-gray-700">
-                          {dept.department}
-                        </td>
-                        <td className="px-6 py-4 text-center font-bold text-gray-900">
-                          {dept.count}
-                        </td>
-                        <td className="px-6 py-4 text-right text-gray-900">
-                          {formatCurrency(dept.salary)}
-                        </td>
-                        <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                          {formatCurrency(dept.total)}
-                        </td>
-                        <td className="px-6 py-4 text-right text-gray-900 font-bold">
-                          {formatCurrency(dept.total * 12)}
-                        </td>
+                        <td className="px-6 py-4 font-semibold text-slate-900">{dept.department}</td>
+                        <td className="px-6 py-4 text-center font-bold text-slate-900">{dept.count}</td>
+                        <td className="px-6 py-4 text-right text-slate-700">{formatCurrency(dept.salary)}</td>
+                        <td className="px-6 py-4 text-right font-bold text-slate-900">{formatCurrency(dept.total)}</td>
+                        <td className="px-6 py-4 text-right font-bold text-blue-600">{formatCurrency(dept.total * 12)}</td>
                       </tr>
                     ))}
-                    <tr className="bg-blue-50 border-t-2 border-blue-200">
-                      <td className="px-6 py-4 font-bold text-blue-900">
-                        TOTAL DE FUNCIONÁRIOS
-                      </td>
-                      <td className="px-6 py-4 text-center font-bold text-blue-900 text-lg">
-                        {hrData.reduce((sum, d) => sum + d.count, 0)}
-                      </td>
+                    <tr className="bg-blue-100 border-t-2 border-blue-300">
+                      <td className="px-6 py-4 font-bold text-blue-900">TOTAL</td>
+                      <td className="px-6 py-4 text-center font-bold text-blue-900 text-lg">{hrData.reduce((sum, d) => sum + d.count, 0)}</td>
                       <td className="px-6 py-4"></td>
-                      <td className="px-6 py-4 text-right font-bold text-blue-900 text-lg">
-                        {formatCurrency(hrData.reduce((sum, d) => sum + d.total, 0))}
-                      </td>
-                      <td className="px-6 py-4 text-right font-bold text-blue-900 text-lg">
-                        {formatCurrency(
-                          hrData.reduce((sum, d) => sum + d.total, 0) * 12
-                        )}
-                      </td>
+                      <td className="px-6 py-4 text-right font-bold text-blue-900 text-lg">{formatCurrency(hrData.reduce((sum, d) => sum + d.total, 0))}</td>
+                      <td className="px-6 py-4 text-right font-bold text-blue-900 text-lg">{formatCurrency(hrData.reduce((sum, d) => sum + d.total, 0) * 12)}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -813,14 +716,17 @@ export default function Dashboard() {
 
         {/* TAB: VIABILITY */}
         {activeTab === "viability" && (
-          <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Análise de Viabilidade Econômica
-              </h2>
+          <div className="space-y-10">
+            <div className="bg-gradient-to-br from-emerald-50 to-white rounded-lg shadow-lg p-8 border border-emerald-100">
+              <div className="flex items-center gap-3 mb-6">
+                <BarChart3 className="w-6 h-6 text-emerald-600" />
+                <h2 className="text-2xl font-bold text-slate-900 font-serif">
+                  Análise de Viabilidade Econômica
+                </h2>
+              </div>
 
               {/* Viability KPIs */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 <KPICard
                   title="Lucro Mensal"
                   value={
@@ -828,8 +734,10 @@ export default function Dashboard() {
                     (469_000 + 4_320_000 + 1_000_000 + 500_000)
                   }
                   subtitle="Após custos operacionais"
-                  bgColor="bg-gradient-to-br from-green-50 to-green-100"
-                  iconColor="text-green-600"
+                  icon={TrendingUp}
+                  bgColor="bg-white"
+                  iconColor="text-emerald-600"
+                  accentColor="border-l-emerald-500"
                 />
                 <KPICard
                   title="Lucro Anual"
@@ -839,22 +747,28 @@ export default function Dashboard() {
                     12
                   }
                   subtitle="Projeção 12 meses"
-                  bgColor="bg-gradient-to-br from-green-50 to-green-100"
-                  iconColor="text-green-600"
+                  icon={Activity}
+                  bgColor="bg-white"
+                  iconColor="text-emerald-600"
+                  accentColor="border-l-emerald-500"
                 />
                 <KPICard
                   title="Taxa de Lucratividade"
                   value="71.6%"
                   subtitle="Margem operacional"
-                  bgColor="bg-gradient-to-br from-emerald-50 to-emerald-100"
-                  iconColor="text-emerald-600"
+                  icon={BarChart3}
+                  bgColor="bg-white"
+                  iconColor="text-amber-600"
+                  accentColor="border-l-amber-500"
                 />
                 <KPICard
                   title="Payback"
                   value="~13 meses"
                   subtitle="Retorno do investimento"
-                  bgColor="bg-gradient-to-br from-purple-50 to-purple-100"
-                  iconColor="text-purple-600"
+                  icon={Home}
+                  bgColor="bg-white"
+                  iconColor="text-amber-600"
+                  accentColor="border-l-amber-500"
                 />
               </div>
 
@@ -1324,16 +1238,39 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Footer */}
-      <div className="bg-gray-900 text-gray-400 py-8 mt-16">
-        <div className="max-w-7xl mx-auto px-6 text-center text-sm">
-          <p>
-            © 2024 GIARDINO - Modelo de Investimento Residencial Senior + Clube
-            Life Style
-          </p>
-          <p className="mt-2 text-gray-500">
-            Localização: Mogi das Cruzes, São Paulo
-          </p>
+      {/* Premium Footer */}
+      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-slate-300 py-12 mt-20 border-t-2 border-amber-400">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
+            {/* Branding */}
+            <div>
+              <h3 className="text-xl font-bold text-amber-400 font-serif mb-2">GIARDINO</h3>
+              <p className="text-sm text-slate-400">Residencial Senior + Clube Lifestyle</p>
+            </div>
+
+            {/* Location */}
+            <div>
+              <h4 className="text-sm font-bold text-amber-400 uppercase tracking-wider mb-2">Localização</h4>
+              <p className="text-sm text-slate-400">Mogi das Cruzes, São Paulo</p>
+              <p className="text-xs text-slate-500 mt-1">Área total: 258.900 m²</p>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4 className="text-sm font-bold text-amber-400 uppercase tracking-wider mb-2">Projeto</h4>
+              <p className="text-sm text-slate-400">Modelo de Investimento Premium</p>
+              <p className="text-xs text-slate-500 mt-1">Versão 2024</p>
+            </div>
+          </div>
+
+          <div className="border-t border-slate-700 pt-8">
+            <p className="text-center text-sm text-slate-400">
+              © 2024 GIARDINO - Projeto de Investimento Residencial Senior + Clube Life Style
+            </p>
+            <p className="text-center text-xs text-slate-500 mt-2">
+              Documento de investimento confidencial | Mogi das Cruzes, São Paulo
+            </p>
+          </div>
         </div>
       </div>
     </div>

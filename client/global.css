@@ -1,6 +1,6 @@
 /** @import must precede all other statements */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -13,7 +13,7 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
-    --background: 0 0% 100%;
+    --background: 40 100% 97%;
     --foreground: 215 28% 17%;
 
     --card: 0 0% 100%;
@@ -22,26 +22,26 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 28% 17%;
 
-    --primary: 217 89% 61%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 43 100% 52%;
+    --primary-foreground: 40 20% 15%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 215 28% 17%;
+    --secondary: 216 28% 28%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 13% 91%;
-    --muted-foreground: 215 15% 52%;
+    --muted: 40 20% 85%;
+    --muted-foreground: 215 15% 45%;
 
-    --accent: 217 89% 61%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 43 100% 52%;
+    --accent-foreground: 40 20% 15%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 217 89% 61%;
+    --border: 40 20% 88%;
+    --input: 40 20% 95%;
+    --ring: 43 100% 52%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -106,8 +106,8 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
-    letter-spacing: -0.3px;
+    font-family: "Montserrat", system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.2px;
   }
 
   h1,
@@ -116,22 +116,24 @@
   h4,
   h5,
   h6 {
-    font-family: "Poppins", "Inter", system-ui, -apple-system, sans-serif;
+    font-family: "Playfair Display", serif;
     font-weight: 700;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.8px;
   }
 
   h1 {
-    @apply text-4xl font-bold;
-    letter-spacing: -1px;
+    @apply text-5xl font-bold;
+    letter-spacing: -1.2px;
   }
 
   h2 {
-    @apply text-2xl font-bold;
+    @apply text-3xl font-bold;
+    letter-spacing: -0.9px;
   }
 
   h3 {
-    @apply text-lg font-semibold;
+    @apply text-xl font-semibold;
+    letter-spacing: -0.5px;
   }
 
   :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {

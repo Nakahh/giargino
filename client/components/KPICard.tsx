@@ -12,6 +12,7 @@ interface KPICardProps {
   };
   bgColor?: string;
   iconColor?: string;
+  accentColor?: string;
 }
 
 export function KPICard({
@@ -20,31 +21,38 @@ export function KPICard({
   subtitle,
   icon: Icon,
   trend,
-  bgColor = "bg-gradient-to-br from-blue-50 to-blue-100",
-  iconColor = "text-blue-600",
+  bgColor = "bg-white",
+  iconColor = "text-amber-600",
+  accentColor = "border-amber-400",
 }: KPICardProps) {
   return (
     <div
       className={cn(
-        "rounded-xl p-6 shadow-md border border-gray-200 transition-all hover:shadow-lg",
-        bgColor
+        "rounded-lg p-8 shadow-lg border-l-4 transition-all duration-300 hover:shadow-2xl hover:scale-105 transform",
+        bgColor,
+        accentColor
       )}
     >
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <p className="text-sm font-medium text-gray-600 mb-2">{title}</p>
-          <h3 className="text-3xl font-bold text-gray-900 mb-1">
-            {typeof value === "number" ? formatCurrency(value) : value}
-          </h3>
-          {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
-          {trend && (
-            <div className={cn("text-xs font-semibold mt-2", trend.isPositive ? "text-green-600" : "text-red-600")}>
-              {trend.isPositive ? "↑" : "↓"} {Math.abs(trend.value)}%
-            </div>
-          )}
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">{title}</p>
         </div>
-        {Icon && <Icon className={cn("w-10 h-10", iconColor)} strokeWidth={1.5} />}
+        {Icon && <Icon className={cn("w-8 h-8 opacity-70", iconColor)} strokeWidth={1.5} />}
       </div>
+
+      <div className="space-y-2">
+        <h3 className="text-4xl font-bold text-slate-900 font-serif">
+          {typeof value === "number" ? formatCurrency(value) : value}
+        </h3>
+        {subtitle && <p className="text-sm text-slate-600 font-medium">{subtitle}</p>}
+      </div>
+
+      {trend && (
+        <div className={cn("text-sm font-bold mt-4 pt-4 border-t border-slate-100 flex items-center gap-2", trend.isPositive ? "text-emerald-600" : "text-red-600")}>
+          <span className="text-lg">{trend.isPositive ? "↑" : "↓"}</span>
+          <span>{Math.abs(trend.value)}% vs mês anterior</span>
+        </div>
+      )}
     </div>
   );
 }
