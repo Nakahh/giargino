@@ -37,6 +37,15 @@ export function FullPDFExport() {
 
       // Função para capturar elemento e adicionar páginas ao PDF
       const captureElement = async (element: HTMLElement, pageBreakBefore = false) => {
+        // Cria container temporário para o elemento clonado
+        const tempContainer = document.createElement("div");
+        tempContainer.style.position = "absolute";
+        tempContainer.style.left = "-9999px";
+        tempContainer.style.top = "-9999px";
+        tempContainer.style.visibility = "visible";
+        tempContainer.appendChild(element);
+        document.body.appendChild(tempContainer);
+
         try {
           // Garante display do elemento
           element.style.display = "block";
@@ -96,6 +105,9 @@ export function FullPDFExport() {
         } catch (error) {
           console.error("Erro ao capturar elemento:", error);
           return false;
+        } finally {
+          // Remove o container temporário
+          document.body.removeChild(tempContainer);
         }
       };
 
