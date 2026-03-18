@@ -43,6 +43,7 @@ export function FullPDFExport() {
         tempContainer.style.left = "-9999px";
         tempContainer.style.top = "-9999px";
         tempContainer.style.visibility = "visible";
+        tempContainer.style.width = "1200px";
         tempContainer.appendChild(element);
         document.body.appendChild(tempContainer);
 
@@ -50,57 +51,72 @@ export function FullPDFExport() {
           // Garante display do elemento
           element.style.display = "block";
           element.style.visibility = "visible";
+          element.style.width = "100%";
+          element.style.overflow = "visible";
 
           const canvas = await html2canvas(element, {
-            scale: 1.5,
+            scale: 2,
             logging: false,
             useCORS: true,
             allowTaint: true,
             backgroundColor: "#ffffff",
             imageTimeout: 5000,
             windowHeight: element.scrollHeight,
-            windowWidth: element.offsetWidth,
+            windowWidth: 1200,
           });
 
-          const imgData = canvas.toDataURL("image/png", 0.95);
+          // Calcula dimensões
           const imgWidth = contentWidth;
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          const canvasAspectRatio = canvas.width / canvas.height;
+          const imgHeight = imgWidth / canvasAspectRatio;
 
-          // Adiciona página break se necessário
-          if (pageBreakBefore && !isFirstImage) {
+          // Páginas necessárias para este elemento
+          const pageHeightAvailable = A4_HEIGHT;
+          const totalPagesNeeded = Math.ceil(imgHeight / pageHeightAvailable);
+
+          // Adiciona página break se necessário ANTES de adicionar o elemento
+          if (pageBreakBefore && currentPageCount > 0) {
             pdf.addPage();
+          }
+
+          // Processa cada página
+          for (let pageIdx = 0; pageIdx < totalPagesNeeded; pageIdx++) {
+            // Adiciona nova página (exceto para a primeira)
+            if (pageIdx > 0) {
+              pdf.addPage();
+            }
             currentPageCount++;
-          }
 
-          let heightLeft = imgHeight;
-          let yPosition = margin;
+            // Calcula a altura da imagem a desenhar nesta página
+            const remainingHeight = imgHeight - (pageIdx * pageHeightAvailable);
+            const heightToDraw = Math.min(pageHeightAvailable, remainingHeight);
 
-          // Adiciona a imagem em múltiplas páginas se necessário
-          while (heightLeft > 0) {
-            if (!isFirstImage && yPosition === margin) {
-              pdf.addPage();
-              currentPageCount++;
+            // Calcula a correspondência em pixels do canvas
+            const pixelsPerMm = (canvas.height / imgHeight);
+            const sourceHeightPixels = heightToDraw * pixelsPerMm;
+            const sourceY = pageIdx * pageHeightAvailable * pixelsPerMm;
+
+            // Cria canvas de crop para evitar stretching
+            const cropCanvas = document.createElement("canvas");
+            cropCanvas.width = canvas.width;
+            cropCanvas.height = Math.ceil(sourceHeightPixels);
+
+            const ctx = cropCanvas.getContext("2d");
+            if (ctx) {
+              ctx.drawImage(
+                canvas,
+                0, Math.round(sourceY),
+                canvas.width, Math.ceil(sourceHeightPixels),
+                0, 0,
+                canvas.width, Math.ceil(sourceHeightPixels)
+              );
             }
 
-            const pageHeightAvailable = A4_HEIGHT;
-            const heightToDraw = Math.min(heightLeft, pageHeightAvailable);
-
-            pdf.addImage(imgData, "PNG", margin, yPosition, imgWidth, imgHeight);
-
-            heightLeft -= pageHeightAvailable;
-            yPosition = margin;
-            isFirstImage = false;
-
-            if (heightLeft > 0) {
-              pdf.addPage();
-              currentPageCount++;
-            }
+            const croppedData = cropCanvas.toDataURL("image/png", 0.95);
+            pdf.addImage(croppedData, "PNG", margin, margin, imgWidth, heightToDraw);
           }
 
-          if (!isFirstImage) {
-            isFirstImage = false;
-          }
-
+          isFirstImage = false;
           return true;
         } catch (error) {
           console.error("Erro ao capturar elemento:", error);
@@ -167,8 +183,9 @@ export function FullPDFExport() {
         // Clica na aba
         tabBtn.click();
 
-        // Aguarda renderização completa
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        // Aguarda renderização completa (mais tempo para galeria carregar)
+        const waitTime = tabLabel.includes("Viabilidade") ? 4000 : 2500;
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
 
         try {
           // Encontra o conteúdo
@@ -200,6 +217,25 @@ export function FullPDFExport() {
             (m as HTMLElement).style.display = "none";
           });
 
+          // Garante que o conteúdo está visível e tem altura
+          contentClone.style.display = "block";
+          contentClone.style.visibility = "visible";
+          contentClone.style.height = "auto";
+          contentClone.style.minHeight = "auto";
+
+          // Para a aba de Viabilidade, garante que a galeria está expandida
+          if (tabLabel.includes("Viabilidade")) {
+            const galleryContainer = contentClone.querySelector('[class*="gallery"]') as HTMLElement;
+            if (galleryContainer) {
+              // Garante que todas as imagens da galeria são visíveis
+              const images = galleryContainer.querySelectorAll("img");
+              images.forEach((img) => {
+                (img as HTMLElement).style.display = "block";
+                (img as HTMLElement).style.visibility = "visible";
+              });
+            }
+          }
+
           // Captura com page break (exceto para a primeira)
           await captureElement(contentClone, idx > 0);
 
@@ -213,13 +249,25 @@ export function FullPDFExport() {
 
       // ========== 3. CAPTURAR FOOTER ==========
       console.log("Capturando footer...");
-      const footerElement = mainContainer.querySelector(
-        'div[style*="py-12"][style*="mt-20"]'
-      ) as HTMLElement;
+
+      // Tenta encontrar o footer de várias formas
+      let footerElement = mainContainer.querySelector("footer") as HTMLElement;
+
+      if (!footerElement) {
+        // Tenta por classe footer
+        footerElement = mainContainer.querySelector('[class*="footer"]') as HTMLElement;
+      }
 
       if (footerElement) {
+        console.log("Footer encontrado, capturando...");
         const footerClone = footerElement.cloneNode(true) as HTMLElement;
+        footerClone.style.display = "block";
+        footerClone.style.visibility = "visible";
+        footerClone.style.width = "100%";
         await captureElement(footerClone, true);
+        console.log("✓ Footer capturado com sucesso");
+      } else {
+        console.warn("Footer não encontrado no dashboard");
       }
 
       // ========== 4. RESTAURAR ELEMENTOS OCULTOS ==========
@@ -235,7 +283,10 @@ export function FullPDFExport() {
       }
 
       // ========== 6. SALVAR PDF ==========
-      console.log(`Salvando PDF com ${currentPageCount} páginas...`);
+      // Remove páginas em branco no final
+      const totalPages = pdf.getNumberOfPages();
+      console.log(`PDF com ${totalPages} páginas (antes de limpeza)`);
+
       pdf.save("GIARDINO-Projeto-Completo-Premium.pdf");
 
       alert(
