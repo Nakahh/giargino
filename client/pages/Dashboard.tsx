@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -68,6 +69,24 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<
     "overview" | "revenue" | "costs" | "hr" | "viability" | "project"
   >("overview");
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const activeTabButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Auto-scroll para a aba ativa no mobile
+  useEffect(() => {
+    if (activeTabButtonRef.current && tabsContainerRef.current) {
+      const container = tabsContainerRef.current;
+      const button = activeTabButtonRef.current;
+
+      setTimeout(() => {
+        button.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      }, 0);
+    }
+  }, [activeTab]);
 
   // Dados de receitas mensais
   const revenueData = [
@@ -280,9 +299,9 @@ export default function Dashboard() {
       </div>
 
       {/* Navigation Tabs Premium - Mobile Optimized */}
-      <div className="bg-white border-b-2 sticky top-0 z-10 shadow-sm overflow-x-auto" style={{ borderColor: `${GIARDINO_COLORS.accent}40` }}>
-        <div className="max-w-7xl mx-auto px-2 md:px-6">
-          <div className="flex gap-0.5 md:gap-1 overflow-x-auto scrollbar-hide">
+      <div className="bg-white border-b-2 sticky top-0 z-10 shadow-md overflow-x-auto" style={{ borderColor: `${GIARDINO_COLORS.accent}40` }}>
+        <div className="max-w-7xl mx-auto px-1 sm:px-2 md:px-6">
+          <div ref={tabsContainerRef} className="flex gap-1 md:gap-2 overflow-x-auto scrollbar-hide py-1 md:py-0">
             {[
               { id: "overview", label: "📊 Geral" },
               { id: "revenue", label: "💰 Receitas" },
@@ -293,6 +312,7 @@ export default function Dashboard() {
             ].map((tab) => (
               <button
                 key={tab.id}
+                ref={activeTab === tab.id ? activeTabButtonRef : null}
                 onClick={() =>
                   setActiveTab(
                     tab.id as
@@ -304,10 +324,10 @@ export default function Dashboard() {
                       | "project"
                   )
                 }
-                className={`px-2 md:px-6 py-3 md:py-4 text-xs md:text-base font-semibold border-b-3 transition-all whitespace-nowrap ${
+                className={`px-2.5 sm:px-4 md:px-6 py-2 md:py-4 text-xs sm:text-sm md:text-base font-semibold border-b-2 transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
                   activeTab === tab.id
-                    ? "text-white border-b-4"
-                    : "text-gray-600 border-transparent hover:text-gray-900"
+                    ? "text-white border-b-3"
+                    : "text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300"
                 }`}
                 style={
                   activeTab === tab.id
@@ -330,7 +350,7 @@ export default function Dashboard() {
       <div id="dashboard-content" className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10">
         {/* TAB: OVERVIEW */}
         {activeTab === "overview" && (
-          <div className="space-y-8">
+          <div className="space-y-8 fade-in slide-in-up">
             {/* KPI Cards Luxury Premium - Mobile Optimized */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {/* Card 1: Receita Mensal */}
@@ -601,7 +621,7 @@ export default function Dashboard() {
 
         {/* TAB: REVENUE */}
         {activeTab === "revenue" && (
-          <div className="space-y-8">
+          <div className="space-y-8 fade-in slide-in-up">
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
               <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.primary}30` }}></div>
@@ -727,7 +747,7 @@ export default function Dashboard() {
 
         {/* TAB: COSTS */}
         {activeTab === "costs" && (
-          <div className="space-y-8">
+          <div className="space-y-8 fade-in slide-in-up">
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
               <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.gold}30` }}></div>
@@ -848,7 +868,7 @@ export default function Dashboard() {
 
         {/* TAB: HR */}
         {activeTab === "hr" && (
-          <div className="space-y-8">
+          <div className="space-y-8 fade-in slide-in-up">
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
               <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.secondary}30` }}></div>
@@ -946,7 +966,7 @@ export default function Dashboard() {
 
         {/* TAB: VIABILITY */}
         {activeTab === "viability" && (
-          <div className="space-y-8">
+          <div className="space-y-8 fade-in slide-in-up">
             <div
               className="rounded-xl shadow-lg p-6 md:p-8 border-l-8"
               style={{
@@ -1202,7 +1222,7 @@ export default function Dashboard() {
 
         {/* TAB: PROJECT */}
         {activeTab === "project" && (
-          <div className="space-y-8">
+          <div className="space-y-8 fade-in slide-in-up">
             <div
               className="rounded-xl shadow-lg p-6 md:p-8 border-l-8"
               style={{
