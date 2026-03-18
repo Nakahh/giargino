@@ -29,10 +29,14 @@ export function GenerateCompletePDF({
       // Clona o elemento para não alterar o original
       const clonedElement = element.cloneNode(true) as HTMLElement;
 
+      // Armazena estilos originais para restauração posterior
+      const originalDisplay = new Map<HTMLElement, string>();
+
       // Torna todos os elementos visíveis no clone
       const allElements = clonedElement.querySelectorAll("*");
       allElements.forEach((el) => {
         const htmlEl = el as HTMLElement;
+        originalDisplay.set(htmlEl, htmlEl.style.display || "");
         // Remove qualquer display: none
         htmlEl.style.display = "block";
         htmlEl.style.visibility = "visible";
