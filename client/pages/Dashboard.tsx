@@ -17,6 +17,8 @@ import {
   Area,
 } from "recharts";
 import { KPICard } from "@/components/KPICard";
+import { PDFExport } from "@/components/PDFExport";
+import { DownloadReportButton } from "@/components/DownloadReportButton";
 import { giardino } from "@shared/giardino-data";
 import {
   TrendingUp,
@@ -26,17 +28,30 @@ import {
   Home,
   ShoppingCart,
   Zap,
+  Flower,
+  Leaf,
+  Crown,
 } from "lucide-react";
 
-const COLORS = [
-  "#3B82F6", // blue
-  "#10B981", // emerald
-  "#F59E0B", // amber
-  "#EF4444", // red
-  "#8B5CF6", // violet
-  "#EC4899", // pink
-  "#06B6D4", // cyan
-  "#6366F1", // indigo
+// Paleta de cores GIARDINO - Luxury Premium
+const GIARDINO_COLORS = {
+  primary: "#0F3460",      // Azul Marinho Profundo
+  accent: "#FCD34D",       // Amarelo Dourado
+  secondary: "#065f46",    // Verde Luxuoso
+  gold: "#D4AF37",         // Ouro Champanhe
+  text: "#1F2937",         // Cinza Escuro
+  light: "#F9FAFB",        // Branco Puro
+};
+
+const CHART_COLORS = [
+  "#0F3460", // Azul marinho
+  "#065f46", // Verde
+  "#D4AF37", // Dourado
+  "#E5A712", // Âmbar
+  "#8B5CF6", // Roxo
+  "#EC4899", // Rosa
+  "#06B6D4", // Ciano
+  "#6366F1", // Índigo
 ];
 
 function formatCurrency(value: number): string {
@@ -58,22 +73,22 @@ export default function Dashboard() {
     {
       name: "Residencial Senior",
       value: giardino.monthlyRevenue.residentialSenior.monthlyTotal,
-      fill: COLORS[0],
+      fill: CHART_COLORS[0],
     },
     {
       name: "Hospedagem",
       value: giardino.monthlyRevenue.hospitality.monthlyTotal,
-      fill: COLORS[1],
+      fill: CHART_COLORS[1],
     },
     {
       name: "Clube Life Style",
       value: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal,
-      fill: COLORS[2],
+      fill: CHART_COLORS[2],
     },
     {
       name: "Bares/Restaurantes",
       value: giardino.monthlyRevenue.barsRestaurantShops.monthlyTotal,
-      fill: COLORS[3],
+      fill: CHART_COLORS[3],
     },
   ];
 
@@ -91,7 +106,7 @@ export default function Dashboard() {
         giardino.hrCosts.security.monthlyTotal +
         giardino.hrCosts.healthcare.monthlyTotal +
         giardino.hrCosts.administrative.monthlyTotal,
-      fill: COLORS[4],
+      fill: CHART_COLORS[4],
     },
     {
       name: "Custos Operacionais",
@@ -101,17 +116,17 @@ export default function Dashboard() {
         giardino.residentialCosts.medicalCare.monthlyTotal +
         giardino.residentialCosts.therapies.monthlyTotal +
         giardino.residentialCosts.personalCare.monthlyTotal,
-      fill: COLORS[5],
+      fill: CHART_COLORS[1],
     },
     {
       name: "Financiamento",
       value: giardino.financing.monthlyPayment,
-      fill: COLORS[6],
+      fill: CHART_COLORS[5],
     },
     {
-      name: "Juros",
-      value: 500_000, // aprox
-      fill: COLORS[7],
+      name: "Juros do Financiamento",
+      value: 500_000,
+      fill: CHART_COLORS[3],
     },
   ];
 
@@ -202,31 +217,71 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-8 px-6 shadow-lg">
+    <div className="min-h-screen" style={{ backgroundColor: GIARDINO_COLORS.light }}>
+      {/* Header Premium com Logo */}
+      <div
+        className="py-12 px-6 shadow-xl"
+        style={{ background: `linear-gradient(135deg, ${GIARDINO_COLORS.primary} 0%, ${GIARDINO_COLORS.secondary} 100%)` }}
+      >
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-2">GIARDINO</h1>
-          <p className="text-blue-100 text-lg">
-            Modelo de Investimento - Residencial Senior + Clube Life Style
-          </p>
-          <p className="text-blue-200 text-sm mt-2">
-            Localização: Mogi das Cruzes, São Paulo
-          </p>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-6">
+              {/* Logo placeholder - Em produção, substitua pela imagem real */}
+              <div
+                className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg"
+                style={{ backgroundColor: GIARDINO_COLORS.accent }}
+              >
+                <Crown className="w-8 h-8" style={{ color: GIARDINO_COLORS.primary }} />
+              </div>
+              <div>
+                <h1 className="text-5xl font-bold mb-0" style={{ color: GIARDINO_COLORS.accent }}>
+                  GIARDINO
+                </h1>
+                <p className="text-sm font-semibold mt-1" style={{ color: GIARDINO_COLORS.light }}>
+                  RESIDENCIAL SÊNIOR
+                </p>
+              </div>
+            </div>
+
+            {/* Botões de Exportação */}
+            <div className="flex gap-3">
+              <DownloadReportButton />
+              <PDFExport
+                elementId="dashboard-content"
+                filename="GIARDINO-Dashboard-Completo.pdf"
+                buttonLabel="📊 Dashboard PDF"
+              />
+            </div>
+          </div>
+
+          <div className="border-t pt-6" style={{ borderColor: `${GIARDINO_COLORS.accent}40` }}>
+            <h2 className="text-2xl font-light mb-2" style={{ color: GIARDINO_COLORS.light }}>
+              Modelo de Investimento Premium
+            </h2>
+            <p className="text-base mb-3" style={{ color: `${GIARDINO_COLORS.light}dd` }}>
+              Residencial Senior + Clube Life Style + Loteamento + Centro Comercial
+            </p>
+            <div className="flex items-center gap-2">
+              <Leaf className="w-4 h-4" style={{ color: GIARDINO_COLORS.accent }} />
+              <p className="text-sm font-semibold" style={{ color: `${GIARDINO_COLORS.light}ee` }}>
+                Localização: Mogi das Cruzes, São Paulo — Área: 258.900 m²
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      {/* Navigation Tabs Premium */}
+      <div className="bg-white border-b-2 sticky top-0 z-10 shadow-sm" style={{ borderColor: `${GIARDINO_COLORS.accent}40` }}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex gap-8 overflow-x-auto">
+          <div className="flex gap-1 overflow-x-auto">
             {[
-              { id: "overview", label: "Visão Geral" },
-              { id: "revenue", label: "Receitas" },
-              { id: "costs", label: "Custos" },
-              { id: "hr", label: "Recursos Humanos" },
-              { id: "viability", label: "Viabilidade" },
-              { id: "project", label: "Sobre o Projeto" },
+              { id: "overview", label: "📊 Visão Geral" },
+              { id: "revenue", label: "💰 Receitas" },
+              { id: "costs", label: "📉 Custos" },
+              { id: "hr", label: "👥 RH" },
+              { id: "viability", label: "✓ Viabilidade" },
+              { id: "project", label: "🏢 Sobre" },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -238,13 +293,23 @@ export default function Dashboard() {
                       | "costs"
                       | "hr"
                       | "viability"
+                      | "project"
                   )
                 }
-                className={`px-4 py-4 font-semibold border-b-2 transition-all ${
+                className={`px-6 py-4 font-semibold border-b-3 transition-all whitespace-nowrap ${
                   activeTab === tab.id
-                    ? "border-blue-600 text-blue-600"
-                    : "border-transparent text-gray-600 hover:text-gray-900"
+                    ? "text-white border-b-4"
+                    : "text-gray-600 border-transparent hover:text-gray-900"
                 }`}
+                style={
+                  activeTab === tab.id
+                    ? {
+                        backgroundColor: GIARDINO_COLORS.primary,
+                        borderColor: GIARDINO_COLORS.accent,
+                        color: GIARDINO_COLORS.light,
+                      }
+                    : {}
+                }
               >
                 {tab.label}
               </button>
@@ -254,56 +319,116 @@ export default function Dashboard() {
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-6 py-10">
+      <div id="dashboard-content" className="max-w-7xl mx-auto px-6 py-10">
         {/* TAB: OVERVIEW */}
         {activeTab === "overview" && (
           <div className="space-y-8">
-            {/* KPI Cards */}
+            {/* KPI Cards Luxury Premium */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <KPICard
-                title="Receita Mensal Bruta"
-                value={giardino.totalMonthlyRevenue}
-                subtitle="Faturamento total"
-                icon={DollarSign}
-                bgColor="bg-gradient-to-br from-green-50 to-green-100"
-                iconColor="text-green-600"
-              />
-              <KPICard
-                title="Total de Vendas Iniciais"
-                value={giardino.totalSales}
-                subtitle="Capital captado"
-                icon={ShoppingCart}
-                bgColor="bg-gradient-to-br from-blue-50 to-blue-100"
-                iconColor="text-blue-600"
-              />
-              <KPICard
-                title="Custos Mensais"
-                value={469_000 + 4_320_000}
-                subtitle="RH + Operacional"
-                icon={Zap}
-                bgColor="bg-gradient-to-br from-orange-50 to-orange-100"
-                iconColor="text-orange-600"
-              />
-              <KPICard
-                title="Lucro Líquido Estimado"
-                value={
-                  giardino.totalMonthlyRevenue -
-                  (469_000 + 4_320_000 + 1_000_000 + 500_000)
-                }
-                subtitle="Mensal (aprox)"
-                icon={TrendingUp}
-                bgColor="bg-gradient-to-br from-purple-50 to-purple-100"
-                iconColor="text-purple-600"
-                trend={{ value: 12, isPositive: true }}
-              />
+              {/* Card 1: Receita Mensal */}
+              <div
+                className="rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                style={{
+                  backgroundColor: GIARDINO_COLORS.light,
+                  borderLeftColor: GIARDINO_COLORS.primary
+                }}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold mb-1" style={{ color: GIARDINO_COLORS.secondary }}>
+                      RECEITA MENSAL BRUTA
+                    </p>
+                    <h3 className="text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary }}>
+                      {formatCurrency(giardino.totalMonthlyRevenue)}
+                    </h3>
+                    <p className="text-xs text-gray-500">Faturamento total mês</p>
+                  </div>
+                  <DollarSign className="w-8 h-8" style={{ color: GIARDINO_COLORS.primary }} />
+                </div>
+              </div>
+
+              {/* Card 2: Total de Vendas */}
+              <div
+                className="rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                style={{
+                  backgroundColor: GIARDINO_COLORS.light,
+                  borderLeftColor: GIARDINO_COLORS.secondary
+                }}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold mb-1" style={{ color: GIARDINO_COLORS.primary }}>
+                      TOTAL DE VENDAS INICIAIS
+                    </p>
+                    <h3 className="text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary }}>
+                      {formatCurrency(giardino.totalSales)}
+                    </h3>
+                    <p className="text-xs text-gray-500">Capital inicial captado</p>
+                  </div>
+                  <ShoppingCart className="w-8 h-8" style={{ color: GIARDINO_COLORS.secondary }} />
+                </div>
+              </div>
+
+              {/* Card 3: Custos Mensais */}
+              <div
+                className="rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                style={{
+                  backgroundColor: GIARDINO_COLORS.light,
+                  borderLeftColor: GIARDINO_COLORS.gold
+                }}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold mb-1 text-gray-600">
+                      CUSTOS MENSAIS
+                    </p>
+                    <h3 className="text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold }}>
+                      {formatCurrency(469_000 + 4_320_000)}
+                    </h3>
+                    <p className="text-xs text-gray-500">RH + Operacional</p>
+                  </div>
+                  <Zap className="w-8 h-8" style={{ color: GIARDINO_COLORS.gold }} />
+                </div>
+              </div>
+
+              {/* Card 4: Lucro Líquido */}
+              <div
+                className="rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border-l-4"
+                style={{
+                  backgroundColor: GIARDINO_COLORS.light,
+                  borderLeftColor: GIARDINO_COLORS.accent
+                }}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold mb-1 text-gray-600">
+                      LUCRO LÍQUIDO ESTIMADO
+                    </p>
+                    <h3 className="text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent }}>
+                      {formatCurrency(
+                        giardino.totalMonthlyRevenue -
+                        (469_000 + 4_320_000 + 1_000_000 + 500_000)
+                      )}
+                    </h3>
+                    <p className="text-xs text-gray-500">Mensal (aprox.)</p>
+                  </div>
+                  <TrendingUp className="w-8 h-8" style={{ color: GIARDINO_COLORS.accent }} />
+                </div>
+              </div>
             </div>
 
             {/* Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Distribuição de Receitas Mensais */}
-              <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
-                  Distribuição de Receitas Mensais
+              <div
+                className="rounded-xl shadow-lg p-8 border-t-4"
+                style={{
+                  backgroundColor: GIARDINO_COLORS.light,
+                  borderTopColor: GIARDINO_COLORS.primary
+                }}
+              >
+                <h2 className="text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.primary }}>
+                  📊 Distribuição de Receitas Mensais
                 </h2>
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
@@ -331,9 +456,15 @@ export default function Dashboard() {
               </div>
 
               {/* Distribuição de Vendas Iniciais */}
-              <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
-                  Capital Inicial por Segmento
+              <div
+                className="rounded-xl shadow-lg p-8 border-t-4"
+                style={{
+                  backgroundColor: GIARDINO_COLORS.light,
+                  borderTopColor: GIARDINO_COLORS.secondary
+                }}
+              >
+                <h2 className="text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.secondary }}>
+                  💼 Capital Inicial por Segmento
                 </h2>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={salesDistribution}>
@@ -354,9 +485,15 @@ export default function Dashboard() {
             </div>
 
             {/* Fluxo de Caixa Projetado */}
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
-                Fluxo de Caixa Projetado - 12 Meses
+            <div
+              className="rounded-xl shadow-lg p-8 border-t-4"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderTopColor: GIARDINO_COLORS.accent
+              }}
+            >
+              <h2 className="text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.accent }}>
+                📈 Fluxo de Caixa Projetado — 12 Meses
               </h2>
               <ResponsiveContainer width="100%" height={350}>
                 <AreaChart data={cashFlowData}>
@@ -408,15 +545,27 @@ export default function Dashboard() {
         {/* TAB: REVENUE */}
         {activeTab === "revenue" && (
           <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Análise Detalhada de Receitas
+            <div
+              className="rounded-xl shadow-lg p-8 border-l-8"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderLeftColor: GIARDINO_COLORS.primary
+              }}
+            >
+              <h2 className="text-3xl font-bold mb-8" style={{ color: GIARDINO_COLORS.primary }}>
+                💰 Análise Detalhada de Receitas Mensais
               </h2>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                    Receitas Mensais por Segmento
+                <div
+                  className="rounded-lg p-6 border-t-4"
+                  style={{
+                    backgroundColor: `${GIARDINO_COLORS.primary}08`,
+                    borderTopColor: GIARDINO_COLORS.primary
+                  }}
+                >
+                  <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.primary }}>
+                    📊 Receitas Mensais por Segmento
                   </h3>
                   <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={revenueData}>
@@ -439,27 +588,36 @@ export default function Dashboard() {
                   {revenueData.map((item, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200"
+                      className="flex items-center justify-between p-4 rounded-lg border-l-4"
+                      style={{
+                        backgroundColor: `${item.fill}10`,
+                        borderLeftColor: item.fill
+                      }}
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className="w-4 h-4 rounded"
+                          className="w-3 h-3 rounded-full"
                           style={{ backgroundColor: item.fill }}
                         ></div>
                         <span className="font-medium text-gray-700">
                           {item.name}
                         </span>
                       </div>
-                      <span className="font-bold text-gray-900">
+                      <span className="font-bold" style={{ color: item.fill }}>
                         {formatCurrency(item.value)}
                       </span>
                     </div>
                   ))}
-                  <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <span className="font-bold text-blue-900">
-                      Total Mensal
-                    </span>
-                    <span className="font-bold text-blue-900 text-lg">
+                  <div
+                    className="flex items-center justify-between p-4 rounded-lg border-l-4 font-bold"
+                    style={{
+                      backgroundColor: `${GIARDINO_COLORS.primary}15`,
+                      borderLeftColor: GIARDINO_COLORS.primary,
+                      color: GIARDINO_COLORS.primary
+                    }}
+                  >
+                    <span>💰 Total Mensal</span>
+                    <span className="text-lg">
                       {formatCurrency(giardino.totalMonthlyRevenue)}
                     </span>
                   </div>
@@ -467,23 +625,23 @@ export default function Dashboard() {
               </div>
 
               {/* Tabela Detalhada de Receitas */}
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto rounded-lg border-t-4" style={{ borderTopColor: GIARDINO_COLORS.primary }}>
                 <table className="w-full">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200">
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                    <tr className="border-b-2" style={{ backgroundColor: `${GIARDINO_COLORS.primary}15`, borderBottomColor: GIARDINO_COLORS.primary }}>
+                      <th className="px-6 py-4 text-left text-sm font-bold" style={{ color: GIARDINO_COLORS.primary }}>
                         Segmento
                       </th>
-                      <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                      <th className="px-6 py-4 text-left text-sm font-bold" style={{ color: GIARDINO_COLORS.primary }}>
                         Unidades
                       </th>
-                      <th className="px-6 py-3 text-right text-sm font-semibold text-gray-900">
+                      <th className="px-6 py-4 text-right text-sm font-bold" style={{ color: GIARDINO_COLORS.primary }}>
                         Valor Unit.
                       </th>
-                      <th className="px-6 py-3 text-right text-sm font-semibold text-gray-900">
+                      <th className="px-6 py-4 text-right text-sm font-bold" style={{ color: GIARDINO_COLORS.primary }}>
                         Total Mensal
                       </th>
-                      <th className="px-6 py-3 text-right text-sm font-semibold text-gray-900">
+                      <th className="px-6 py-4 text-right text-sm font-bold" style={{ color: GIARDINO_COLORS.primary }}>
                         % do Total
                       </th>
                     </tr>
@@ -559,9 +717,15 @@ export default function Dashboard() {
         {/* TAB: COSTS */}
         {activeTab === "costs" && (
           <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Análise de Custos Operacionais
+            <div
+              className="rounded-xl shadow-lg p-8 border-l-8"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderLeftColor: GIARDINO_COLORS.gold
+              }}
+            >
+              <h2 className="text-3xl font-bold mb-8" style={{ color: GIARDINO_COLORS.gold }}>
+                📉 Análise de Custos Operacionais Mensais
               </h2>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
@@ -709,9 +873,15 @@ export default function Dashboard() {
         {/* TAB: HR */}
         {activeTab === "hr" && (
           <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Recursos Humanos - Estrutura Completa
+            <div
+              className="rounded-xl shadow-lg p-8 border-l-8"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderLeftColor: GIARDINO_COLORS.secondary
+              }}
+            >
+              <h2 className="text-3xl font-bold mb-8" style={{ color: GIARDINO_COLORS.secondary }}>
+                👥 Estrutura Completa de Recursos Humanos
               </h2>
 
               <div className="mb-8">
@@ -814,9 +984,15 @@ export default function Dashboard() {
         {/* TAB: VIABILITY */}
         {activeTab === "viability" && (
           <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Análise de Viabilidade Econômica
+            <div
+              className="rounded-xl shadow-lg p-8 border-l-8"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderLeftColor: GIARDINO_COLORS.accent
+              }}
+            >
+              <h2 className="text-3xl font-bold mb-8" style={{ color: GIARDINO_COLORS.accent }}>
+                ✓ Análise de Viabilidade Econômica
               </h2>
 
               {/* Viability KPIs */}
@@ -1025,9 +1201,15 @@ export default function Dashboard() {
         {/* TAB: PROJECT */}
         {activeTab === "project" && (
           <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-md p-8 border border-gray-200">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                GIARDINO - Projeto Completo
+            <div
+              className="rounded-xl shadow-lg p-8 border-l-8"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderLeftColor: GIARDINO_COLORS.primary
+              }}
+            >
+              <h2 className="text-3xl font-bold mb-4" style={{ color: GIARDINO_COLORS.primary }}>
+                🏢 GIARDINO — Projeto Completo e Visão Estratégica
               </h2>
               <p className="text-gray-600 text-lg mb-8">
                 Residencial Senior + Clube Life Style + Loteamento + Shopping
@@ -1324,15 +1506,26 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Footer */}
-      <div className="bg-gray-900 text-gray-400 py-8 mt-16">
-        <div className="max-w-7xl mx-auto px-6 text-center text-sm">
-          <p>
-            © 2024 GIARDINO - Modelo de Investimento Residencial Senior + Clube
-            Life Style
+      {/* Footer Premium */}
+      <div
+        className="py-12 mt-20 text-center"
+        style={{ backgroundColor: GIARDINO_COLORS.primary }}
+      >
+        <div className="max-w-7xl mx-auto px-6">
+          <p
+            className="text-lg font-bold mb-2"
+            style={{ color: GIARDINO_COLORS.accent }}
+          >
+            🌿 GIARDINO — INVESTIMENTO PREMIUM 🌿
           </p>
-          <p className="mt-2 text-gray-500">
-            Localização: Mogi das Cruzes, São Paulo
+          <p className="mb-2" style={{ color: `${GIARDINO_COLORS.light}cc` }}>
+            Modelo de Investimento Residencial Senior + Clube Life Style
+          </p>
+          <p className="text-sm" style={{ color: `${GIARDINO_COLORS.light}aa` }}>
+            © 2024 — Mogi das Cruzes, São Paulo | Área Total: 258.900 m²
+          </p>
+          <p className="text-xs mt-4" style={{ color: `${GIARDINO_COLORS.light}88` }}>
+            Documento de Apresentação de Investimento — Confidencial
           </p>
         </div>
       </div>
