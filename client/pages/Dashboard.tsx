@@ -441,12 +441,12 @@ export default function Dashboard() {
                   </h2>
                   <p className="text-xs sm:text-sm text-gray-600">Contribuição de cada segmento na receita bruta mensal</p>
                 </div>
-                <ResponsiveContainer width="100%" height={250}>
+                <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
                       data={revenueData}
                       cx="50%"
-                      cy="50%"
+                      cy="45%"
                       labelLine={false}
                       label={({ name, value }) =>
                         `${name}: ${formatCurrency(value)}`
@@ -468,6 +468,11 @@ export default function Dashboard() {
                         padding: "8px",
                         boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
                       }}
+                    />
+                    <Legend
+                      wrapperStyle={{ paddingTop: "12px", fontSize: "13px" }}
+                      verticalAlign="bottom"
+                      height={30}
                     />
                   </PieChart>
                 </ResponsiveContainer>
@@ -745,12 +750,12 @@ export default function Dashboard() {
                   <h3 className="text-lg font-semibold text-gray-800 mb-4">
                     Distribuição de Custos
                   </h3>
-                  <ResponsiveContainer width="100%" height={300}>
+                  <ResponsiveContainer width="100%" height={350}>
                     <PieChart>
                       <Pie
                         data={costData}
                         cx="50%"
-                        cy="50%"
+                        cy="45%"
                         labelLine={false}
                         label={({ name, value }) =>
                           `${name}: ${formatCurrency(value)}`
@@ -772,6 +777,11 @@ export default function Dashboard() {
                           padding: "8px",
                           boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
                         }}
+                      />
+                      <Legend
+                        wrapperStyle={{ paddingTop: "12px", fontSize: "13px" }}
+                        verticalAlign="bottom"
+                        height={30}
                       />
                     </PieChart>
                   </ResponsiveContainer>

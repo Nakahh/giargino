@@ -19,64 +19,77 @@ export function FullPDFExport() {
       const pageHeight = pdf.internal.pageSize.getHeight();
       const margin = 10;
       const contentWidth = pageWidth - margin * 2;
+      const A4_HEIGHT = pageHeight - margin * 2;
 
-      // Função melhorada para capturar e adicionar ao PDF
-      const captureAndAdd = async (
-        element: HTMLElement,
-        isFirstPage: boolean = false
-      ) => {
+      let currentPageCount = 0;
+      let isFirstImage = true;
+
+      // Remove any lightbox modals antes de começar
+      const modals = document.querySelectorAll("[role='dialog'], .fixed.inset-0");
+      const hiddenModals: HTMLElement[] = [];
+      modals.forEach((modal) => {
+        const el = modal as HTMLElement;
+        if (el.style.display !== "none") {
+          el.style.display = "none";
+          hiddenModals.push(el);
+        }
+      });
+
+      // Função para capturar elemento e adicionar páginas ao PDF
+      const captureElement = async (element: HTMLElement, pageBreakBefore = false) => {
         try {
-          // Captura com html2canvas com configurações otimizadas
+          // Garante display do elemento
+          element.style.display = "block";
+          element.style.visibility = "visible";
+
           const canvas = await html2canvas(element, {
-            scale: 1.5, // Escala balanceada
+            scale: 1.5,
             logging: false,
             useCORS: true,
             allowTaint: true,
             backgroundColor: "#ffffff",
             imageTimeout: 5000,
-            windowHeight: element.scrollHeight + 100,
+            windowHeight: element.scrollHeight,
             windowWidth: element.offsetWidth,
-            onclone: (doc) => {
-              // Garante que o clone está com display correto
-              const clone = doc.querySelector('[data-cloned]') as HTMLElement;
-              if (clone) {
-                clone.style.display = "block";
-                clone.style.visibility = "visible";
-              }
-            },
           });
 
           const imgData = canvas.toDataURL("image/png", 0.95);
           const imgWidth = contentWidth;
           const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-          let yPosition = margin;
+          // Adiciona página break se necessário
+          if (pageBreakBefore && !isFirstImage) {
+            pdf.addPage();
+            currentPageCount++;
+          }
+
           let heightLeft = imgHeight;
-          let isFirstSection = isFirstPage;
+          let yPosition = margin;
 
+          // Adiciona a imagem em múltiplas páginas se necessário
           while (heightLeft > 0) {
-            if (!isFirstSection) {
+            if (!isFirstImage && yPosition === margin) {
               pdf.addPage();
+              currentPageCount++;
             }
-            isFirstSection = false;
 
-            const pageHeightAvailable = pageHeight - margin * 2;
+            const pageHeightAvailable = A4_HEIGHT;
             const heightToDraw = Math.min(heightLeft, pageHeightAvailable);
 
-            pdf.addImage(
-              imgData,
-              "PNG",
-              margin,
-              yPosition,
-              imgWidth,
-              imgHeight
-            );
+            pdf.addImage(imgData, "PNG", margin, yPosition, imgWidth, imgHeight);
 
             heightLeft -= pageHeightAvailable;
+            yPosition = margin;
+            isFirstImage = false;
 
             if (heightLeft > 0) {
-              yPosition = margin;
+              pdf.addPage();
+              currentPageCount++;
             }
+          }
+
+          if (!isFirstImage) {
+            isFirstImage = false;
           }
 
           return true;
@@ -86,52 +99,37 @@ export function FullPDFExport() {
         }
       };
 
-      // Encontra o container principal
       const mainContainer = document.querySelector(".min-h-screen");
       if (!mainContainer) {
-        alert("Dashboard não encontrado! Recarregue a página e tente novamente.");
+        alert("Dashboard não encontrado!");
         setIsGenerating(false);
         return;
       }
 
-      let isFirstPage = true;
+      // ========== 1. CAPTURAR HEADER ==========
+      console.log("Capturando header...");
+      const headerElement = mainContainer.querySelector(
+        'div[style*="linear-gradient"]'
+      ) as HTMLElement;
 
-      // ======== 1. HEADER ========
-      // Encontra o header (com logo e título)
-      const headerQuery = mainContainer.querySelector(
-        'div[style*="background"][style*="linear-gradient"]'
-      ) as HTMLElement | null;
+      if (headerElement) {
+        const headerClone = headerElement.cloneNode(true) as HTMLElement;
 
-      if (headerQuery) {
-        // Cria um div temporário com o header clonado
-        const headerClone = headerQuery.cloneNode(true) as HTMLElement;
-        headerClone.setAttribute("data-cloned", "true");
-        
-        // Remove o botão PDF do clone
-        const pdfButtons = headerClone.querySelectorAll("button");
-        pdfButtons.forEach((btn) => {
-          const text = btn.textContent || "";
-          if (text.includes("Baixar") || text.includes("PDF") || text.includes("📄")) {
+        // Remove botão PDF
+        const btns = headerClone.querySelectorAll("button");
+        btns.forEach((btn) => {
+          if (
+            btn.textContent?.includes("Baixar") ||
+            btn.textContent?.includes("📄")
+          ) {
             btn.style.display = "none";
           }
         });
 
-        // Adiciona ao DOM temporariamente para capturar
-        const temp = document.createElement("div");
-        temp.style.position = "absolute";
-        temp.style.left = "-9999px";
-        temp.appendChild(headerClone);
-        document.body.appendChild(temp);
-
-        await new Promise((r) => setTimeout(r, 300));
-        await captureAndAdd(headerClone, isFirstPage);
-        isFirstPage = false;
-
-        document.body.removeChild(temp);
+        await captureElement(headerClone, false);
       }
 
-      // ======== 2. ENCONTRAR E PROCESSAR ABAS ========
-      // Procura pelos botões de abas
+      // ========== 2. PROCESSAR ABAS ==========
       const tabButtons = Array.from(mainContainer.querySelectorAll("button")).filter(
         (btn) => {
           const text = btn.textContent?.trim() || "";
@@ -146,147 +144,110 @@ export function FullPDFExport() {
         }
       ) as HTMLButtonElement[];
 
-      console.log(`Encontradas ${tabButtons.length} abas`);
+      console.log(`Encontradas ${tabButtons.length} abas para processar`);
 
-      // Processa cada aba
-      for (let i = 0; i < tabButtons.length; i++) {
-        const tabBtn = tabButtons[i];
-        const tabLabel = tabBtn.textContent?.trim() || `Aba ${i + 1}`;
+      for (let idx = 0; idx < tabButtons.length; idx++) {
+        const tabBtn = tabButtons[idx];
+        const tabLabel = tabBtn.textContent?.trim() || `Aba ${idx + 1}`;
 
-        console.log(`Processando aba: ${tabLabel}`);
+        console.log(`Processando: ${tabLabel} (${idx + 1}/${tabButtons.length})`);
 
         // Clica na aba
         tabBtn.click();
 
-        // Aguarda renderização (aumentado para garantir carregamento)
-        await new Promise((resolve) => setTimeout(resolve, 1800));
+        // Aguarda renderização completa
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
         try {
-          // Encontra o conteúdo da aba (div com id dashboard-content)
-          const contentContainer = mainContainer.querySelector(
+          // Encontra o conteúdo
+          const contentElement = mainContainer.querySelector(
             "#dashboard-content"
           ) as HTMLElement;
 
-          if (!contentContainer) {
-            console.warn(`Conteúdo não encontrado para aba ${tabLabel}`);
+          if (!contentElement) {
+            console.warn(`Conteúdo não encontrado para ${tabLabel}`);
             continue;
           }
 
-          // Cria um clone para trabalhar
-          const contentClone = contentContainer.cloneNode(true) as HTMLElement;
-          contentClone.setAttribute("data-cloned", "true");
-          
-          // Remove elementos de navegação/botões do clone
-          const navElements = contentClone.querySelectorAll(
+          // Clona o conteúdo
+          const contentClone = contentElement.cloneNode(true) as HTMLElement;
+
+          // Remove navegação e modais
+          const navs = contentClone.querySelectorAll(
             'button[class*="py-3"], button[class*="py-4"]'
           );
-          navElements.forEach((el) => {
-            (el as HTMLElement).style.display = "none";
+          navs.forEach((nav) => {
+            (nav as HTMLElement).style.display = "none";
           });
 
-          // Adiciona largura e espaçamento apropriados para PDF
-          contentClone.style.width = "100%";
-          contentClone.style.padding = "20px";
-          contentClone.style.boxSizing = "border-box";
-          contentClone.style.backgroundColor = "#ffffff";
+          // Remove lightbox modal se existir
+          const modalsInClone = contentClone.querySelectorAll(
+            "[role='dialog'], .fixed.inset-0"
+          );
+          modalsInClone.forEach((m) => {
+            (m as HTMLElement).style.display = "none";
+          });
 
-          // Adiciona ao DOM temporariamente
-          const temp = document.createElement("div");
-          temp.style.position = "absolute";
-          temp.style.left = "-9999px";
-          temp.style.width = "900px"; // Largura compatível com A4
-          temp.appendChild(contentClone);
-          document.body.appendChild(temp);
+          // Captura com page break (exceto para a primeira)
+          await captureElement(contentClone, idx > 0);
 
-          await new Promise((r) => setTimeout(r, 500));
-
-          // Captura e adiciona ao PDF
-          const success = await captureAndAdd(contentClone, isFirstPage);
-          if (success) {
-            isFirstPage = false;
-          }
-
-          document.body.removeChild(temp);
+          console.log(`✓ ${tabLabel} capturada com sucesso`);
         } catch (error) {
-          console.error(`Erro ao processar aba ${tabLabel}:`, error);
+          console.error(`Erro ao processar ${tabLabel}:`, error);
         }
 
-        // Pequena pausa entre abas
-        await new Promise((r) => setTimeout(r, 200));
+        await new Promise((resolve) => setTimeout(resolve, 300));
       }
 
-      // ======== 3. FOOTER ========
-      // Procura pelo footer
-      const footerQuery = mainContainer.querySelector(
-        'div[class*="py-12"][class*="mt-20"]'
+      // ========== 3. CAPTURAR FOOTER ==========
+      console.log("Capturando footer...");
+      const footerElement = mainContainer.querySelector(
+        'div[style*="py-12"][style*="mt-20"]'
       ) as HTMLElement;
 
-      if (footerQuery) {
-        const footerClone = footerQuery.cloneNode(true) as HTMLElement;
-        footerClone.setAttribute("data-cloned", "true");
-        footerClone.style.backgroundColor = "#1F3B5E";
-        footerClone.style.padding = "30px";
-        footerClone.style.textAlign = "center";
-
-        const temp = document.createElement("div");
-        temp.style.position = "absolute";
-        temp.style.left = "-9999px";
-        temp.appendChild(footerClone);
-        document.body.appendChild(temp);
-
-        await new Promise((r) => setTimeout(r, 300));
-        await captureAndAdd(footerClone, isFirstPage);
-
-        document.body.removeChild(temp);
+      if (footerElement) {
+        const footerClone = footerElement.cloneNode(true) as HTMLElement;
+        await captureElement(footerClone, true);
       }
 
-      // ======== 4. ADICIONAR NÚMEROS DE PÁGINA ========
-      const totalPages = pdf.internal.pages.length - 1;
-      pdf.setFont("Montserrat", "normal");
-      pdf.setFontSize(8);
-      pdf.setTextColor(100, 100, 100);
+      // ========== 4. RESTAURAR ELEMENTOS OCULTOS ==========
+      hiddenModals.forEach((modal) => {
+        modal.style.display = "";
+      });
 
-      for (let i = 1; i <= totalPages; i++) {
-        pdf.setPage(i);
-        pdf.text(`Página ${i} de ${totalPages}`, pageWidth / 2, pageHeight - 7, {
-          align: "center",
-        });
-      }
-
-      // ======== 5. VOLTAR PARA PRIMEIRA ABA ========
+      // ========== 5. VOLTAR PARA PRIMEIRA ABA ==========
+      console.log("Voltando para primeira aba...");
       if (tabButtons.length > 0) {
         tabButtons[0].click();
         await new Promise((resolve) => setTimeout(resolve, 800));
       }
 
-      // ======== 6. SALVAR PDF ========
+      // ========== 6. SALVAR PDF ==========
+      console.log(`Salvando PDF com ${currentPageCount} páginas...`);
       pdf.save("GIARDINO-Projeto-Completo-Premium.pdf");
 
       alert(
         "✅ PDF Completo gerado com sucesso!\n\n" +
           "📄 GIARDINO-Projeto-Completo-Premium.pdf\n\n" +
-          `✓ Total de páginas: ${totalPages}\n\n` +
+          `Total: ${currentPageCount} páginas\n\n` +
           "✓ Contém:\n" +
-          "• Header com logo GIARDINO\n" +
-          "• Todos os KPIs e cards\n" +
-          "• Gráficos e charts completos\n" +
-          "• Tabelas detalhadas\n" +
-          "• Imagens e galeria\n" +
+          "• Header com logo\n" +
           "• 6 Abas completas:\n" +
-          "  - 📊 Geral\n" +
-          "  - 💰 Receitas\n" +
-          "  - 📉 Custos\n" +
-          "  - 👥 RH\n" +
-          "  - ✓ Viabilidade\n" +
-          "  - 🏢 Sobre\n" +
+          "  - 📊 Geral (KPIs, gráficos, fluxo de caixa)\n" +
+          "  - 💰 Receitas (gráficos, tabelas)\n" +
+          "  - 📉 Custos (gráficos, análise)\n" +
+          "  - 👥 RH (dados de funcionários)\n" +
+          "  - ✓ Viabilidade (KPIs, análise, GALERIA)\n" +
+          "  - 🏢 Sobre (projeto info)\n" +
           "• Footer com branding\n" +
-          "• Numeração automática\n" +
-          "• Formatação A4 profissional"
+          "• Sem números de página\n" +
+          "• Layout responsivo A4"
       );
     } catch (error) {
-      console.error("Erro geral ao gerar PDF:", error);
+      console.error("Erro ao gerar PDF:", error);
       alert(
-        "❌ Erro ao gerar PDF.\n\nTente:\n" +
+        "❌ Erro ao gerar PDF.\n\n" +
+          "Tente:\n" +
           "1. Recarregar a página\n" +
           "2. Aguarde o dashboard carregar completamente\n" +
           "3. Tente novamente\n\n" +
