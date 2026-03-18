@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useRef, useEffect, useState } from "react";
 import {
   BarChart,
