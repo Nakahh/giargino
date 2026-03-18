@@ -245,12 +245,12 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Logo - Centralizada */}
-          <div className="flex justify-center mb-6">
+          {/* Logo - Centralizada com Fundo Branco */}
+          <div className="flex justify-center mb-0 py-8 md:py-12 px-6 md:px-12 rounded-xl" style={{ backgroundColor: GIARDINO_COLORS.light }}>
             <img
               src="https://cdn.builder.io/api/v1/image/assets%2F1f5c753434a147ec852674a7cae5983c%2F5fcc06ba8d4a407c8933fa63bcffec84?format=webp&width=800&height=1200"
               alt="GIARDINO Logo"
-              className="h-28 md:h-40 w-auto object-contain drop-shadow-lg"
+              className="h-28 md:h-40 w-auto object-contain"
             />
           </div>
 
