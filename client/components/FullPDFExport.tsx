@@ -17,187 +17,230 @@ export function FullPDFExport() {
 
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-      const A4_HEIGHT = pageHeight - 20;
+      const margin = 10;
+      const contentWidth = pageWidth - margin * 2;
 
-      // Função para capturar elemento e adicionar ao PDF
-      const captureAndAddPage = async (element: HTMLElement) => {
+      // Função melhorada para capturar e adicionar ao PDF
+      const captureAndAdd = async (
+        element: HTMLElement,
+        isFirstPage: boolean = false
+      ) => {
         try {
+          // Captura com html2canvas com configurações otimizadas
           const canvas = await html2canvas(element, {
-            scale: 2,
+            scale: 1.5, // Escala balanceada
             logging: false,
             useCORS: true,
             allowTaint: true,
             backgroundColor: "#ffffff",
-            windowHeight: element.scrollHeight,
+            imageTimeout: 5000,
+            windowHeight: element.scrollHeight + 100,
             windowWidth: element.offsetWidth,
-            imageTimeout: 0,
+            onclone: (doc) => {
+              // Garante que o clone está com display correto
+              const clone = doc.querySelector('[data-cloned]') as HTMLElement;
+              if (clone) {
+                clone.style.display = "block";
+                clone.style.visibility = "visible";
+              }
+            },
           });
 
           const imgData = canvas.toDataURL("image/png", 0.95);
-          const imgWidth = pageWidth - 10;
+          const imgWidth = contentWidth;
           const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
+          let yPosition = margin;
           let heightLeft = imgHeight;
-          let position = 0;
+          let isFirstSection = isFirstPage;
 
           while (heightLeft > 0) {
-            const pageHeightAvailable = A4_HEIGHT;
+            if (!isFirstSection) {
+              pdf.addPage();
+            }
+            isFirstSection = false;
 
-            pdf.addImage(imgData, "PNG", 5, 5 - position, imgWidth, imgHeight);
+            const pageHeightAvailable = pageHeight - margin * 2;
+            const heightToDraw = Math.min(heightLeft, pageHeightAvailable);
+
+            pdf.addImage(
+              imgData,
+              "PNG",
+              margin,
+              yPosition,
+              imgWidth,
+              imgHeight
+            );
 
             heightLeft -= pageHeightAvailable;
-            position += pageHeightAvailable;
 
             if (heightLeft > 0) {
-              pdf.addPage();
+              yPosition = margin;
             }
           }
 
           return true;
         } catch (error) {
-          console.warn("Erro ao capturar elemento:", error);
+          console.error("Erro ao capturar elemento:", error);
           return false;
         }
       };
 
-      // Obter elementos principais
-      const mainContainer = document.querySelector(".min-h-screen") as HTMLElement;
+      // Encontra o container principal
+      const mainContainer = document.querySelector(".min-h-screen");
       if (!mainContainer) {
-        alert("Dashboard não encontrado!");
+        alert("Dashboard não encontrado! Recarregue a página e tente novamente.");
         setIsGenerating(false);
         return;
       }
 
-      // Encontrar header, navegação e footer
-      const allDivs = Array.from(mainContainer.querySelectorAll("div"));
-      let headerElement: HTMLElement | null = null;
-      let navElement: HTMLElement | null = null;
-      let contentElement: HTMLElement | null = null;
-      let footerElement: HTMLElement | null = null;
+      let isFirstPage = true;
 
-      for (const div of allDivs) {
-        const hasLogo = div.querySelector('img[alt="GIARDINO Logo"]');
-        const hasTitle = div.querySelector("h1");
-        const hasGradient = div.style.background?.includes("linear-gradient");
+      // ======== 1. HEADER ========
+      // Encontra o header (com logo e título)
+      const headerQuery = mainContainer.querySelector(
+        'div[style*="background"][style*="linear-gradient"]'
+      ) as HTMLElement | null;
 
-        if (hasLogo && hasTitle && hasGradient && !headerElement) {
-          headerElement = div;
-        }
-
-        if (
-          div.className?.includes("sticky") &&
-          div.className?.includes("top-0") &&
-          !navElement
-        ) {
-          navElement = div;
-        }
-
-        if (div.id === "dashboard-content" && !contentElement) {
-          contentElement = div;
-        }
-
-        const isFooter =
-          div.className?.includes("py-12") &&
-          div.className?.includes("mt-20") &&
-          div.style.backgroundColor;
-        if (isFooter && !footerElement) {
-          footerElement = div;
-        }
-      }
-
-      // 1. Capturar HEADER (remover botão PDF)
-      if (headerElement) {
-        const headerClone = headerElement.cloneNode(true) as HTMLElement;
-
-        // Remove botão PDF
+      if (headerQuery) {
+        // Cria um div temporário com o header clonado
+        const headerClone = headerQuery.cloneNode(true) as HTMLElement;
+        headerClone.setAttribute("data-cloned", "true");
+        
+        // Remove o botão PDF do clone
         const pdfButtons = headerClone.querySelectorAll("button");
-        for (const btn of pdfButtons) {
-          if (
-            btn.textContent?.includes("📄") ||
-            btn.textContent?.includes("Baixar") ||
-            btn.title?.includes("PDF")
-          ) {
+        pdfButtons.forEach((btn) => {
+          const text = btn.textContent || "";
+          if (text.includes("Baixar") || text.includes("PDF") || text.includes("📄")) {
             btn.style.display = "none";
           }
-        }
+        });
 
-        await captureAndAddPage(headerClone);
+        // Adiciona ao DOM temporariamente para capturar
+        const temp = document.createElement("div");
+        temp.style.position = "absolute";
+        temp.style.left = "-9999px";
+        temp.appendChild(headerClone);
+        document.body.appendChild(temp);
+
+        await new Promise((r) => setTimeout(r, 300));
+        await captureAndAdd(headerClone, isFirstPage);
+        isFirstPage = false;
+
+        document.body.removeChild(temp);
       }
 
-      // 2. Capturar conteúdo de cada aba
-      const tabButtons = Array.from(
-        mainContainer.querySelectorAll("button")
-      ).filter((btn) => {
-        const text = btn.textContent || "";
-        return (
-          (text.includes("📊") || text.includes("Geral")) ||
-          (text.includes("💰") || text.includes("Receitas")) ||
-          (text.includes("📉") || text.includes("Custos")) ||
-          (text.includes("👥") || text.includes("RH")) ||
-          (text.includes("✓") || text.includes("Viabilidade")) ||
-          (text.includes("🏢") || text.includes("Sobre"))
-        );
-      }) as HTMLButtonElement[];
+      // ======== 2. ENCONTRAR E PROCESSAR ABAS ========
+      // Procura pelos botões de abas
+      const tabButtons = Array.from(mainContainer.querySelectorAll("button")).filter(
+        (btn) => {
+          const text = btn.textContent?.trim() || "";
+          return (
+            text.includes("📊") ||
+            text.includes("💰") ||
+            text.includes("📉") ||
+            text.includes("👥") ||
+            text.includes("✓") ||
+            text.includes("🏢")
+          );
+        }
+      ) as HTMLButtonElement[];
+
+      console.log(`Encontradas ${tabButtons.length} abas`);
 
       // Processa cada aba
       for (let i = 0; i < tabButtons.length; i++) {
         const tabBtn = tabButtons[i];
         const tabLabel = tabBtn.textContent?.trim() || `Aba ${i + 1}`;
 
+        console.log(`Processando aba: ${tabLabel}`);
+
         // Clica na aba
         tabBtn.click();
 
-        // Aguarda renderização do conteúdo
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        // Aguarda renderização (aumentado para garantir carregamento)
+        await new Promise((resolve) => setTimeout(resolve, 1800));
 
         try {
-          // Encontra o conteúdo da aba
-          let currentContent = contentElement?.cloneNode(true) as HTMLElement;
+          // Encontra o conteúdo da aba (div com id dashboard-content)
+          const contentContainer = mainContainer.querySelector(
+            "#dashboard-content"
+          ) as HTMLElement;
 
-          if (!currentContent) {
-            // Se não encontrar por ID, tenta localizar o elemento com espaço entre abas
-            const allDivChildren = mainContainer.querySelectorAll("div > div");
-            for (const div of allDivChildren) {
-              if (
-                (div as HTMLElement).offsetHeight > 300 &&
-                div.querySelector("h2, .grid, .space-y-8")
-              ) {
-                currentContent = div.cloneNode(true) as HTMLElement;
-                break;
-              }
-            }
+          if (!contentContainer) {
+            console.warn(`Conteúdo não encontrado para aba ${tabLabel}`);
+            continue;
           }
 
-          if (currentContent) {
-            // Remove navegação clonada se existir
-            const navClones = currentContent.querySelectorAll(
-              'button[className*="py-3"], button[className*="py-4"]'
-            );
-            for (const nav of navClones) {
-              nav.remove();
-            }
+          // Cria um clone para trabalhar
+          const contentClone = contentContainer.cloneNode(true) as HTMLElement;
+          contentClone.setAttribute("data-cloned", "true");
+          
+          // Remove elementos de navegação/botões do clone
+          const navElements = contentClone.querySelectorAll(
+            'button[class*="py-3"], button[class*="py-4"]'
+          );
+          navElements.forEach((el) => {
+            (el as HTMLElement).style.display = "none";
+          });
 
-            // Adiciona página (nova página para próxima aba)
-            if (i > 0) {
-              pdf.addPage();
-            }
+          // Adiciona largura e espaçamento apropriados para PDF
+          contentClone.style.width = "100%";
+          contentClone.style.padding = "20px";
+          contentClone.style.boxSizing = "border-box";
+          contentClone.style.backgroundColor = "#ffffff";
 
-            await captureAndAddPage(currentContent);
+          // Adiciona ao DOM temporariamente
+          const temp = document.createElement("div");
+          temp.style.position = "absolute";
+          temp.style.left = "-9999px";
+          temp.style.width = "900px"; // Largura compatível com A4
+          temp.appendChild(contentClone);
+          document.body.appendChild(temp);
+
+          await new Promise((r) => setTimeout(r, 500));
+
+          // Captura e adiciona ao PDF
+          const success = await captureAndAdd(contentClone, isFirstPage);
+          if (success) {
+            isFirstPage = false;
           }
+
+          document.body.removeChild(temp);
         } catch (error) {
-          console.warn(`Erro ao processar aba ${tabLabel}:`, error);
+          console.error(`Erro ao processar aba ${tabLabel}:`, error);
         }
+
+        // Pequena pausa entre abas
+        await new Promise((r) => setTimeout(r, 200));
       }
 
-      // 3. Capturar FOOTER
-      if (footerElement) {
-        pdf.addPage();
+      // ======== 3. FOOTER ========
+      // Procura pelo footer
+      const footerQuery = mainContainer.querySelector(
+        'div[class*="py-12"][class*="mt-20"]'
+      ) as HTMLElement;
 
-        const footerClone = footerElement.cloneNode(true) as HTMLElement;
-        await captureAndAddPage(footerClone);
+      if (footerQuery) {
+        const footerClone = footerQuery.cloneNode(true) as HTMLElement;
+        footerClone.setAttribute("data-cloned", "true");
+        footerClone.style.backgroundColor = "#1F3B5E";
+        footerClone.style.padding = "30px";
+        footerClone.style.textAlign = "center";
+
+        const temp = document.createElement("div");
+        temp.style.position = "absolute";
+        temp.style.left = "-9999px";
+        temp.appendChild(footerClone);
+        document.body.appendChild(temp);
+
+        await new Promise((r) => setTimeout(r, 300));
+        await captureAndAdd(footerClone, isFirstPage);
+
+        document.body.removeChild(temp);
       }
 
-      // 4. Adicionar números de página
+      // ======== 4. ADICIONAR NÚMEROS DE PÁGINA ========
       const totalPages = pdf.internal.pages.length - 1;
       pdf.setFont("Montserrat", "normal");
       pdf.setFontSize(8);
@@ -205,44 +248,49 @@ export function FullPDFExport() {
 
       for (let i = 1; i <= totalPages; i++) {
         pdf.setPage(i);
-        pdf.text(`Página ${i} de ${totalPages}`, pageWidth / 2, pageHeight - 5, {
+        pdf.text(`Página ${i} de ${totalPages}`, pageWidth / 2, pageHeight - 7, {
           align: "center",
         });
       }
 
-      // 5. Volta para primeira aba
+      // ======== 5. VOLTAR PARA PRIMEIRA ABA ========
       if (tabButtons.length > 0) {
         tabButtons[0].click();
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 800));
       }
 
-      // Salva o PDF
+      // ======== 6. SALVAR PDF ========
       pdf.save("GIARDINO-Projeto-Completo-Premium.pdf");
 
       alert(
         "✅ PDF Completo gerado com sucesso!\n\n" +
           "📄 GIARDINO-Projeto-Completo-Premium.pdf\n\n" +
+          `✓ Total de páginas: ${totalPages}\n\n` +
           "✓ Contém:\n" +
-          "• Header com logo e título\n" +
-          "• Todos os cards KPI\n" +
-          "• Todos os gráficos e charts\n" +
-          "• Todas as tabelas\n" +
-          "• Todas as imagens\n" +
-          "• Todas as 6 abas completas:\n" +
+          "• Header com logo GIARDINO\n" +
+          "• Todos os KPIs e cards\n" +
+          "• Gráficos e charts completos\n" +
+          "• Tabelas detalhadas\n" +
+          "• Imagens e galeria\n" +
+          "• 6 Abas completas:\n" +
           "  - 📊 Geral\n" +
           "  - 💰 Receitas\n" +
           "  - 📉 Custos\n" +
           "  - 👥 RH\n" +
           "  - ✓ Viabilidade\n" +
           "  - 🏢 Sobre\n" +
-          "• Rodapé\n" +
-          "• Numeração de páginas\n" +
+          "• Footer com branding\n" +
+          "• Numeração automática\n" +
           "• Formatação A4 profissional"
       );
     } catch (error) {
-      console.error("Erro ao gerar PDF:", error);
+      console.error("Erro geral ao gerar PDF:", error);
       alert(
-        "❌ Erro ao gerar PDF. Tente novamente.\n\nErro: " +
+        "❌ Erro ao gerar PDF.\n\nTente:\n" +
+          "1. Recarregar a página\n" +
+          "2. Aguarde o dashboard carregar completamente\n" +
+          "3. Tente novamente\n\n" +
+          "Erro: " +
           (error instanceof Error ? error.message : "Desconhecido")
       );
     } finally {
