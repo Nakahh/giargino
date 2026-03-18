@@ -17,11 +17,7 @@ import {
   Area,
 } from "recharts";
 import { KPICard } from "@/components/KPICard";
-import { PDFExport } from "@/components/PDFExport";
-import { DownloadReportButton } from "@/components/DownloadReportButton";
-import { GenerateCompletePDF } from "@/components/GenerateCompletePDF";
-import { ProfessionalPDFReport } from "@/components/ProfessionalPDFReport";
-import { OptimizedPDFReport } from "@/components/OptimizedPDFReport";
+import { ComprehensivePDFReport } from "@/components/ComprehensivePDFReport";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { ResponsiveTable } from "@/components/ResponsiveTable";
 import { giardino } from "@shared/giardino-data";
@@ -225,47 +221,37 @@ export default function Dashboard() {
     <div className="min-h-screen" style={{ backgroundColor: GIARDINO_COLORS.light }}>
       {/* Header Premium com Logo - Mobile Optimized */}
       <div
-        className="py-8 md:py-12 px-4 md:px-6 shadow-xl"
-        style={{ background: `linear-gradient(135deg, ${GIARDINO_COLORS.primary} 0%, ${GIARDINO_COLORS.secondary} 100%)` }}
+        className="py-6 md:py-8 px-4 md:px-6 shadow-xl"
+        style={{ background: `linear-gradient(135deg, #2C3E50 0%, #1F3B5E 100%)` }}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
-            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-              {/* Logo GIARDINO - Oficial (SVG sem fundo branco) */}
-              <img
-                src="/giardino-logo.svg"
-                alt="GIARDINO Logo"
-                className="h-24 md:h-28 w-auto object-contain drop-shadow-lg"
-              />
-              <div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-1 text-center md:text-left" style={{ color: GIARDINO_COLORS.accent }}>
-                  GIARDINO
-                </h1>
-                <p className="text-sm md:text-base font-semibold text-center md:text-left" style={{ color: GIARDINO_COLORS.light }}>
-                  RESIDENCIAL SÊNIOR
-                </p>
-                <p className="text-xs md:text-sm font-light text-center md:text-left mt-1" style={{ color: `${GIARDINO_COLORS.light}cc` }}>
-                  Modelo de Investimento Premium
-                </p>
-              </div>
+          {/* Título e Descrição - Topo */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+            <div className="flex-1">
+              <h1 className="text-4xl md:text-5xl font-bold mb-1 text-center md:text-left" style={{ color: GIARDINO_COLORS.accent }}>
+                GIARDINO
+              </h1>
+              <p className="text-sm md:text-base font-semibold text-center md:text-left" style={{ color: GIARDINO_COLORS.light }}>
+                RESIDENCIAL SÊNIOR
+              </p>
+              <p className="text-xs md:text-sm font-light text-center md:text-left mt-1" style={{ color: `${GIARDINO_COLORS.light}cc` }}>
+                Modelo de Investimento Premium
+              </p>
             </div>
 
-            {/* Botões de Exportação - Responsivos */}
-            <div className="flex gap-2 md:gap-3 flex-wrap justify-center md:justify-end w-full md:w-auto">
-              <OptimizedPDFReport />
-              <ProfessionalPDFReport />
-              <DownloadReportButton />
-              <PDFExport
-                elementId="dashboard-content"
-                filename="GIARDINO-Dashboard-Completo.pdf"
-                buttonLabel="📊 Dashboard"
-              />
-              <GenerateCompletePDF
-                dashboardContentId="dashboard-content"
-                filename="GIARDINO-Dashboard-Todas-Abas-Completo.pdf"
-                buttonLabel="📋 PDF Abas"
-              />
+            {/* Botão de Exportação Único - PDF Completo */}
+            <div className="flex gap-2 md:gap-3 flex-wrap justify-center md:justify-end">
+              <ComprehensivePDFReport />
             </div>
+          </div>
+
+          {/* Logo - Centralizada com Fundo Branco */}
+          <div className="flex justify-center mb-0 py-8 md:py-12 px-6 md:px-12 rounded-xl" style={{ backgroundColor: GIARDINO_COLORS.light }}>
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets%2F1f5c753434a147ec852674a7cae5983c%2F5fcc06ba8d4a407c8933fa63bcffec84?format=webp&width=800&height=1200"
+              alt="GIARDINO Logo"
+              className="h-28 md:h-40 w-auto object-contain"
+            />
           </div>
 
           <div className="border-t-2 pt-6" style={{ borderColor: `${GIARDINO_COLORS.accent}60` }}>
