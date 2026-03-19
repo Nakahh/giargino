@@ -31,10 +31,10 @@ export function PremiumHeader({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="py-6 md:py-8 px-4 md:px-6 shadow-xl"
+      className="py-4 sm:py-6 md:py-8 px-2 sm:px-4 md:px-6 shadow-xl md:shadow-2xl"
       style={{ background: bgGradient }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Título e Descrição - Topo */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -47,7 +47,7 @@ export function PremiumHeader({
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-4xl md:text-5xl font-bold mb-1"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-1"
               style={{ color: accentColor }}
             >
               {title}

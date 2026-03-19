@@ -327,15 +327,16 @@ export default function Dashboard() {
       />
 
       {/* Content - Mobile Optimized */}
-      <div id="dashboard-content" className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10">
+      <div id="dashboard-content" className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth bg-gradient-to-br from-slate-50 via-white to-slate-50 max-w-7xl w-full mx-auto px-2 sm:px-4 md:px-6 py-4 md:py-8">
         {/* TAB: OVERVIEW */}
         {activeTab === "overview" && (
           <div
             id="tab-overview"
+            data-section="overview"
             ref={(el) => {
               if (el) sectionRefs.current.overview = el;
             }}
-            className="space-y-8 fade-in slide-in-up"
+            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
           >
             {/* KPI Cards Luxury Premium - Mobile Optimized */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
@@ -609,10 +610,11 @@ export default function Dashboard() {
         {activeTab === "revenue" && (
           <div
             id="tab-revenue"
+            data-section="revenue"
             ref={(el) => {
               if (el) sectionRefs.current.revenue = el;
             }}
-            className="space-y-8 fade-in slide-in-up"
+            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
           >
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -741,10 +743,11 @@ export default function Dashboard() {
         {activeTab === "costs" && (
           <div
             id="tab-costs"
+            data-section="costs"
             ref={(el) => {
               if (el) sectionRefs.current.costs = el;
             }}
-            className="space-y-8 fade-in slide-in-up"
+            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
           >
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -868,10 +871,11 @@ export default function Dashboard() {
         {activeTab === "hr" && (
           <div
             id="tab-hr"
+            data-section="hr"
             ref={(el) => {
               if (el) sectionRefs.current.hr = el;
             }}
-            className="space-y-8 fade-in slide-in-up"
+            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
           >
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -972,10 +976,11 @@ export default function Dashboard() {
         {activeTab === "viability" && (
           <div
             id="tab-viability"
+            data-section="viability"
             ref={(el) => {
               if (el) sectionRefs.current.viability = el;
             }}
-            className="space-y-8 fade-in slide-in-up"
+            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
           >
             <div
               className="rounded-xl shadow-lg p-6 md:p-8 border-l-8"
@@ -1234,10 +1239,11 @@ export default function Dashboard() {
         {activeTab === "project" && (
           <div
             id="tab-project"
+            data-section="project"
             ref={(el) => {
               if (el) sectionRefs.current.project = el;
             }}
-            className="space-y-8 fade-in slide-in-up"
+            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
           >
             <div
               className="rounded-xl shadow-lg p-6 md:p-8 border-l-8"
