@@ -310,14 +310,18 @@
       "initialProposal": {
         "title": "Proposta Inicial (Dinheiro)",
         "description": "R$ 150.000.000 — Entrada + 6 parcelas anuais",
-        "downPayment": "• Entrada: R$ 30.000.000",
-        "installments": "• 6 parcelas: R$ 20.000.000/ano"
+        "downPaymentLabel": "• Entrada:",
+        "downPayment": "R$ 30.000.000",
+        "installmentsLabel": "• 6 parcelas:",
+        "installments": "R$ 20.000.000/ano"
       },
-      "financing": {
+      "complementaryFinancing": {
         "title": "Financiamento Complementar",
         "description": "R$ 100.000.000 — CAPEX com 6% a.a.",
-        "term": "• Prazo: 120 meses (10 anos)",
-        "monthlyPayment": "• Pagamento mensal: R$ 1.000.000 + juros"
+        "termLabel": "• Prazo:",
+        "term": "120 meses (10 anos)",
+        "monthlyPaymentLabel": "• Pagamento mensal:",
+        "monthlyPayment": "R$ 1.000.000 + juros"
       }
     },
     "revenueComparison": {

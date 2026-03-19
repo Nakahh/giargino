@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 interface GalleryImage {
@@ -70,6 +71,7 @@ const categoryLabels = {
 };
 
 export function ProjectGallery() {
+  const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<"all" | GalleryImage["category"]>("all");
@@ -104,10 +106,10 @@ export function ProjectGallery() {
       {/* Gallery Header */}
       <div className="text-center mb-8">
         <h2 className="text-4xl font-bold mb-2" style={{ color: "#0F3460" }}>
-          Galeria do Projeto
+          {t('ui.gallery.title')}
         </h2>
         <p className="text-gray-600">
-          Conheça as instalações premium do complexo Giardino
+          {t('ui.gallery.description')}
         </p>
       </div>
 

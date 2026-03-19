@@ -798,7 +798,7 @@ export function PDFWrapper({ forPDF = false }: PDFWrapperProps) {
           {/* Galeria de Imagens - Renderizando apenas uma vez */}
           <div style={{ marginTop: "32px" }}>
             <h3 style={{ fontSize: "18px", fontWeight: "bold", color: GIARDINO_COLORS.primary, marginBottom: "16px" }}>
-              📸 Galeria do Projeto
+              📸 {t('ui.gallery.title')}
             </h3>
             <ProjectGalleryPDF forPDF={true} />
           </div>
