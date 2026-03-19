@@ -394,5 +394,70 @@
       "projectComposition": "Residencial Senior + Clube Life Style + Loteamento + Centro Comercial",
       "locationArea": "Localização: Mogi das Cruzes, São Paulo — Área: 258.900 m²"
     }
+  },
+  "data": {
+    "initialSales": {
+      "residentialSenior": "Residencial Senior",
+      "timeShare": "Time Share",
+      "lifeStyleClub": "Clube Life Style",
+      "subdivision": "Loteamento",
+      "mall": "Shopping/Mall"
+    },
+    "monthlyRecurring": {
+      "residentialSenior": "Residencial Senior (Mensalidades)",
+      "lifeStyleClub": "Mensalidade Clube Life Style",
+      "shoppingMall": "Aluguel Shopping/Mall",
+      "consumption": "Consumação (Bares, Restaurantes, Eventos)"
+    },
+    "humanResources": {
+      "housekeeping": "Camareiras",
+      "culinary": "Cozinheiras + Auxiliares",
+      "laundry": "Lavanderia (Lavadeiras + Passadeiras)",
+      "cleaning": "Auxiliares de Limpeza (Áreas Comuns)",
+      "maintenance": "Jardineiros + Piscineiros/Salva-vidas",
+      "beauty": "Beleza (Cabeleireiros, Barbeiros, Manicures, Depiladoras)",
+      "reception": "Recepcionistas",
+      "security": "Seguranças",
+      "healthcare": "Enfermeiros/Enfermeiras",
+      "administrative": "Administrativo e Gestão"
+    },
+    "operatingCosts": {
+      "hosting": "Hospedagem",
+      "meals": "Alimentação (5 refeições/dia)",
+      "sportsRecreation": "Esporte e Lazer",
+      "medicalCare": "Cuidados Médicos/Home Care/Odontológicos",
+      "therapies": "Terapias/Fisioterapia e Oficinas",
+      "personalCare": "Cuidados Pessoais"
+    },
+    "includedServices": [
+      "Limpeza diária",
+      "Trocas de roupa 3x/semana",
+      "Toalhas de piscina diariamente",
+      "Lavanderia completa 1x/semana",
+      "5 refeições por dia",
+      "1 atividade esportiva/dia",
+      "Terapia ou fisioterapia 3x/semana + 2x oficinas",
+      "Cuidados médicos e home care",
+      "Sala de jogos livre",
+      "8 festas/eventos por mês",
+      "Ambulância emergencial",
+      "Concierge e mordomo",
+      "Transporte interno",
+      "Água, luz e internet",
+      "Manicure/pedicure (4x/mês)",
+      "Cabelereiro (4x/mês)",
+      "Limpeza de pele (2x/mês)",
+      "Depilação (2x/mês)"
+    ],
+    "additionalServices": [
+      "Medicamentos pessoais",
+      "Fraldas geriátricas",
+      "Produtos de higiene pessoal",
+      "Transporte para passeios (R$6/km)",
+      "Viagens de lazer",
+      "Transporte de helicóptero",
+      "Compras pessoais",
+      "Acompanhamento full time"
+    ]
   }
 }
