@@ -288,7 +288,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: GIARDINO_COLORS.light }}>
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: GIARDINO_COLORS.light }}>
       {/* Header Premium com Logo - Mobile Optimized */}
       <PremiumHeader
         title="GIARDINO"
@@ -329,7 +329,8 @@ export default function Dashboard() {
       />
 
       {/* Content - Mobile Optimized */}
-      <div id="dashboard-content" className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth bg-gradient-to-br from-slate-50 via-white to-slate-50 max-w-7xl w-full mx-auto px-2 sm:px-4 md:px-6 py-4 md:py-8">
+      <div id="dashboard-content" className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth bg-gradient-to-br from-slate-50 via-white to-slate-50 w-full">
+        <div className="max-w-7xl w-full mx-auto px-2 sm:px-4 md:px-6 py-4 md:py-8">
         {/* TAB: OVERVIEW - ALWAYS RENDERED */}
         <div
           id="tab-overview"
@@ -1568,6 +1569,7 @@ export default function Dashboard() {
           <p className="text-xs mt-4" style={{ color: `${GIARDINO_COLORS.light}88` }}>
             Documento de Apresentação de Investimento — Confidencial
           </p>
+        </div>
         </div>
       </div>
     </div>
