@@ -72,6 +72,15 @@ function formatCurrency(value: number): string {
   }).format(value);
 }
 
+function formatCurrencyWithDecimals(value: number): string {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<
     "overview" | "revenue" | "costs" | "hr" | "viability" | "project"
@@ -535,7 +544,7 @@ export default function Dashboard() {
                     <XAxis dataKey="month" tick={{ fontSize: 12 }} />
                     <YAxis tick={{ fontSize: 12 }} />
                     <Tooltip
-                      formatter={(value: number) => formatCurrency(value)}
+                      formatter={(value: number) => formatCurrencyWithDecimals(value)}
                       labelFormatter={(label) => `${label}`}
                       contentStyle={{
                         backgroundColor: "#fff",
@@ -1114,10 +1123,10 @@ export default function Dashboard() {
               }))}
               columns={[
                 { key: "ano", label: "ANO", render: (v) => v },
-                { key: "receita", label: "RECEITA BRUTA", render: (v) => formatCurrency(v) },
-                { key: "custos", label: "CUSTOS TOTAIS", render: (v) => formatCurrency(v) },
-                { key: "lucro", label: "LUCRO LÍQUIDO", render: (v) => formatCurrency(v) },
-                { key: "acumulado", label: "LUCRO ACUMULADO", render: (v) => formatCurrency(v) },
+                { key: "receita", label: "RECEITA BRUTA", render: (v) => formatCurrencyWithDecimals(v) },
+                { key: "custos", label: "CUSTOS TOTAIS", render: (v) => formatCurrencyWithDecimals(v) },
+                { key: "lucro", label: "LUCRO LÍQUIDO", render: (v) => formatCurrencyWithDecimals(v) },
+                { key: "acumulado", label: "LUCRO ACUMULADO", render: (v) => formatCurrencyWithDecimals(v) },
                 { key: "roi", label: "ROI (%)", render: (v) => `${v}%` },
               ]}
               headerTextColor={GIARDINO_COLORS.secondary}
