@@ -241,6 +241,41 @@
           "description": "Management of Senior Residential, Life Style Club, Subdivision and Commercial Center (shopping)",
           "monthlyPayment": "• Monthly payment: $200,000 + interest"
         }
+      },
+      "completeTitle": "🏛️ GIARDINO — Complete Project and Strategic Vision",
+      "vision": {
+        "title": "Overview",
+        "description": "The GIARDINO project is a luxury residential complex aimed at seniors and premium lifestyle, located in Mogi das Cruzes, São Paulo. It combines specialized housing with wellness services, social club and shopping, creating a complete ecosystem of high quality of life."
+      },
+      "segments": {
+        "title": "Project Segments",
+        "residentialSeniorSpa": "Senior Residential + Spa",
+        "residentialSeniorSpaDesc": "240 units - All-inclusive package with specialized care",
+        "lifeStyleClub": "Life Style Club",
+        "lifeStyleClubDesc": "6,000 members with access to 360 daily services",
+        "residentialLot": "Residential Subdivision",
+        "residentialLotDesc": "400 plots of 500m² with club access",
+        "commercialCenter": "Commercial Center",
+        "commercialCenterDesc": "Shopping with 250+ stores, food and cinemas"
+      },
+      "keyNumbers": {
+        "title": "Key Numbers",
+        "residentialUnits": {
+          "label": "Total Residential Units"
+        },
+        "clubMembers": {
+          "label": "Club Members"
+        },
+        "employees": {
+          "label": "Total Employees"
+        },
+        "commercialAreas": {
+          "label": "Commercial Areas"
+        },
+        "totalInvestment": {
+          "label": "Total Investment"
+        },
+        "investmentValue": "$50M"
       }
     },
     "revenueModel": {
@@ -273,7 +308,7 @@
       },
       "segments": {
         "title": "Project Segments",
-        "residentialSeniorSpa": "Senior Residential + SPA",
+        "residentialSeniorSpa": "Senior Residential + Spa",
         "residentialSeniorSpaDesc": "240 units - All-inclusive package with specialized care",
         "lifeStyleClub": "Life Style Club",
         "lifeStyleClubDesc": "6,000 members with access to 360 daily services",
@@ -310,31 +345,69 @@
       "initialProposal": {
         "title": "Initial Proposal (Money)",
         "description": "$30,000,000 — Down payment + 6 annual installments",
+        "entryLabel": "• Down payment:",
+        "installmentsLabel": "• 6 installments:",
         "downPayment": "• Down payment: $6,000,000",
         "installments": "• 6 installments: $4,000,000/year"
       },
-      "financing": {
+      "complementaryFinancing": {
         "title": "Complementary Financing",
         "description": "$20,000,000 — CAPEX at 6% p.a.",
+        "termLabel": "• Term: 120 months (10 years)",
+        "monthlyPaymentLabel": "• Monthly payment:",
         "term": "• Term: 120 months (10 years)",
         "monthlyPayment": "• Monthly payment: $200,000 + interest"
+      }
+    },
+    "investmentStructure": {
+      "title": "💰 Investment Structure",
+      "initialProposal": {
+        "title": "Initial Proposal (Money)",
+        "description": "$30,000,000 — Down payment + 6 annual installments",
+        "entryLabel": "• Down payment:",
+        "installmentsLabel": "• 6 installments:"
+      },
+      "complementaryFinancing": {
+        "title": "Complementary Financing",
+        "description": "$20,000,000 — CAPEX at 6% p.a.",
+        "termLabel": "• Term: 120 months (10 years)",
+        "monthlyPaymentLabel": "• Monthly payment:"
       }
     },
     "revenueComparison": {
       "initialSales": {
         "title": "🎯 Initial Revenue (Sales)",
+        "residentialSenior": {
+          "label": "Senior Residential"
+        },
+        "lifeStyleClub": {
+          "label": "Life Style Club"
+        },
+        "lot": {
+          "label": "Subdivision"
+        },
+        "mall": {
+          "label": "Shopping/Mall"
+        },
         "total": "TOTAL"
       },
-      "recurring": {
+      "recurringRevenue": {
         "title": "💵 Monthly Recurring Revenue",
-        "residential": "Residential",
-        "club": "Club",
-        "commercial": "Commercial",
+        "residential": {
+          "label": "Residential"
+        },
+        "club": {
+          "label": "Club"
+        },
+        "commerce": {
+          "label": "Commercial"
+        },
         "total": "TOTAL"
       }
     }
   },
   "footer": {
+    "title": "🌿 GIARDINO — PREMIUM INVESTMENT 🌿",
     "subtitle": "Investment Model Senior Residential + Life Style Club",
     "meta": "© 2024 — Mogi das Cruzes, São Paulo | Total Area: 258,900 m²",
     "confidentiality": "Investment Presentation Document — Confidential"
@@ -415,17 +488,17 @@
       "laundry": "Laundry (Washers + Ironers)",
       "cleaning": "Cleaning Assistants (Common Areas)",
       "maintenance": "Gardeners + Pool Attendants/Lifeguards",
-      "beauty": "Beauty (Hairdressers, Barbers, Manicurists, Waxers)",
+      "beauty": "Beauty (Hairdressers, Barbers, Manicurists, Waxing Specialists)",
       "reception": "Receptionists",
       "security": "Security Guards",
-      "healthcare": "Nurses/Nursing Assistants",
+      "healthcare": "Nurses",
       "administrative": "Administrative and Management"
     },
     "operatingCosts": {
-      "hosting": "Hosting",
+      "hosting": "Accommodation",
       "meals": "Meals (5 meals/day)",
       "sportsRecreation": "Sports and Recreation",
-      "medicalCare": "Medical Care/Home Care/Dental",
+      "medicalCare": "Medical/Home Care/Dental Care",
       "therapies": "Therapies/Physiotherapy and Workshops",
       "personalCare": "Personal Care"
     },
@@ -436,28 +509,28 @@
       "Complete laundry 1x/week",
       "5 meals per day",
       "1 sports activity/day",
-      "Therapy or physiotherapy 3x/week + 2x workshops",
+      "Therapy or physiotherapy 3x/week + 2 workshops",
       "Medical care and home care",
       "Free games room",
       "8 parties/events per month",
       "Emergency ambulance",
       "Concierge and butler",
-      "Internal transportation",
-      "Water, electricity and internet",
+      "Internal transport",
+      "Water, electricity, and internet",
       "Manicure/pedicure (4x/month)",
       "Hairdresser (4x/month)",
-      "Facial cleaning (2x/month)",
+      "Facial cleansing (2x/month)",
       "Waxing (2x/month)"
     ],
     "additionalServices": [
       "Personal medications",
-      "Geriatric diapers",
+      "Adult diapers",
       "Personal hygiene products",
-      "Transportation for outings ($6/km)",
-      "Leisure travel",
-      "Helicopter transportation",
+      "Transportation for outings (R$6/km)",
+      "Leisure trips",
+      "Helicopter transport",
       "Personal shopping",
-      "Full-time accompaniment"
+      "Full-time assistance"
     ]
   }
 }

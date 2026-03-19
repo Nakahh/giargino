@@ -1275,10 +1275,10 @@ export default function Dashboard() {
               }}
             >
               <h2 className="text-2xl sm:text-3xl font-bold mb-6" style={{ color: GIARDINO_COLORS.primary }}>
-                🏛️ GIARDINO — Projeto Completo e Visão Estratégica
+                🏛️ GIARDINO — Complete Project and Strategic Vision
               </h2>
               <p className="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed">
-                O projeto GIARDINO é um complexo residencial de luxo voltado para idosos e lifestyle premium, localizado em Mogi das Cruzes, São Paulo. Combina habitação especializada com serviços de wellness, clube social e shopping, criando um ecossistema completo de alta qualidade de vida.
+                The GIARDINO project is a luxury residential complex aimed at seniors and premium lifestyle, located in Mogi das Cruzes, São Paulo. It combines specialized housing with wellness services, social club and shopping, creating a complete ecosystem of high quality of life.
               </p>
 
               {/* Two Column Layout */}
@@ -1287,44 +1287,44 @@ export default function Dashboard() {
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.secondary }}>
-                      Visão Geral
+                      Overview
                     </h3>
                     <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                      O projeto GIARDINO é um complexo residencial de luxo voltado para idosos e lifestyle premium, localizado em Mogi das Cruzes, São Paulo. Combina habitação especializada com serviços de wellness, clube social e shopping, criando um ecossistema completo de alta qualidade de vida.
+                      The GIARDINO project is a luxury residential complex aimed at seniors and premium lifestyle, located in Mogi das Cruzes, São Paulo. It combines specialized housing with wellness services, social club and shopping, creating a complete ecosystem of high quality of life.
                     </p>
                   </div>
 
                   <div>
                     <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.secondary }}>
-                      Segmentos do Projeto
+                      Project Segments
                     </h3>
                     <div className="space-y-3">
                       <div className="flex gap-3 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-600">
                         <div className="font-bold text-blue-600 min-w-6">1</div>
                         <div>
-                          <p className="font-semibold text-blue-900">Residencial Senior + SPA</p>
-                          <p className="text-xs text-gray-600">240 unidades - Pacote all inclusive com cuidados especializados</p>
+                          <p className="font-semibold text-blue-900">Senior Residence + Spa</p>
+                          <p className="text-xs text-gray-600">240 units - All-inclusive package with specialized care</p>
                         </div>
                       </div>
                       <div className="flex gap-3 p-3 bg-amber-50 rounded-lg border-l-4 border-amber-600">
                         <div className="font-bold text-amber-600 min-w-6">2</div>
                         <div>
-                          <p className="font-semibold text-amber-900">Clube Life Style</p>
-                          <p className="text-xs text-gray-600">6.000 membros com acesso a 360 diárias</p>
+                          <p className="font-semibold text-amber-900">Lifestyle Club</p>
+                          <p className="text-xs text-gray-600">6,000 members with access to 360 daily services</p>
                         </div>
                       </div>
                       <div className="flex gap-3 p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
                         <div className="font-bold text-green-600 min-w-6">3</div>
                         <div>
-                          <p className="font-semibold text-green-900">Loteamento Residencial</p>
-                          <p className="text-xs text-gray-600">400 terrenos de 500m² com acesso ao clube</p>
+                          <p className="font-semibold text-green-900">Residential Subdivision</p>
+                          <p className="text-xs text-gray-600">400 plots of 500m² with club access</p>
                         </div>
                       </div>
                       <div className="flex gap-3 p-3 bg-pink-50 rounded-lg border-l-4 border-pink-600">
                         <div className="font-bold text-pink-600 min-w-6">4</div>
                         <div>
-                          <p className="font-semibold text-pink-900">Centro Comercial</p>
-                          <p className="text-xs text-gray-600">Shopping com 250+ lojas, alimentação e cinemas</p>
+                          <p className="font-semibold text-pink-900">Commercial Center</p>
+                          <p className="text-xs text-gray-600">Shopping with 250+ stores, food and cinemas</p>
                         </div>
                       </div>
                     </div>
@@ -1334,28 +1334,28 @@ export default function Dashboard() {
                 {/* Right Column - Key Numbers */}
                 <div>
                   <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.accent }}>
-                    Números Principais
+                    Key Numbers
                   </h3>
                   <div className="space-y-3">
                     <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-l-4 border-blue-600">
-                      <p className="text-xs text-gray-600 font-semibold">Total de Unidades Residenciais</p>
+                      <p className="text-xs text-gray-600 font-semibold">Total Residential Units</p>
                       <p className="text-2xl font-bold text-blue-600">320</p>
                     </div>
                     <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border-l-4 border-green-600">
-                      <p className="text-xs text-gray-600 font-semibold">Membros do Clube</p>
+                      <p className="text-xs text-gray-600 font-semibold">Club Members</p>
                       <p className="text-2xl font-bold text-green-600">6.000</p>
                     </div>
                     <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg border-l-4 border-purple-600">
-                      <p className="text-xs text-gray-600 font-semibold">Total de Funcionários</p>
+                      <p className="text-xs text-gray-600 font-semibold">Total Employees</p>
                       <p className="text-2xl font-bold text-purple-600">204</p>
                     </div>
                     <div className="p-4 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg border-l-4 border-amber-600">
-                      <p className="text-xs text-gray-600 font-semibold">Áreas Comerciais</p>
+                      <p className="text-xs text-gray-600 font-semibold">Commercial Areas</p>
                       <p className="text-2xl font-bold text-amber-600">250+</p>
                     </div>
                     <div className="p-4 bg-gradient-to-r from-red-50 to-red-100 rounded-lg border-l-4 border-red-600">
-                      <p className="text-xs text-gray-600 font-semibold">Investimento Total</p>
-                      <p className="text-2xl font-bold text-red-600">R$ 250M</p>
+                      <p className="text-xs text-gray-600 font-semibold">Total Investment</p>
+                      <p className="text-2xl font-bold text-red-600">$50M</p>
                     </div>
                   </div>
                 </div>
@@ -1371,7 +1371,7 @@ export default function Dashboard() {
               }}
             >
               <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.secondary }}>
-                🏥 Facilities & Serviços
+                🏥 Facilities & Services
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
@@ -1380,43 +1380,43 @@ export default function Dashboard() {
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Piscinas Olímpicas</span>
+                  <span className="text-sm font-medium">Olympic Pools</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Academia 24h</span>
+                  <span className="text-sm font-medium">24h Gym</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Quadras Esportivas</span>
+                  <span className="text-sm font-medium">Sports Courts</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Restaurante Premium</span>
+                  <span className="text-sm font-medium">Premium Restaurant</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Cabeleireiro</span>
+                  <span className="text-sm font-medium">Hairdresser</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Centro Médico 24h</span>
+                  <span className="text-sm font-medium">24h Medical Center</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Home Care 24h</span>
+                  <span className="text-sm font-medium">24h Home Care</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Terapias Diversas</span>
+                  <span className="text-sm font-medium">Diverse Therapies</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Fisioterapia</span>
+                  <span className="text-sm font-medium">Physiotherapy</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Consultas Médicas</span>
+                  <span className="text-sm font-medium">Medical Consultations</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
                   <span className="text-lg">✓</span>
@@ -1481,19 +1481,19 @@ export default function Dashboard() {
                 }}
               >
                 <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: "#059669" }}>
-                  🎯 Receitas Iniciais (Vendas)
+                  🎯 Initial Revenue (Sales)
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Residencial Senior</span>
+                    <span className="text-sm font-medium text-gray-700">Senior Residential</span>
                     <span className="font-bold text-green-600">{formatCurrency(160000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Clube Life Style</span>
+                    <span className="text-sm font-medium text-gray-700">Lifestyle Club</span>
                     <span className="font-bold text-green-600">{formatCurrency(300000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Loteamento</span>
+                    <span className="text-sm font-medium text-gray-700">Subdivision</span>
                     <span className="font-bold text-green-600">{formatCurrency(144000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
@@ -1516,19 +1516,19 @@ export default function Dashboard() {
                 }}
               >
                 <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.gold }}>
-                  💵 Receitas Mensais Recorrentes
+                  💵 Monthly Recurring Revenue
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Residencial</span>
+                    <span className="text-sm font-medium text-gray-700">Residential</span>
                     <span className="font-bold text-amber-600">{formatCurrency(8400000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Clube</span>
+                    <span className="text-sm font-medium text-gray-700">Club</span>
                     <span className="font-bold text-amber-600">{formatCurrency(3000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Comércios</span>
+                    <span className="text-sm font-medium text-gray-700">Commercial</span>
                     <span className="font-bold text-amber-600">{formatCurrency(1575000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-4 bg-gradient-to-r from-amber-100 to-amber-200 rounded-lg border-t-2 border-amber-600 mt-2">
@@ -1558,16 +1558,16 @@ export default function Dashboard() {
             className="text-lg font-bold mb-2"
             style={{ color: GIARDINO_COLORS.accent }}
           >
-            🌿 GIARDINO — INVESTIMENTO PREMIUM 🌿
+            🌿 GIARDINO — PREMIUM INVESTMENT 🌿
           </p>
           <p className="mb-2" style={{ color: `${GIARDINO_COLORS.light}cc` }}>
-            Modelo de Investimento Residencial Senior + Clube Life Style
+            Investment Model Senior Residential + Lifestyle Club
           </p>
           <p className="text-sm" style={{ color: `${GIARDINO_COLORS.light}aa` }}>
-            © 2024 — Mogi das Cruzes, São Paulo | Área Total: 258.900 m²
+            © 2024 — Mogi das Cruzes, São Paulo | Total Area: 258,900 m²
           </p>
           <p className="text-xs mt-4" style={{ color: `${GIARDINO_COLORS.light}88` }}>
-            Documento de Apresentação de Investimento — Confidencial
+            Investment Presentation Document — Confidential
           </p>
         </div>
       </div>

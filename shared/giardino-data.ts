@@ -1,51 +1,51 @@
 /**
- * PROJETO GIARDINO - MODELO DE INVESTIMENTO
- * Residencial Senior + Clube Life Style + Loteamento + Shopping
- * 
- * ANÁLISE FINANCEIRA COMPLETA
+ * GIARDINO PROJECT - INVESTMENT MODEL
+ * Senior Residence + Lifestyle Club + Subdivision + Shopping
+ *
+ * COMPLETE FINANCIAL ANALYSIS
  */
 
 // ============================================
-// ESTRUTURA DE RECEITAS INICIAIS (VENDAS)
+// INITIAL REVENUE STRUCTURE (SALES)
 // ============================================
 
 export const initialSales = {
   residentialSenior: {
-    title: "Residencial Senior",
+    title: "Senior Residence",
     units: 240,
     pricePerUnit: 5_000_000,
     total: 1_200_000_000,
-    description: "240 unidades residenciais - venda ao longo de 10 anos",
+    description: "240 residential units - sold over 10 years",
   },
   timeShare: {
     title: "Time Share",
     units: 80,
     pricePerUnit: 2_000_000,
     total: 160_000_000,
-    description: "80 cotas de time share comercializadas",
+    description: "80 time-share shares sold",
   },
   lifeStyleClub: {
-    title: "Clube Life Style",
+    title: "Lifestyle Club",
     units: 6_000,
     pricePerUnit: 35_000,
     total: 210_000_000,
-    downPayment: 10_000, // por unidade
+    downPayment: 10_000, // per unit
     annualInstallments: 4,
-    annualAmount: 10_000, // por parcela
-    description: "6.000 títulos comercializados",
+    annualAmount: 10_000, // per installment
+    description: "6,000 memberships sold",
   },
   subdivision: {
-    title: "Loteamento",
+    title: "Subdivision",
     units: 400,
     pricePerUnit: 400_000,
     total: 160_000_000,
     areaPerUnit: 500, // m²
-    description: "400 terrenos - todos ganham acesso ao clube",
+    description: "400 lots - everyone gets club access",
   },
   mall: {
     title: "Shopping/Mall",
     stores: [
-      { type: "Lojas comerciais", quantity: 250, size: 50, price: 10_000, total: 2_500_000 },
+      { type: "Commercial stores", quantity: 250, size: 50, price: 10_000, total: 2_500_000 },
     ],
     total: 2_500_000,
   },
@@ -60,38 +60,38 @@ export const totalInitialSales =
 // TOTAL: R$ 1.732.500.000
 
 // ============================================
-// RECEITAS MENSAIS RECORRENTES
+// RECURRING MONTHLY REVENUE
 // ============================================
 
 export const monthlyRecurringRevenue = {
   residentialSenior: {
-    title: "Residencial Senior (Mensalidades)",
+    title: "Senior Residence (Monthly Fees)",
     units: 240,
     pricePerUnit: 38_000,
     monthlyTotal: 9_120_000,
-    description: "240 unidades habitadas - pacote all-inclusive",
+    description: "240 occupied units - all-inclusive package",
   },
   lifeStyleClubMembership: {
-    title: "Mensalidade Clube Life Style",
+    title: "Lifestyle Club Membership Fee",
     members: 6_000,
     monthlyFeePerMember: 400,
     monthlyTotal: 2_400_000,
-    description: "6.000 títulos ativos pagando mensalidade",
+    description: "6,000 active memberships paying monthly fees",
   },
   shoppingMall: {
-    title: "Aluguel Shopping/Mall",
+    title: "Shopping/Mall Rent",
     stores: 250,
     monthlyRentPerStore: 10_000,
     monthlyTotal: 2_500_000,
-    description: "250 lojas - aluguel mensal",
+    description: "250 stores - monthly rent",
   },
   consumption: {
-    title: "Consumação (Bares, Restaurantes, Eventos)",
+    title: "On-site Spending (Bars, Restaurants, Events)",
     dailyFootTraffic: 500,
-    averageSpending: 92, // por pessoa
+    averageSpending: 92, // per person
     daysPerMonth: 30,
     monthlyTotal: 1_380_000, // (500 x 92 x 30)
-    description: "Fluxo comercial interno - consumo médio",
+    description: "Internal commercial traffic - average spending",
   },
 };
 
@@ -100,78 +100,78 @@ export const totalMonthlyRevenue =
   monthlyRecurringRevenue.lifeStyleClubMembership.monthlyTotal +
   monthlyRecurringRevenue.shoppingMall.monthlyTotal +
   monthlyRecurringRevenue.consumption.monthlyTotal;
-// TOTAL MENSAL: R$ 15.400.000
+// MONTHLY TOTAL: R$ 15,400,000
 
 // ============================================
-// CUSTOS OPERACIONAIS MENSAIS
+// MONTHLY OPERATING COSTS
 // ============================================
 
 export const humanResources = {
   housekeeping: {
-    title: "Camareiras",
+    title: "Housekeepers",
     quantity: 24,
     salaryPerPerson: 1_800,
     monthlyTotal: 43_200,
-    ratio: "1 camareira por 10 apartamentos",
+    ratio: "1 housekeeper per 10 units",
   },
   culinary: {
-    title: "Cozinheiras + Auxiliares",
-    quantity: 26, // 6 cozinheiras + 20 auxiliares
+    title: "Cooks + Assistants",
+    quantity: 26, // 6 cooks + 20 assistants
     salaryPerPerson: 1_800,
     monthlyTotal: 46_800,
-    description: "6 cozinheiras + 20 auxiliares de cozinha",
+    description: "6 cooks + 20 kitchen assistants",
   },
   laundry: {
-    title: "Lavanderia (Lavadeiras + Passadeiras)",
+    title: "Laundry (Washers + Ironers)",
     quantity: 10,
     salaryPerPerson: 1_800,
     monthlyTotal: 18_000,
   },
   cleaning: {
-    title: "Auxiliares de Limpeza (Áreas Comuns)",
+    title: "Cleaning Assistants (Common Areas)",
     quantity: 10,
     salaryPerPerson: 1_800,
     monthlyTotal: 18_000,
   },
   maintenance: {
-    title: "Jardineiros + Piscineiros/Salva-vidas",
+    title: "Gardeners + Pool Attendants/Lifeguards",
     quantity: 10,
     salaryPerPerson: 1_800,
     monthlyTotal: 18_000,
   },
   beauty: {
-    title: "Beleza (Cabeleireiros, Barbeiros, Manicures, Depiladoras)",
+    title: "Beauty (Hairdressers, Barbers, Manicurists, Waxing Specialists)",
     quantity: 36, // 6+6+12+6
     salaryPerPerson: 1_800,
     monthlyTotal: 64_800,
   },
   reception: {
-    title: "Recepcionistas",
+    title: "Receptionists",
     quantity: 10,
     salaryPerPerson: 1_800,
     monthlyTotal: 18_000,
   },
   security: {
-    title: "Seguranças",
+    title: "Security Guards",
     quantity: 24,
     salaryPerPerson: 3_000,
     monthlyTotal: 72_000,
-    description: "24h segurança - 3 turnos",
+    description: "24-hour security - 3 shifts",
   },
   healthcare: {
-    title: "Enfermeiros/Enfermeiras",
+    title: "Nurses",
     quantity: 30,
     salaryPerPerson: 3_000,
     monthlyTotal: 90_000,
-    description: "Cuidados de saúde 24/7",
+    description: "24/7 healthcare",
   },
   administrative: {
-    title: "Administrativo e Gestão",
+    title: "Administration and Management",
     departments: [
-      { name: "Escritório", quantity: 4 },
-      { name: "Contabilidade", quantity: 4 },
-      { name: "Atendimento", quantity: 4 },
-      { name: "Administração", quantity: 4 },
+      { name: "Office", quantity: 4 },
+      { name: "Accounting", quantity: 4 },
+      { name: "Customer Service", quantity: 4 },
+      { name: "Administration", quantity: 4 },
       { name: "Marketing", quantity: 2 },
     ],
     quantity: 18,
@@ -184,42 +184,42 @@ export const totalHRCosts = Object.values(humanResources).reduce(
   (sum, dept: any) => sum + dept.monthlyTotal,
   0
 );
-// TOTAL RH: R$ 469.000
+// HR TOTAL: R$ 469,000
 
 export const residentialOperatingCosts = {
-  description: "Custos por unidade residencial (240 unidades)",
+  description: "Costs per residential unit (240 units)",
   hosting: {
-    title: "Hospedagem",
+    title: "Accommodation",
     costPerUnit: 4_500,
     units: 240,
     monthlyTotal: 1_080_000,
   },
   meals: {
-    title: "Alimentação (5 refeições/dia)",
+    title: "Meals (5 meals/day)",
     costPerUnit: 6_000,
     units: 240,
     monthlyTotal: 1_440_000,
   },
   sportsRecreation: {
-    title: "Esporte e Lazer",
+    title: "Sports and Recreation",
     costPerUnit: 2_400,
     units: 240,
     monthlyTotal: 576_000,
   },
   medicalCare: {
-    title: "Cuidados Médicos/Home Care/Odontológicos",
+    title: "Medical/Home Care/Dental Care",
     costPerUnit: 2_400,
     units: 240,
     monthlyTotal: 576_000,
   },
   therapies: {
-    title: "Terapias/Fisioterapia e Oficinas",
+    title: "Therapies/Physiotherapy and Workshops",
     costPerUnit: 2_400,
     units: 240,
     monthlyTotal: 576_000,
   },
   personalCare: {
-    title: "Cuidados Pessoais",
+    title: "Personal Care",
     costPerUnit: 300,
     units: 240,
     monthlyTotal: 72_000,
@@ -229,33 +229,33 @@ export const residentialOperatingCosts = {
 export const totalResidentialCosts = Object.values(residentialOperatingCosts)
   .filter((item: any) => typeof item === "object" && item.monthlyTotal)
   .reduce((sum: number, item: any) => sum + item.monthlyTotal, 0);
-// TOTAL OPERACIONAL: R$ 4.320.000
+// OPERATIONAL TOTAL: R$ 4,320,000
 
 // ============================================
-// CUSTOS DE FINANCIAMENTO (CAPEX)
+// FINANCING COSTS (CAPEX)
 // ============================================
 
 export const financing = {
   totalLoan: 100_000_000,
-  annualInterestRate: 0.06, // 6% ao ano
-  loanTermMonths: 120, // 10 anos
+  annualInterestRate: 0.06, // 6% per year
+  loanTermMonths: 120, // 10 years
   monthlyPayment: 1_000_000, // Principal
-  description: "Financiamento do CAPEX - 10 anos, 6% a.a.",
+  description: "CAPEX financing - 10 years, 6% p.a.",
 };
 
-// Cálculo de juros ao mês: 6% / 12 = 0.5%
-// Juros do mês 1: R$ 100.000.000 * 0.005 = R$ 500.000
-// Essa é uma aproximação - pode variar mensalmente conforme amortização
+// Monthly interest calculation: 6% / 12 = 0.5%
+// Month 1 interest: R$ 100,000,000 * 0.005 = R$ 500,000
+// This is an approximation - it may vary monthly as amortization progresses
 export const monthlyInterest = financing.totalLoan * (financing.annualInterestRate / 12);
 
 // ============================================
-// RESUMO FINANCEIRO CONSOLIDADO
+// CONSOLIDATED FINANCIAL SUMMARY
 // ============================================
 
 export const financialSummary = {
   initialCapital: {
-    downPaymentProposal: 30_000_000, // entrada Dinho
-    annualPayments: 20_000_000, // 6 parcelas anuais
+    downPaymentProposal: 30_000_000, // Down payment proposal
+    annualPayments: 20_000_000, // 6 annual installments
     totalProposalPayment: 150_000_000,
   },
   monthlyAnalysis: {
@@ -272,7 +272,7 @@ export const financialSummary = {
 };
 
 // ============================================
-// CÁLCULOS DE VIABILIDADE
+// FEASIBILITY CALCULATIONS
 // ============================================
 
 export const viabilityAnalysis = {
@@ -283,148 +283,148 @@ export const viabilityAnalysis = {
     totalMonthlyRevenue -
     (totalHRCosts + totalResidentialCosts + financing.monthlyPayment + monthlyInterest),
   breakEvenAnalysis: {
-    description: "Análise de ponto de equilíbrio",
+    description: "Break-even analysis",
     monthsToBreakEven: "TBD",
   },
   roi: {
-    totalInitialInvestment: 150_000_000, // Proposta Dinho
-    projectedAnnualProfit: 
+    totalInitialInvestment: 150_000_000, // Down payment proposal
+    projectedAnnualProfit:
       (totalMonthlyRevenue - totalHRCosts - totalResidentialCosts - financing.monthlyPayment - monthlyInterest) * 12,
   },
 };
 
 // ============================================
-// DADOS ESTRUTURAIS DO PROJETO
+// PROJECT STRUCTURAL DATA
 // ============================================
 
 export const projectStructure = {
   residentialSenior: {
-    title: "Residencial Senior + SPA",
+    title: "Senior Residence + Spa",
     totalUnits: 240,
-    type: "Habitacional com serviços especializados",
+    type: "Residential with specialized services",
     services: [
-      "Acomodação all-inclusive",
-      "Alimentação (5 refeições/dia)",
-      "Cuidados médicos 24/7",
-      "Terapias e fisioterapia",
-      "Atividades esportivas",
-      "Serviços de beleza",
+      "All-inclusive accommodation",
+      "Meals (5 meals/day)",
+      "24/7 medical care",
+      "Therapies and physiotherapy",
+      "Sports activities",
+      "Beauty services",
       "Home care",
-      "Cuidados odontológicos",
+      "Dental care",
     ],
   },
   hospitality: {
-    title: "Hospedagem (Pousada/Hotel)",
+    title: "Accommodation (Inn/Hotel)",
     totalUnits: 80,
-    type: "Hospedagem turística",
+    type: "Tourist accommodation",
     dailyRate: 1_200,
     occupancyTarget: 0.3,
   },
   lifeStyleClub: {
-    title: "Clube Life Style",
+    title: "Lifestyle Club",
     totalMembers: 6_000,
-    benefitsPerMember: "360 dias/ano acesso completo",
+    benefitsPerMember: "Full access 360 days/year",
     facilities: [
       "Spa",
-      "Piscinas",
-      "Quadras esportivas",
-      "Área kids",
-      "Academia",
-      "Consultas médicas e odontológicas",
-      "Cabeleireiro e beleza",
-      "Centro de convenções",
-      "Salões de festas",
-      "Bares e restaurantes",
-      "Hospedagem",
-      "Lojas",
+      "Pools",
+      "Sports courts",
+      "Kids area",
+      "Gym",
+      "Medical and dental consultations",
+      "Hairdressing and beauty",
+      "Convention center",
+      "Event halls",
+      "Bars and restaurants",
+      "Accommodation",
+      "Shops",
     ],
   },
   subdivision: {
-    title: "Loteamento Residencial",
+    title: "Residential Subdivision",
     totalUnits: 400,
     areaPerUnit: 500,
     pricePerUnit: 360_000,
-    bonus: "Todos ganham acesso ao clube",
+    bonus: "Everyone gets club access",
   },
   commercial: {
-    title: "Centro Comercial (Shopping/Mall)",
+    title: "Commercial Center (Shopping Mall)",
     categories: [
-      "200 lojas comerciais (50m²)",
-      "50 lojas de alimentação",
-      "Posto de gasolina",
+      "200 commercial stores (50 m²)",
+      "50 food outlets",
+      "Gas station",
       "2 cinemas",
-      "Supermercado",
-      "Pet shop",
-      "Farmácia",
-      "Drogaria",
+      "Supermarket",
+      "Pet store",
+      "Pharmacy",
+      "Drugstore",
     ],
   },
 };
 
 // ============================================
-// SERVIÇOS INCLUSOS NO PACOTE RESIDENCIAL
+// SERVICES INCLUDED IN THE RESIDENTIAL PACKAGE
 // ============================================
 
 export const includedServices = [
-  "Limpeza diária",
-  "Trocas de roupa 3x/semana",
-  "Toalhas de piscina diariamente",
-  "Lavanderia completa 1x/semana",
-  "5 refeições por dia",
-  "1 atividade esportiva/dia",
-  "Terapia ou fisioterapia 3x/semana + 2x oficinas",
-  "Cuidados médicos e home care",
-  "Sala de jogos livre",
-  "8 festas/eventos por mês",
-  "Ambulância emergencial",
-  "Concierge e mordomo",
-  "Transporte interno",
-  "Água, luz e internet",
-  "Manicure/pedicure (4x/mês)",
-  "Cabelereiro (4x/mês)",
-  "Limpeza de pele (2x/mês)",
-  "Depilação (2x/mês)",
+  "Daily cleaning",
+  "Linen change 3x/week",
+  "Pool towels daily",
+  "Full laundry service 1x/week",
+  "5 meals per day",
+  "1 sports activity/day",
+  "Therapy or physiotherapy 3x/week + 2 workshops",
+  "Medical care and home care",
+  "Free games room",
+  "8 parties/events per month",
+  "Emergency ambulance",
+  "Concierge and butler",
+  "Internal transport",
+  "Water, electricity, and internet",
+  "Manicure/pedicure (4x/month)",
+  "Hairdresser (4x/month)",
+  "Facial cleansing (2x/month)",
+  "Waxing (2x/month)",
 ];
 
 // ============================================
-// SERVIÇOS COMPLEMENTARES (NÃO INCLUSOS)
+// ADDITIONAL SERVICES (NOT INCLUDED)
 // ============================================
 
 export const additionalServices = [
-  "Medicamentos pessoais",
-  "Fraldas geriátricas",
-  "Produtos de higiene pessoal",
-  "Transporte para passeios (R$6/km)",
-  "Viagens de lazer",
-  "Transporte de helicóptero",
-  "Compras pessoais",
-  "Acompanhamento full time",
+  "Personal medications",
+  "Adult diapers",
+  "Personal hygiene products",
+  "Transportation for outings (R$6/km)",
+  "Leisure trips",
+  "Helicopter transport",
+  "Personal shopping",
+  "Full-time assistance",
 ];
 
 // ============================================
-// PROJEÇÕES FINANCEIRAS MULTI-ANUAIS
+// MULTI-YEAR FINANCIAL PROJECTIONS
 // ============================================
 
 export const generateYearlyProjections = () => {
   const projections = [];
   let cumulativeProfit = 0;
 
-  // Fator de ocupação/ramp-up: começando com 80% e atingindo 100% no ano 3
+  // Occupancy/ramp-up factor: starting at 80% and reaching 100% in year 3
   const rampUpFactors = [0.80, 0.90, 1.0, 1.02, 1.04, 1.06, 1.08, 1.10, 1.12, 1.15];
 
   for (let year = 1; year <= 10; year++) {
     const rampFactor = rampUpFactors[year - 1] || 1.15;
 
-    // Receita bruta com ramp-up e crescimento gradual
+    // Gross revenue with ramp-up and gradual growth
     const grossRevenue = Math.round(totalMonthlyRevenue * 12 * rampFactor);
 
-    // Custos com inflação anual de 2%
+    // Costs with annual inflation of 2%
     const costInflation = 1 + (year > 1 ? 0.02 * (year - 1) : 0);
     const hrCosts = Math.round(totalHRCosts * 12 * costInflation);
     const operationalCosts = Math.round(totalResidentialCosts * 12 * costInflation);
     const financingPayment = Math.round(financing.monthlyPayment * 12);
 
-    // Juros decrescem conforme o saldo diminui
+    // Interest decreases as the balance decreases
     const remainingBalance = Math.max(0, financing.totalLoan - (financing.monthlyPayment * 12 * (year - 1)));
     const interestCost = Math.round(remainingBalance * financing.annualInterestRate);
 
@@ -433,7 +433,7 @@ export const generateYearlyProjections = () => {
 
     cumulativeProfit += netProfit;
 
-    // ROI calculado sobre o lucro acumulado vs investimento inicial
+    // ROI calculated on cumulative profit versus initial investment
     const roi = ((cumulativeProfit) / financing.totalLoan) * 100;
 
     projections.push({
@@ -452,15 +452,15 @@ export const generateYearlyProjections = () => {
 export const yearlyProjections = generateYearlyProjections();
 
 // ============================================
-// EXPORT COMPLETO
+// FULL EXPORT
 // ============================================
 
 export const giardino = {
-  projectName: "GIARDINO - Modelo de Investimento",
+  projectName: "GIARDINO - Investment Model",
   location: "Mogi das Cruzes - São Paulo",
-  description: "Projeto complexo: Residencial Senior + Clube Life Style + Loteamento + Shopping",
+  description: "Complex project: Senior Residence + Lifestyle Club + Subdivision + Shopping",
 
-  // Dados financeiros
+  // Financial data
   sales: initialSales,
   totalSales: totalInitialSales,
   monthlyRevenue: monthlyRecurringRevenue,
@@ -469,14 +469,14 @@ export const giardino = {
   residentialCosts: residentialOperatingCosts,
   financing: financing,
 
-  // Análises
+  // Analyses
   summary: financialSummary,
   viability: viabilityAnalysis,
 
-  // Projeções
+  // Projections
   yearlyProjections: yearlyProjections,
 
-  // Estrutura
+  // Structure
   structure: projectStructure,
   services: {
     included: includedServices,
