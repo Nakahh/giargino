@@ -1,0 +1,68 @@
+/* Design Tokens - Escala de espaçamento, tipografia, sombras e motion */
+
+:root {
+  /* Spacing Scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* Typography Scale */
+  --font-size-hero: 4rem;
+  --font-size-section: 2.5rem;
+  --font-size-card-title: 1.5rem;
+  --font-size-body-lg: 1.125rem;
+  --font-size-body: 1rem;
+  --font-size-small: 0.875rem;
+  --font-size-tiny: 0.75rem;
+
+  --line-height-tight: 1.1;
+  --line-height-heading: 1.2;
+  --line-height-body: 1.6;
+
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: normal;
+
+  /* Shadow Scale */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.10);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.10);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.10);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  --shadow-elevation: 0 20px 40px -10px rgba(31, 59, 94, 0.20), 0 0 0 1px rgba(244, 196, 48, 0.12);
+
+  /* Border Scale */
+  --border-none: 0;
+  --border-thin: 1px;
+  --border-accent: 4px;
+
+  /* Radius Scale */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Motion Scale */
+  --motion-fast: 150ms;
+  --motion-normal: 300ms;
+  --motion-slow: 500ms;
+  --motion-cinematic: 900ms;
+
+  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
+  /* Typography Color Hierarchy */
+  --text-headline: #1A1A1A;
+  --text-body: #374151;
+  --text-muted: #6B7280;
+  --text-accent-gold: #F4C430;
+  --text-accent-navy: #1F3B5E;
+}

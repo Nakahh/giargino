@@ -1,156 +1,123 @@
-import { motion } from "framer-motion";
-import { LucideIcon } from "lucide-react";
-import { useState } from "react";
+import { type ComponentType, type SVGProps } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useCurrency } from "@/hooks/use-currency";
 
+type Trend = {
+  direction: "up" | "down";
+  percentage: number;
+};
+
+type IconType = ComponentType<SVGProps<SVGSVGElement>>;
+type Variant = "default" | "gradient" | "glass";
+
 interface PremiumKPICardProps {
-  title: string;
-  value: string | number;
-  subtitle?: string;
-  icon?: LucideIcon;
-  trend?: {
-    value: number;
-    isPositive: boolean;
-  };
-  bgColor?: string;
-  iconColor?: string;
+  icon: IconType;
+  label: string;
+  value: number | string;
+  trend?: Trend;
+  color?: string;
+  backgroundColor?: string;
+  variant?: Variant;
   delay?: number;
+  className?: string;
 }
 
+const EASE_IN_OUT_CUBIC = [0.645, 0.045, 0.355, 1] as const;
+
 export function PremiumKPICard({
-  title,
-  value,
-  subtitle,
   icon: Icon,
+  label,
+  value,
   trend,
-  bgColor = "from-blue-50 to-blue-100",
-  iconColor = "text-blue-600",
+  color = "#1F3B5E",
+  backgroundColor = "rgba(255,255,255,0.78)",
+  variant = "default",
   delay = 0,
+  className,
 }: PremiumKPICardProps) {
-  const [isHovered, setIsHovered] = useState(false);
   const { formatCurrency } = useCurrency();
+  const reduceMotion = useReducedMotion();
+
+  const formattedValue = typeof value === "number" ? formatCurrency(value) : value;
+  const isUp = trend?.direction === "up";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      whileHover={{
-        y: -10,
-        scale: 1.02,
-        transition: { duration: 0.2 },
-      }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      viewport={{ once: false, amount: 0.3 }}
-      transition={{
-        duration: 0.5,
-        delay: delay * 0.08,
-        ease: "easeOut",
-      }}
-      className={`relative rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all overflow-hidden cursor-pointer group border border-opacity-20 border-gray-300`}
+    <motion.article
+      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+      animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      whileHover={reduceMotion ? undefined : { scale: 1.02, y: -4 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.99 }}
+      transition={{ duration: 0.3, delay, ease: EASE_IN_OUT_CUBIC }}
+      className={cn(
+        "group relative overflow-hidden rounded-2xl border border-white/60",
+        "p-4 md:p-6 shadow-sm transform-gpu will-change-transform",
+        "transition-all duration-300 ease-in-out hover:shadow-2xl",
+        variant === "glass" && "glass-effect-premium backdrop-blur-md",
+        variant === "gradient" && "bg-gradient-to-br from-white via-white to-slate-50",
+        variant === "default" && "bg-white",
+        className
+      )}
       style={{
-        background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
-        perspective: "1000px",
+        borderLeftWidth: 4,
+        borderLeftColor: color,
+        backgroundColor,
+        boxShadow: "0 1px 3px rgba(15, 23, 42, 0.08)",
       }}
     >
-      {/* Gradient background */}
       <div
-        className={`absolute inset-0 bg-gradient-to-br ${bgColor} opacity-100`}
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
-          backgroundImage:
-            "linear-gradient(135deg, rgba(244,196,48,0.05) 0%, rgba(255,255,255,0) 100%)",
+          background: `radial-gradient(circle at top left, ${color}22 0%, transparent 45%)`,
         }}
       />
 
-      {/* Animated corner accent */}
-      <motion.div
-        className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-10"
-        style={{
-          background: iconColor,
-        }}
-        animate={isHovered ? { scale: 1.3, opacity: 0.15 } : { scale: 1, opacity: 0.1 }}
-        transition={{ duration: 0.3 }}
-      />
+      <div className="relative z-10 flex items-start gap-4">
+        <motion.div
+          className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-white/80 shadow-sm ring-1 ring-black/5"
+          whileHover={reduceMotion ? undefined : { rotate: 5, scale: 1.1 }}
+          transition={{ duration: 0.3, ease: EASE_IN_OUT_CUBIC }}
+          style={{ color }}
+        >
+          <Icon className="h-8 w-8" strokeWidth={1.8} />
+        </motion.div>
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col justify-between">
-        <div className="flex items-start justify-between gap-4 mb-6">
-          <div className="flex-1">
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: delay * 0.08 + 0.2 }}
-              className="text-xs md:text-sm font-bold text-gray-600 uppercase tracking-wider mb-2"
-            >
-              {title}
-            </motion.p>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-medium text-slate-500">{label}</p>
 
-            <motion.h3
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: delay * 0.08 + 0.3 }}
-              className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 leading-tight"
-            >
-              {typeof value === "number" ? formatCurrency(value) : value}
-            </motion.h3>
-
-            {subtitle && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: delay * 0.08 + 0.4 }}
-                className="text-xs md:text-sm text-gray-600 font-medium"
-              >
-                {subtitle}
-              </motion.p>
-            )}
-
-            {trend && (
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: delay * 0.08 + 0.5 }}
-                className={`mt-4 text-sm font-bold flex items-center gap-1 ${
-                  trend.isPositive ? "text-green-600" : "text-red-600"
-                }`}
-              >
-                <motion.span
-                  animate={{ y: [0, -2, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  {trend.isPositive ? "↗" : "↘"}
-                </motion.span>
-                {Math.abs(trend.value).toFixed(1)}%
-              </motion.div>
-            )}
+          <div
+            className="mt-1 bg-clip-text text-[2.5rem] font-bold leading-none tracking-tight text-transparent md:text-[3rem]"
+            style={{
+              backgroundImage:
+                variant === "gradient"
+                  ? `linear-gradient(135deg, ${color} 0%, #F4C430 100%)`
+                  : `linear-gradient(135deg, ${color} 0%, #0F172A 100%)`,
+            }}
+          >
+            {formattedValue}
           </div>
 
-          {Icon && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-              whileHover={{
-                scale: 1.2,
-                rotate: 10,
-                transition: { duration: 0.3 },
-              }}
-              transition={{ delay: delay * 0.08 + 0.2 }}
-              className={`flex-shrink-0 p-3 rounded-xl bg-white bg-opacity-50`}
+          {trend && (
+            <div
+              className={cn(
+                "mt-3 flex items-center gap-1 text-sm font-semibold",
+                isUp ? "text-emerald-600" : "text-rose-600"
+              )}
             >
-              <Icon className={`w-8 h-8 ${iconColor}`} strokeWidth={1.5} />
-            </motion.div>
+              {isUp ? (
+                <ArrowUpRight className="h-4 w-4" />
+              ) : (
+                <ArrowDownRight className="h-4 w-4" />
+              )}
+              <span>
+                {isUp ? "+" : "-"}
+                {Math.abs(trend.percentage).toFixed(1)}%
+              </span>
+            </div>
           )}
         </div>
-
-        {/* Animated bottom accent line */}
-        <motion.div
-          className="h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ delay: delay * 0.08 + 0.6, duration: 0.6 }}
-          style={{ originX: 0 }}
-        />
       </div>
-    </motion.div>
+    </motion.article>
   );
 }
