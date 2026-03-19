@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   BarChart,
   Bar,
@@ -19,6 +20,7 @@ import {
 import { KPICard } from "@/components/KPICard";
 import { ProjectGalleryPDF } from "@/components/ProjectGalleryPDF";
 import { ResponsiveTable } from "@/components/ResponsiveTable";
+import { useCurrency } from "@/hooks/use-currency";
 import { giardino } from "@shared/giardino-data";
 import {
   TrendingUp,
@@ -53,15 +55,6 @@ const CHART_COLORS = [
   "#6366F1",
   "#10B981",
 ];
-
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
-}
 
 // Componente de Legenda Customizada para PDF
 function PDFLegend({ items, layout = "horizontal" }: { items: any[]; layout?: "horizontal" | "vertical" }) {
@@ -109,6 +102,9 @@ export interface PDFWrapperProps {
 }
 
 export function PDFWrapper({ forPDF = false }: PDFWrapperProps) {
+  const { t } = useTranslation();
+  const { formatCurrency, formatCurrencyWithDecimals } = useCurrency();
+
   // Dados de receitas
   const revenueData = [
     {

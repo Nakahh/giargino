@@ -342,5 +342,57 @@
   "currency": {
     "brl": "R$",
     "usd": "$"
+  },
+  "ui": {
+    "buttons": {
+      "downloadProject": "📄 Download Complete Project",
+      "downloadComplete": "Generating PDF...",
+      "downloadCompleteWait": "Generating PDF (may take a few seconds)...",
+      "langSwitchPortuguese": "Mudar para Português",
+      "langSwitchEnglish": "Switch to English"
+    },
+    "messages": {
+      "pdfSuccess": "✅ PDF generated successfully!",
+      "pdfSuccessFull": "✅ Complete PDF generated successfully!",
+      "pdfError": "❌ Error generating PDF.",
+      "dashboardNotFound": "Dashboard not found!",
+      "tryAgain": "Try:",
+      "reloadPage": "1. Reload the page",
+      "waitLoad": "2. Wait for the dashboard to load completely",
+      "tryOnceMore": "3. Try again"
+    },
+    "pdf": {
+      "filename": "GIARDINO-Complete-Project-Premium.pdf",
+      "totalPages": "Total: {{count}} pages",
+      "header": "Professional header",
+      "sixTabs": "6 Complete tabs with data",
+      "tabsAll": "6 Complete tabs with all data",
+      "footer": "Footer with branding",
+      "layout": "A4 optimized layout",
+      "navigation": "Navigation menu removed",
+      "design": "Optimized design for printing",
+      "withoutMenu": "Without navigation menu",
+      "includes": "✓ Content:",
+      "includesFull": "✓ Includes:"
+    },
+    "gallery": {
+      "title": "Project Gallery",
+      "description": "Discover the premium spaces of GIARDINO",
+      "scroll": "Swipe to navigate"
+    },
+    "sections": {
+      "overview": "Overview",
+      "revenue": "Revenue",
+      "costs": "Costs",
+      "hr": "HR",
+      "viability": "Viability",
+      "about": "About"
+    },
+    "header": {
+      "residentialSenior": "SENIOR RESIDENTIAL",
+      "premiumModel": "Premium Investment Model",
+      "projectComposition": "Senior Residential + Life Style Club + Subdivision + Commercial Center",
+      "locationArea": "Location: Mogi das Cruzes, São Paulo — Area: 258,900 m²"
+    }
   }
 }
