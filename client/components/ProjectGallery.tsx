@@ -10,54 +10,62 @@ interface GalleryImage {
 }
 
 // Giardino Project Photos - Real Images URLs
-const galleryImagesBase: GalleryImage[] = [
+const galleryImagesBase: Array<GalleryImage & { index: number }> = [
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Fa067ca4bbd23418da604f0a0be440e7a?format=webp&width=1200",
-    title: "image.0.title",
+    title: "",
     category: "dining",
-    description: "image.0.description"
+    description: "",
+    index: 0,
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F3b289804842f48e7ba6c7336aeebd197?format=webp&width=1200",
-    title: "image.1.title",
+    title: "",
     category: "pool",
-    description: "image.1.description"
+    description: "",
+    index: 1,
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Ffc6a1a394a7e41699eca446712818e7f?format=webp&width=1200",
-    title: "image.2.title",
+    title: "",
     category: "sports",
-    description: "image.2.description"
+    description: "",
+    index: 2,
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Fd6137460547d4b51a94c210a5592a91e?format=webp&width=1200",
-    title: "image.3.title",
+    title: "",
     category: "facilities",
-    description: "image.3.description"
+    description: "",
+    index: 3,
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F7d667954fcd34263859b88608d9ccf15?format=webp&width=1200",
-    title: "image.4.title",
+    title: "",
     category: "facilities",
-    description: "image.4.description"
+    description: "",
+    index: 4,
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F5551d0485b564236aa1843f5240f438e?format=webp&width=1200",
-    title: "image.5.title",
+    title: "",
     category: "sports",
-    description: "image.5.description"
+    description: "",
+    index: 5,
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Fda58e1d2441b45f7a977f1baaa7127b0?format=webp&width=1200",
-    title: "image.6.title",
+    title: "",
     category: "pool",
-    description: "image.6.description"
+    description: "",
+    index: 6,
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F56f58a6bd34344af91499c540cee3f5b?format=webp&width=1200",
-    title: "image.7.title",
+    title: "",
     category: "facilities",
-    description: "image.7.description"
+    description: "",
+    index: 7,
   },
 ];
 
@@ -70,8 +78,8 @@ export function ProjectGallery() {
   // Translate image titles and descriptions dynamically
   const galleryImages = galleryImagesBase.map((img) => ({
     ...img,
-    title: t(`ui.gallery.images.${img.title}`),
-    description: t(`ui.gallery.images.${img.description}`),
+    title: t(`ui.gallery.images.${img.index}.title`),
+    description: t(`ui.gallery.images.${img.index}.description`),
   }));
 
   const filteredImages =
