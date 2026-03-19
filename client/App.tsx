@@ -13,12 +13,12 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+export const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <HashRouter basename="/giardino">
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -30,4 +30,22 @@ const App = () => (
   </QueryClientProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+let root: ReturnType<typeof createRoot> | null = null;
+
+function renderApp() {
+  const rootElement = document.getElementById("root");
+  if (!rootElement) return;
+
+  if (!root) {
+    root = createRoot(rootElement);
+  }
+  root.render(<App />);
+}
+
+renderApp();
+
+if (import.meta.hot) {
+  import.meta.hot.accept(() => {
+    renderApp();
+  });
+}
