@@ -919,8 +919,8 @@ export default function Dashboard() {
               columns={[
                 { key: "department", label: "Departamento", render: (v) => v },
                 { key: "count", label: "Quantidade", render: (v) => v },
-                { key: "salary", label: "Salário/pessoa", render: (v) => formatCurrency(v) },
-                { key: "total", label: "Total/mês", render: (v) => formatCurrency(v) },
+                { key: "salary", label: "Salário/pessoa", render: (v) => formatCurrencyWithDecimals(v) },
+                { key: "total", label: "Total/mês", render: (v) => formatCurrencyWithDecimals(v) },
               ]}
               headerTextColor={GIARDINO_COLORS.secondary}
             />
