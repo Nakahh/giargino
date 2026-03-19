@@ -37,19 +37,19 @@
     "monthLabel": "Mês {{month}}",
     "revenueDetail": "Detalhamento de Receitas",
     "revenueDetailDesc": "Análise detalhada de todas as fontes de receita",
-    "costDetail": "Breakdown de Custos Operacionais",
+    "costDetail": "Detalhamento de Custos Operacionais",
     "costDetailDesc": "Distribuição dos custos principais"
   },
   "revenue": {
-    "residential": "Residencial Senior",
+    "residential": "Residencial Sênior",
     "lifeStyleClub": "Clube Life Style",
     "shopping": "Shopping/Mall",
-    "consumption": "Consumação",
+    "consumption": "Consumo",
     "timeShare": "Time Share",
     "subdivision": "Loteamento",
     "cards": {
       "residentialSenior": {
-        "label": "RESIDENCIAL SENIOR"
+        "label": "RESIDENCIAL SÊNIOR"
       },
       "shoppingMall": {
         "label": "SHOPPING/MALL"
@@ -58,7 +58,7 @@
         "label": "CLUBE LIFE STYLE"
       },
       "consumption": {
-        "label": "CONSUMAÇÃO"
+        "label": "CONSUMO"
       },
       "monthlySuffix": "/mês"
     },
@@ -72,14 +72,14 @@
       }
     },
     "breakdown": {
-      "operationalBreakdown": "Breakdown de Custos Operacionais",
+      "operationalBreakdown": "Detalhamento de Custos Operacionais",
       "operationalBreakdownDesc": "Distribuição dos custos principais"
     },
     "labels": {
-      "residentialSenior": "Residencial Senior",
+      "residentialSenior": "Residencial Sênior",
       "lifeStyleClub": "Clube Life Style",
       "shoppingMall": "Shopping/Mall",
-      "consumption": "Consumação"
+      "consumption": "Consumo"
     }
   },
   "costs": {
@@ -233,14 +233,39 @@
         },
         "phase2": {
           "title": "Fase 2: Construção Residencial",
-          "description": "Edifícios de Residencial Senior + Clube Life Style",
+          "description": "Edifícios de Residencial Sênior + Clube Life Style",
           "installments": "• 6 parcelas: R$ 20.000.000/ano"
         },
         "phase3": {
           "title": "Fase 3: Operação Integral",
-          "description": "Gestão de Residencial Senior, Clube Life Style, Loteamento e Centro Comercial (shopping)",
+          "description": "Gestão de Residencial Sênior, Clube Life Style, Loteamento e Centro Comercial (shopping)",
           "monthlyPayment": "• Pagamento mensal: R$ 1.000.000 + juros"
         }
+      },
+      "completeTitle": "🏛️ GIARDINO — Projeto Completo e Visão Estratégica",
+      "vision": {
+        "title": "Visão Geral",
+        "description": "O projeto GIARDINO é um complexo residencial de luxo voltado para idosos e lifestyle premium, localizado em Mogi das Cruzes, São Paulo. Combina habitação especializada com serviços de wellness, clube social e shopping, criando um ecossistema completo de alta qualidade de vida."
+      },
+      "segments": {
+        "title": "Segmentos do Projeto",
+        "residentialSeniorSpa": "Residencial Sênior + SPA",
+        "residentialSeniorSpaDesc": "240 unidades - Pacote all inclusive com cuidados especializados",
+        "lifeStyleClub": "Clube Life Style",
+        "lifeStyleClubDesc": "6.000 membros com acesso a 360 serviços diários",
+        "subdivision": "Loteamento Residencial",
+        "subdivisionDesc": "400 terrenos de 500m² com acesso ao clube",
+        "commercialCenter": "Centro Comercial",
+        "commercialCenterDesc": "Shopping com 250+ lojas, alimentação e cinemas"
+      },
+      "keyNumbers": {
+        "title": "Números Principais",
+        "residentialUnits": "Total de Unidades Residenciais",
+        "clubMembers": "Membros do Clube",
+        "employees": "Total de Funcionários",
+        "commercialUnits": "Áreas Comerciais",
+        "totalInvestment": "Investimento Total",
+        "investmentValue": "R$ 250M"
       }
     },
     "revenueModel": {
@@ -273,10 +298,10 @@
       },
       "segments": {
         "title": "Segmentos do Projeto",
-        "residentialSeniorSpa": "Residencial Senior + SPA",
+        "residentialSeniorSpa": "Residencial Sênior + SPA",
         "residentialSeniorSpaDesc": "240 unidades - Pacote all inclusive com cuidados especializados",
         "lifeStyleClub": "Clube Life Style",
-        "lifeStyleClubDesc": "6.000 membros com acesso a 360 diárias",
+        "lifeStyleClubDesc": "6.000 membros com acesso a 360 serviços diários",
         "subdivision": "Loteamento Residencial",
         "subdivisionDesc": "400 terrenos de 500m² com acesso ao clube",
         "commercialCenter": "Centro Comercial",
@@ -346,7 +371,7 @@
       }
     },
     "facilities": {
-      "title": "🏥 Facilities & Serviços",
+      "title": "🏥 Instalações e Serviços",
       "pool": "Piscinas Olímpicas",
       "gym": "Academia 24h",
       "sportsCourts": "Quadras Esportivas",
@@ -479,6 +504,7 @@
       "costs": "Custos",
       "hr": "RH",
       "viability": "Viabilidade",
+      "project": "Projeto",
       "about": "Sobre"
     },
     "header": {
@@ -490,17 +516,17 @@
   },
   "data": {
     "initialSales": {
-      "residentialSenior": "Residencial Senior",
+      "residentialSenior": "Residencial Sênior",
       "timeShare": "Time Share",
       "lifeStyleClub": "Clube Life Style",
       "subdivision": "Loteamento",
       "mall": "Shopping/Mall"
     },
     "monthlyRecurring": {
-      "residentialSenior": "Residencial Senior (Mensalidades)",
+      "residentialSenior": "Residencial Sênior (Mensalidades)",
       "lifeStyleClub": "Mensalidade Clube Life Style",
       "shoppingMall": "Aluguel Shopping/Mall",
-      "consumption": "Consumação (Bares, Restaurantes, Eventos)"
+      "consumption": "Consumo (Bares, Restaurantes, Eventos)"
     },
     "humanResources": {
       "housekeeping": "Camareiras",
@@ -538,7 +564,7 @@
       "Transporte interno",
       "Água, luz e internet",
       "Manicure/pedicure (4x/mês)",
-      "Cabelereiro (4x/mês)",
+      "Cabeleireiro (4x/mês)",
       "Limpeza de pele (2x/mês)",
       "Depilação (2x/mês)"
     ],
@@ -550,7 +576,7 @@
       "Viagens de lazer",
       "Transporte de helicóptero",
       "Compras pessoais",
-      "Acompanhamento full time"
+      "Acompanhamento em tempo integral"
     ]
   }
 }

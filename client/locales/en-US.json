@@ -391,6 +391,13 @@
         },
         "total": "TOTAL"
       },
+      "recurring": {
+        "title": "💵 Monthly Recurring Revenue",
+        "residential": "Residential",
+        "club": "Club",
+        "commercial": "Commercial",
+        "total": "TOTAL"
+      },
       "recurringRevenue": {
         "title": "💵 Monthly Recurring Revenue",
         "residential": {
@@ -469,6 +476,7 @@
       "costs": "Costs",
       "hr": "HR",
       "viability": "Viability",
+      "project": "Project",
       "about": "About"
     },
     "header": {
