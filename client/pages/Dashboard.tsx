@@ -281,7 +281,7 @@ export default function Dashboard() {
         title={t('header.title')}
         subtitle={t('header.subtitle')}
         description={t('header.description')}
-        logoUrl="/giardino-logo.png"
+        logoUrl="./giardino-logo.png"
         backgroundColor="#2C3E50"
         accentColor={GIARDINO_COLORS.accent}
         lightColor={GIARDINO_COLORS.light}
@@ -1275,10 +1275,10 @@ export default function Dashboard() {
               }}
             >
               <h2 className="text-2xl sm:text-3xl font-bold mb-6" style={{ color: GIARDINO_COLORS.primary }}>
-                🏛️ GIARDINO — Complete Project and Strategic Vision
+                {t('project.fullOverview.title')}
               </h2>
               <p className="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed">
-                The GIARDINO project is a luxury residential complex aimed at seniors and premium lifestyle, located in Mogi das Cruzes, São Paulo. It combines specialized housing with wellness services, social club and shopping, creating a complete ecosystem of high quality of life.
+                {t('project.fullOverview.vision.description')}
               </p>
 
               {/* Two Column Layout */}
@@ -1287,44 +1287,44 @@ export default function Dashboard() {
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.secondary }}>
-                      Overview
+                      {t('project.fullOverview.vision.title')}
                     </h3>
                     <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                      The GIARDINO project is a luxury residential complex aimed at seniors and premium lifestyle, located in Mogi das Cruzes, São Paulo. It combines specialized housing with wellness services, social club and shopping, creating a complete ecosystem of high quality of life.
+                      {t('project.fullOverview.vision.description')}
                     </p>
                   </div>
 
                   <div>
                     <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.secondary }}>
-                      Project Segments
+                      {t('project.fullOverview.segments.title')}
                     </h3>
                     <div className="space-y-3">
                       <div className="flex gap-3 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-600">
                         <div className="font-bold text-blue-600 min-w-6">1</div>
                         <div>
-                          <p className="font-semibold text-blue-900">Senior Residence + Spa</p>
-                          <p className="text-xs text-gray-600">240 units - All-inclusive package with specialized care</p>
+                          <p className="font-semibold text-blue-900">{t('project.fullOverview.segments.residentialSeniorSpa')}</p>
+                          <p className="text-xs text-gray-600">{t('project.fullOverview.segments.residentialSeniorSpaDesc')}</p>
                         </div>
                       </div>
                       <div className="flex gap-3 p-3 bg-amber-50 rounded-lg border-l-4 border-amber-600">
                         <div className="font-bold text-amber-600 min-w-6">2</div>
                         <div>
-                          <p className="font-semibold text-amber-900">Lifestyle Club</p>
-                          <p className="text-xs text-gray-600">6,000 members with access to 360 daily services</p>
+                          <p className="font-semibold text-amber-900">{t('project.fullOverview.segments.lifeStyleClub')}</p>
+                          <p className="text-xs text-gray-600">{t('project.fullOverview.segments.lifeStyleClubDesc')}</p>
                         </div>
                       </div>
                       <div className="flex gap-3 p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
                         <div className="font-bold text-green-600 min-w-6">3</div>
                         <div>
-                          <p className="font-semibold text-green-900">Residential Subdivision</p>
-                          <p className="text-xs text-gray-600">400 plots of 500m² with club access</p>
+                          <p className="font-semibold text-green-900">{t('project.fullOverview.segments.subdivision')}</p>
+                          <p className="text-xs text-gray-600">{t('project.fullOverview.segments.subdivisionDesc')}</p>
                         </div>
                       </div>
                       <div className="flex gap-3 p-3 bg-pink-50 rounded-lg border-l-4 border-pink-600">
                         <div className="font-bold text-pink-600 min-w-6">4</div>
                         <div>
-                          <p className="font-semibold text-pink-900">Commercial Center</p>
-                          <p className="text-xs text-gray-600">Shopping with 250+ stores, food and cinemas</p>
+                          <p className="font-semibold text-pink-900">{t('project.fullOverview.segments.commercialCenter')}</p>
+                          <p className="text-xs text-gray-600">{t('project.fullOverview.segments.commercialCenterDesc')}</p>
                         </div>
                       </div>
                     </div>
@@ -1334,28 +1334,28 @@ export default function Dashboard() {
                 {/* Right Column - Key Numbers */}
                 <div>
                   <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.accent }}>
-                    Key Numbers
+                    {t('project.fullOverview.keyNumbers.title')}
                   </h3>
                   <div className="space-y-3">
                     <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-l-4 border-blue-600">
-                      <p className="text-xs text-gray-600 font-semibold">Total Residential Units</p>
-                      <p className="text-2xl font-bold text-blue-600">320</p>
+                      <p className="text-xs text-gray-600 font-semibold">{t('project.fullOverview.keyNumbers.residentialUnits')}</p>
+                      <p className="text-2xl font-bold text-blue-600">240</p>
                     </div>
                     <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border-l-4 border-green-600">
-                      <p className="text-xs text-gray-600 font-semibold">Club Members</p>
+                      <p className="text-xs text-gray-600 font-semibold">{t('project.fullOverview.keyNumbers.clubMembers')}</p>
                       <p className="text-2xl font-bold text-green-600">6.000</p>
                     </div>
                     <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg border-l-4 border-purple-600">
-                      <p className="text-xs text-gray-600 font-semibold">Total Employees</p>
+                      <p className="text-xs text-gray-600 font-semibold">{t('project.fullOverview.keyNumbers.employees')}</p>
                       <p className="text-2xl font-bold text-purple-600">204</p>
                     </div>
                     <div className="p-4 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg border-l-4 border-amber-600">
-                      <p className="text-xs text-gray-600 font-semibold">Commercial Areas</p>
+                      <p className="text-xs text-gray-600 font-semibold">{t('project.fullOverview.keyNumbers.commercialUnits')}</p>
                       <p className="text-2xl font-bold text-amber-600">250+</p>
                     </div>
                     <div className="p-4 bg-gradient-to-r from-red-50 to-red-100 rounded-lg border-l-4 border-red-600">
-                      <p className="text-xs text-gray-600 font-semibold">Total Investment</p>
-                      <p className="text-2xl font-bold text-red-600">$50M</p>
+                      <p className="text-xs text-gray-600 font-semibold">{t('project.fullOverview.keyNumbers.totalInvestment')}</p>
+                      <p className="text-2xl font-bold text-red-600">{t('project.fullOverview.keyNumbers.investmentValue')}</p>
                     </div>
                   </div>
                 </div>
@@ -1371,52 +1371,52 @@ export default function Dashboard() {
               }}
             >
               <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.secondary }}>
-                🏥 Facilities & Services
+                🏥 {t('project.facilities.title')}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Spa & Wellness</span>
+                  <span className="text-sm font-medium">{t('project.facilities.therapies')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Olympic Pools</span>
+                  <span className="text-sm font-medium">{t('project.facilities.pool')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">24h Gym</span>
+                  <span className="text-sm font-medium">{t('project.facilities.gym')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Sports Courts</span>
+                  <span className="text-sm font-medium">{t('project.facilities.sportsCourts')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Premium Restaurant</span>
+                  <span className="text-sm font-medium">{t('project.facilities.restaurant')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Hairdresser</span>
+                  <span className="text-sm font-medium">{t('project.facilities.hairdresser')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">24h Medical Center</span>
+                  <span className="text-sm font-medium">{t('project.facilities.medicalCenter')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">24h Home Care</span>
+                  <span className="text-sm font-medium">{t('project.facilities.homeCare')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Diverse Therapies</span>
+                  <span className="text-sm font-medium">{t('project.facilities.therapies')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Physiotherapy</span>
+                  <span className="text-sm font-medium">{t('project.facilities.physiotherapy')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
                   <span className="text-lg">✓</span>
-                  <span className="text-sm font-medium">Medical Consultations</span>
+                  <span className="text-sm font-medium">{t('project.facilities.medicalConsultations')}</span>
                 </div>
                 <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
                   <span className="text-lg">✓</span>
@@ -1481,27 +1481,27 @@ export default function Dashboard() {
                 }}
               >
                 <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: "#059669" }}>
-                  🎯 Initial Revenue (Sales)
+                  🎯 {t('project.revenueComparison.initialSales.title')}
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Senior Residential</span>
+                    <span className="text-sm font-medium text-gray-700">{t('project.revenueComparison.initialSales.residentialSenior.label')}</span>
                     <span className="font-bold text-green-600">{formatCurrency(160000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Lifestyle Club</span>
+                    <span className="text-sm font-medium text-gray-700">{t('project.revenueComparison.initialSales.lifeStyleClub.label')}</span>
                     <span className="font-bold text-green-600">{formatCurrency(300000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Subdivision</span>
+                    <span className="text-sm font-medium text-gray-700">{t('project.revenueComparison.initialSales.lot.label')}</span>
                     <span className="font-bold text-green-600">{formatCurrency(144000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Shopping/Mall</span>
+                    <span className="text-sm font-medium text-gray-700">{t('project.revenueComparison.initialSales.mall.label')}</span>
                     <span className="font-bold text-green-600">{formatCurrency(2600000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-100 to-green-200 rounded-lg border-t-2 border-green-600 mt-2">
-                    <span className="font-bold text-gray-800">TOTAL</span>
+                    <span className="font-bold text-gray-800">{t('project.revenueComparison.initialSales.total')}</span>
                     <span className="text-xl font-bold text-green-700">{formatCurrency(606600000)}</span>
                   </div>
                 </div>
@@ -1516,23 +1516,23 @@ export default function Dashboard() {
                 }}
               >
                 <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.gold }}>
-                  💵 Monthly Recurring Revenue
+                  💵 {t('project.revenueComparison.recurringRevenue.title')}
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Residential</span>
+                    <span className="text-sm font-medium text-gray-700">{t('project.revenueComparison.recurringRevenue.residential.label')}</span>
                     <span className="font-bold text-amber-600">{formatCurrency(8400000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Club</span>
+                    <span className="text-sm font-medium text-gray-700">{t('project.revenueComparison.recurringRevenue.club.label')}</span>
                     <span className="font-bold text-amber-600">{formatCurrency(3000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Commercial</span>
+                    <span className="text-sm font-medium text-gray-700">{t('project.revenueComparison.recurringRevenue.commerce.label')}</span>
                     <span className="font-bold text-amber-600">{formatCurrency(1575000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-4 bg-gradient-to-r from-amber-100 to-amber-200 rounded-lg border-t-2 border-amber-600 mt-2">
-                    <span className="font-bold text-gray-800">TOTAL</span>
+                    <span className="font-bold text-gray-800">{t('project.revenueComparison.recurringRevenue.total')}</span>
                     <span className="text-xl font-bold text-amber-700">{formatCurrency(13700000)}</span>
                   </div>
                 </div>
@@ -1561,13 +1561,13 @@ export default function Dashboard() {
             🌿 GIARDINO — PREMIUM INVESTMENT 🌿
           </p>
           <p className="mb-2" style={{ color: `${GIARDINO_COLORS.light}cc` }}>
-            Investment Model Senior Residential + Lifestyle Club
+            {t('footer.subtitle')}
           </p>
           <p className="text-sm" style={{ color: `${GIARDINO_COLORS.light}aa` }}>
-            © 2024 — Mogi das Cruzes, São Paulo | Total Area: 258,900 m²
+            {t('footer.meta')}
           </p>
           <p className="text-xs mt-4" style={{ color: `${GIARDINO_COLORS.light}88` }}>
-            Investment Presentation Document — Confidential
+            {t('footer.confidentiality')}
           </p>
         </div>
       </div>

@@ -311,31 +311,5 @@ export function SimplePDFExport() {
     }
   };
 
-  return (
-    <button
-      onClick={generatePDF}
-      disabled={isGenerating}
-      className="flex items-center gap-2 px-5 py-3 rounded-lg font-bold transition-all whitespace-nowrap shadow-lg hover:shadow-xl"
-      style={{
-        backgroundColor: isGenerating ? "#999" : "#1F3B5E",
-        color: "#FFFFFF",
-        borderColor: "#F4C430",
-        borderWidth: "2px",
-        cursor: isGenerating ? "not-allowed" : "pointer",
-      }}
-      title={t('ui.buttons.downloadProject')}
-    >
-      {isGenerating ? (
-        <>
-          <Loader className="w-5 h-5 animate-spin" />
-          {t('ui.buttons.downloadComplete')}
-        </>
-      ) : (
-        <>
-          <FileText className="w-5 h-5" />
-          {t('ui.buttons.downloadProject')}
-        </>
-      )}
-    </button>
-  );
+  return null;
 }
