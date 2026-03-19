@@ -192,7 +192,7 @@ export default function Dashboard() {
   const totalMonthlyCosts = monthlyOperatingCosts + monthlyFinancingCosts;
 
   const cashFlowData = Array.from({ length: 12 }).map((_, i) => ({
-    month: i18n.language === 'en-US' ? `Month ${i + 1}` : `Mês ${i + 1}`,
+    month: `${t('project.overview.phases.month')} ${i + 1}`,
     receita: giardino.totalMonthlyRevenue,
     custos: totalMonthlyCosts,
     lucro: giardino.totalMonthlyRevenue - totalMonthlyCosts,
@@ -204,9 +204,9 @@ export default function Dashboard() {
       name: t('revenue.labels.residentialSenior'),
       value: giardino.sales.residentialSenior.total,
     },
-    { name: "Time Share", value: giardino.sales.timeShare.total },
+    { name: t('revenue.timeShare'), value: giardino.sales.timeShare.total },
     { name: t('revenue.labels.lifeStyleClub'), value: giardino.sales.lifeStyleClub.total },
-    { name: i18n.language === 'en-US' ? "Subdivision" : "Loteamento", value: giardino.sales.subdivision.total },
+    { name: t('revenue.subdivision'), value: giardino.sales.subdivision.total },
     { name: t('revenue.labels.shoppingMall'), value: giardino.sales.mall.total },
   ];
 
@@ -599,12 +599,12 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.primary }}>
-                    RESIDENCIAL SENIOR
+                    {t('revenue.cards.residentialSenior.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary, wordWrap: "break-word" }}>
                     {formatCurrency(giardino.monthlyRevenue.residentialSenior.monthlyTotal)}
                   </h3>
-                  <p className="text-xs text-gray-500">/mês</p>
+                  <p className="text-xs text-gray-500">{t('revenue.cards.monthlySuffix')}</p>
                 </div>
                 <Home className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.primary }} />
               </div>
@@ -621,12 +621,12 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.secondary }}>
-                    SHOPPING/MALL
+                    {t('revenue.cards.shoppingMall.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary, wordWrap: "break-word" }}>
                     {formatCurrency(giardino.monthlyRevenue.shoppingMall.monthlyTotal)}
                   </h3>
-                  <p className="text-xs text-gray-500">/mês</p>
+                  <p className="text-xs text-gray-500">{t('revenue.cards.monthlySuffix')}</p>
                 </div>
                 <ShoppingCart className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.secondary }} />
               </div>
@@ -643,12 +643,12 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 text-gray-600 tracking-wide">
-                    CLUBE LIFE STYLE
+                    {t('revenue.cards.lifeStyleClub.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold, wordWrap: "break-word" }}>
                     {formatCurrency(giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal)}
                   </h3>
-                  <p className="text-xs text-gray-500">/mês</p>
+                  <p className="text-xs text-gray-500">{t('revenue.cards.monthlySuffix')}</p>
                 </div>
                 <Flower className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.gold }} />
               </div>
@@ -665,12 +665,12 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.accent }}>
-                    CONSUMAÇÃO
+                    {t('revenue.cards.consumption.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent, wordWrap: "break-word" }}>
                     {formatCurrency(giardino.monthlyRevenue.consumption.monthlyTotal)}
                   </h3>
-                  <p className="text-xs text-gray-500">/mês</p>
+                  <p className="text-xs text-gray-500">{t('revenue.cards.monthlySuffix')}</p>
                 </div>
                 <ShoppingCart className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.accent }} />
               </div>
@@ -687,21 +687,21 @@ export default function Dashboard() {
           >
             <div className="mb-4 sm:mb-6">
               <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary }}>
-                Detalhamento de Receitas
+                {t('revenue.table.title')}
               </h2>
-              <p className="text-sm sm:text-base text-gray-600">Análise detalhada de todas as fontes de receita</p>
+              <p className="text-sm sm:text-base text-gray-600">{t('revenue.table.subtitle')}</p>
             </div>
             <ResponsiveTable
               data={[
-                { segment: "Residencial Senior", monthly: giardino.monthlyRevenue.residentialSenior.monthlyTotal, annual: giardino.monthlyRevenue.residentialSenior.monthlyTotal * 12 },
-                { segment: "Clube Life Style", monthly: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal, annual: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal * 12 },
-                { segment: "Shopping/Mall", monthly: giardino.monthlyRevenue.shoppingMall.monthlyTotal, annual: giardino.monthlyRevenue.shoppingMall.monthlyTotal * 12 },
-                { segment: "Consumação", monthly: giardino.monthlyRevenue.consumption.monthlyTotal, annual: giardino.monthlyRevenue.consumption.monthlyTotal * 12 },
+                { segment: t('revenue.labels.residentialSenior'), monthly: giardino.monthlyRevenue.residentialSenior.monthlyTotal, annual: giardino.monthlyRevenue.residentialSenior.monthlyTotal * 12 },
+                { segment: t('revenue.labels.lifeStyleClub'), monthly: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal, annual: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal * 12 },
+                { segment: t('revenue.labels.shoppingMall'), monthly: giardino.monthlyRevenue.shoppingMall.monthlyTotal, annual: giardino.monthlyRevenue.shoppingMall.monthlyTotal * 12 },
+                { segment: t('revenue.labels.consumption'), monthly: giardino.monthlyRevenue.consumption.monthlyTotal, annual: giardino.monthlyRevenue.consumption.monthlyTotal * 12 },
               ]}
               columns={[
-                { key: "segment", label: "Segmento", format: (v) => v },
-                { key: "monthly", label: "Mensal", format: (v) => formatCurrency(v) },
-                { key: "annual", label: "Anual", format: (v) => formatCurrency(v) },
+                { key: "segment", label: t('revenue.table.columns.segment'), format: (v) => v },
+                { key: "monthly", label: t('revenue.table.columns.monthly'), format: (v) => formatCurrency(v) },
+                { key: "annual", label: t('revenue.table.columns.annual'), format: (v) => formatCurrency(v) },
               ]}
               headerTextColor={GIARDINO_COLORS.primary}
             />
@@ -729,7 +729,7 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.gold }}>
-                    RH MENSAL
+                    {t('costs.cards.hrMonthly.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold, wordWrap: "break-word" }}>
                     {formatCurrency(
@@ -745,7 +745,7 @@ export default function Dashboard() {
                       giardino.hrCosts.administrative.monthlyTotal
                     )}
                   </h3>
-                  <p className="text-xs text-gray-500">Folha de pagamento</p>
+                  <p className="text-xs text-gray-500">{t('costs.cards.hrMonthly.helper')}</p>
                 </div>
                 <Users className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.gold }} />
               </div>
@@ -762,7 +762,7 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.secondary }}>
-                    OPERACIONAL
+                    {t('costs.cards.operational.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary, wordWrap: "break-word" }}>
                     {formatCurrency(
@@ -774,7 +774,7 @@ export default function Dashboard() {
                       giardino.residentialCosts.personalCare.monthlyTotal
                     )}
                   </h3>
-                  <p className="text-xs text-gray-500">Serviços + Insumos</p>
+                  <p className="text-xs text-gray-500">{t('costs.cards.operational.helper')}</p>
                 </div>
                 <BarChart3 className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.secondary }} />
               </div>
@@ -791,12 +791,12 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 text-gray-600 tracking-wide">
-                    FINANCIAMENTO
+                    {t('costs.cards.financing.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent, wordWrap: "break-word" }}>
                     {formatCurrency(giardino.financing.monthlyPayment)}
                   </h3>
-                  <p className="text-xs text-gray-500">Parcela mensal</p>
+                  <p className="text-xs text-gray-500">{t('costs.cards.financing.helper')}</p>
                 </div>
                 <DollarSign className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.accent }} />
               </div>
@@ -813,12 +813,12 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.primary }}>
-                    JUROS
+                    {t('costs.cards.interest.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary, wordWrap: "break-word" }}>
                     {formatCurrency(500_000)}
                   </h3>
-                  <p className="text-xs text-gray-500">Juros do financiamento</p>
+                  <p className="text-xs text-gray-500">{t('costs.cards.interest.helper')}</p>
                 </div>
                 <Zap className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.primary }} />
               </div>
@@ -835,9 +835,9 @@ export default function Dashboard() {
           >
             <div className="mb-4 sm:mb-6">
               <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold }}>
-                Breakdown de Custos Operacionais
+                {t('revenue.breakdown.operationalBreakdown')}
               </h2>
-              <p className="text-sm sm:text-base text-gray-600">Distribuição dos custos principais</p>
+              <p className="text-sm sm:text-base text-gray-600">{t('revenue.breakdown.operationalBreakdownDesc')}</p>
             </div>
             <ResponsiveContainer width="100%" height={380}>
               <PieChart>
@@ -896,17 +896,17 @@ export default function Dashboard() {
           >
             <div className="mb-4 sm:mb-6">
               <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary }}>
-                👥 Estrutura de Recursos Humanos
+                {t('hr.title')}
               </h2>
-              <p className="text-sm sm:text-base text-gray-600">Distribuição de pessoal por departamento</p>
+              <p className="text-sm sm:text-base text-gray-600">{t('hr.subtitle')}</p>
             </div>
             <ResponsiveTable
               data={hrData}
               columns={[
-                { key: "department", label: "Departamento", format: (v) => v },
-                { key: "count", label: "Quantidade", format: (v) => v },
-                { key: "salary", label: "Salário/pessoa", format: (v) => formatCurrencyWithDecimals(v) },
-                { key: "total", label: "Total/mês", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "department", label: t('hr.table.columns.department'), format: (v) => v },
+                { key: "count", label: t('hr.table.columns.quantity'), format: (v) => v },
+                { key: "salary", label: t('hr.table.columns.salaryPerPerson'), format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "total", label: t('hr.table.columns.totalPerMonth'), format: (v) => formatCurrencyWithDecimals(v) },
               ]}
               headerTextColor={GIARDINO_COLORS.secondary}
             />
@@ -934,14 +934,14 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.primary }}>
-                    ROI ANUAL
+                    {t('viability.indicators.roi.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary, wordWrap: "break-word" }}>
                     <span style={{ fontSize: "2rem" }}>
                       28%
                     </span>
                   </h3>
-                  <p className="text-xs text-gray-500">Retorno sobre investimento</p>
+                  <p className="text-xs text-gray-500">{t('viability.indicators.roi.helper')}</p>
                 </div>
                 <TrendingUp className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.primary }} />
               </div>

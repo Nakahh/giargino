@@ -45,6 +45,8 @@
     "lifeStyleClub": "Clube Life Style",
     "shopping": "Shopping/Mall",
     "consumption": "Consumação",
+    "timeShare": "Time Share",
+    "subdivision": "Loteamento",
     "cards": {
       "residentialSenior": {
         "label": "RESIDENCIAL SENIOR"
@@ -69,6 +71,10 @@
         "annual": "Anual"
       }
     },
+    "breakdown": {
+      "operationalBreakdown": "Breakdown de Custos Operacionais",
+      "operationalBreakdownDesc": "Distribuição dos custos principais"
+    },
     "labels": {
       "residentialSenior": "Residencial Senior",
       "lifeStyleClub": "Clube Life Style",
@@ -83,6 +89,8 @@
     "operationalCosts": "Custos Operacionais",
     "financing": "Financiamento",
     "financingInterest": "Juros do Financiamento",
+    "operationalServices": "Serviços + Insumos",
+    "monthlyPayment": "Parcela mensal",
     "cards": {
       "hrMonthly": {
         "label": "RH MENSAL",
@@ -119,6 +127,7 @@
         "totalPerMonth": "Total/mês"
       }
     },
+    "keyIndicators": "Indicadores Chave",
     "departments": {
       "housekeeping": "Camareiras",
       "kitchen": "Cozinha",
@@ -172,7 +181,23 @@
         "value": "Médio",
         "helper": "Mercado estável e demanda garantida"
       },
-      "disclaimer": "* Projeção com crescimento conservador de 2% a.a. e inflação de 3% a.a. nos custos. ROI calculado com base no investimento inicial de R$ 100M."
+      "disclaimer": "* Projeção com crescimento conservador de 2% a.a. e inflação de 3% a.a. nos custos. ROI calculado com base no investimento inicial de R$ 100M.",
+      "payback": {
+        "label": "PAYBACK",
+        "helper": "Anos (período de retorno)"
+      },
+      "npv": {
+        "label": "VPL 10 ANOS",
+        "helper": "Valor presente líquido"
+      },
+      "irr": {
+        "label": "TIR",
+        "helper": "Taxa interna de retorno"
+      },
+      "roi": {
+        "label": "ROI ANUAL",
+        "helper": "Retorno sobre investimento"
+      }
     },
     "projection": {
       "title": "📊 Projeção Financeira 10 Anos",
@@ -200,6 +225,8 @@
       },
       "phases": {
         "title": "Fases de Desenvolvimento",
+        "month": "Mês",
+        "year": "Ano",
         "phase1": {
           "title": "Fase 1: Infraestrutura",
           "description": "Preparação de terreno, acesso, utilidades (água, energia, gás, internet)"
@@ -261,7 +288,8 @@
         "clubMembers": "Membros do Clube",
         "employees": "Total de Funcionários",
         "commercialUnits": "Áreas Comerciais",
-        "totalInvestment": "Investimento Total"
+        "totalInvestment": "Investimento Total",
+        "investmentValue": "R$ 250M"
       }
     },
     "facilities": {

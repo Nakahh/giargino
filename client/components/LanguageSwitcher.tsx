@@ -19,7 +19,9 @@ export function LanguageSwitcher() {
       title={isPortuguese ? 'Switch to English' : 'Mudar para Português'}
       style={{ color: '#FFFFFF' }}
     >
-      <Globe className="w-4 h-4 md:w-5 md:h-5" />
+      <span className="text-lg">
+        {isPortuguese ? '🇺🇸' : '🇧🇷'}
+      </span>
       <span className="text-sm md:text-base font-semibold">
         {isPortuguese ? 'EN' : 'PT'}
       </span>

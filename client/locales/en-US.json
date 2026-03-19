@@ -45,6 +45,8 @@
     "lifeStyleClub": "Life Style Club",
     "shopping": "Shopping/Mall",
     "consumption": "Consumption",
+    "timeShare": "Time Share",
+    "subdivision": "Subdivision",
     "cards": {
       "residentialSenior": {
         "label": "SENIOR RESIDENTIAL"
@@ -69,6 +71,10 @@
         "annual": "Annual"
       }
     },
+    "breakdown": {
+      "operationalBreakdown": "Operating Costs Breakdown",
+      "operationalBreakdownDesc": "Distribution of main costs"
+    },
     "labels": {
       "residentialSenior": "Senior Residential",
       "lifeStyleClub": "Life Style Club",
@@ -83,6 +89,8 @@
     "operationalCosts": "Operating Costs",
     "financing": "Financing",
     "financingInterest": "Financing Interest",
+    "operationalServices": "Services + Supplies",
+    "monthlyPayment": "Monthly installment",
     "cards": {
       "hrMonthly": {
         "label": "MONTHLY HR",
@@ -119,6 +127,7 @@
         "totalPerMonth": "Total/month"
       }
     },
+    "keyIndicators": "Key Indicators",
     "departments": {
       "housekeeping": "Housekeeping",
       "kitchen": "Kitchen",
@@ -172,7 +181,23 @@
         "value": "Medium",
         "helper": "Stable market and guaranteed demand"
       },
-      "disclaimer": "* Projection with conservative growth of 2% p.a. and 3% p.a. inflation on costs. ROI calculated based on initial investment of $20M."
+      "disclaimer": "* Projection with conservative growth of 2% p.a. and 3% p.a. inflation on costs. ROI calculated based on initial investment of $20M.",
+      "payback": {
+        "label": "PAYBACK",
+        "helper": "Years (payback period)"
+      },
+      "npv": {
+        "label": "NPV 10 YEARS",
+        "helper": "Net present value"
+      },
+      "irr": {
+        "label": "IRR",
+        "helper": "Internal rate of return"
+      },
+      "roi": {
+        "label": "ANNUAL ROI",
+        "helper": "Return on investment"
+      }
     },
     "projection": {
       "title": "📊 Financial Projection 10 Years",
@@ -200,6 +225,8 @@
       },
       "phases": {
         "title": "Development Phases",
+        "month": "Month",
+        "year": "Year",
         "phase1": {
           "title": "Phase 1: Infrastructure",
           "description": "Land preparation, access, utilities (water, energy, gas, internet)"
@@ -261,7 +288,8 @@
         "clubMembers": "Club Members",
         "employees": "Total Employees",
         "commercialUnits": "Commercial Areas",
-        "totalInvestment": "Total Investment"
+        "totalInvestment": "Total Investment",
+        "investmentValue": "$50M"
       }
     },
     "facilities": {
