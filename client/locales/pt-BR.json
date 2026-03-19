@@ -496,7 +496,44 @@
         "facilities": "🏛️ Facilidades",
         "gardens": "🌿 Jardins",
         "residences": "🏠 Residências"
-      }
+      },
+      "images": {
+        "0": {
+          "title": "Salão de Eventos Premium",
+          "description": "Espaço elegante para eventos e celebrações com capacidade para grandes grupos"
+        },
+        "1": {
+          "title": "Piscina Aquecida Coberta",
+          "description": "Piscina com controle de temperatura para uso o ano todo com excelente iluminação natural"
+        },
+        "2": {
+          "title": "Complexo Esportivo Multiuso",
+          "description": "Quadras profissionais para tênis, futsal e outros esportes"
+        },
+        "3": {
+          "title": "Academia Premium",
+          "description": "Equipamentos de última geração com orientação de treinadores pessoais especializados"
+        },
+        "4": {
+          "title": "Vista Aérea do Resort",
+          "description": "Visão panorâmica da área total do complexo Giardino - 258.900 m²"
+        },
+        "5": {
+          "title": "Campos de Futebol",
+          "description": "Campos profissionais com grama sintética e iluminação completa"
+        },
+        "6": {
+          "title": "Piscina Aquecida Coberta",
+          "description": "Piscina com temperatura controlada para atividades terapêuticas e de lazer"
+        },
+        "7": {
+          "title": "Salas de Aula e Terapia",
+          "description": "Espaços dedicados para atividades terapêuticas e oficinas educacionais"
+        }
+      },
+      "previousBtn": "← Anterior",
+      "nextBtn": "Próxima →",
+      "imageCounter": "Imagem {{current}} de {{total}}"
     },
     "sections": {
       "overview": "Geral",

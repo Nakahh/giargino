@@ -10,54 +10,54 @@ interface GalleryImage {
 }
 
 // Giardino Project Photos - Real Images URLs
-const galleryImages: GalleryImage[] = [
+const galleryImagesBase: GalleryImage[] = [
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Fa067ca4bbd23418da604f0a0be440e7a?format=webp&width=1200",
-    title: "Premium Event Hall",
+    title: "image.0.title",
     category: "dining",
-    description: "Elegant space for events and celebrations with capacity for large groups"
+    description: "image.0.description"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F3b289804842f48e7ba6c7336aeebd197?format=webp&width=1200",
-    title: "Heated Indoor Pool",
+    title: "image.1.title",
     category: "pool",
-    description: "Climate-controlled pool for year-round use with excellent natural lighting"
+    description: "image.1.description"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Ffc6a1a394a7e41699eca446712818e7f?format=webp&width=1200",
-    title: "Multi-purpose Sports Complex",
+    title: "image.2.title",
     category: "sports",
-    description: "Professional courts for tennis, futsal, and other sports"
+    description: "image.2.description"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Fd6137460547d4b51a94c210a5592a91e?format=webp&width=1200",
-    title: "Premium Fitness Gym",
+    title: "image.3.title",
     category: "facilities",
-    description: "State-of-the-art equipment with guidance from specialized personal trainers"
+    description: "image.3.description"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F7d667954fcd34263859b88608d9ccf15?format=webp&width=1200",
-    title: "Resort Aerial View",
+    title: "image.4.title",
     category: "facilities",
-    description: "Panoramic view of the total Giardino complex area - 258,900 m²"
+    description: "image.4.description"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F5551d0485b564236aa1843f5240f438e?format=webp&width=1200",
-    title: "Soccer Fields",
+    title: "image.5.title",
     category: "sports",
-    description: "Professional fields with synthetic turf and full lighting"
+    description: "image.5.description"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Fda58e1d2441b45f7a977f1baaa7127b0?format=webp&width=1200",
-    title: "Covered Heated Pool",
+    title: "image.6.title",
     category: "pool",
-    description: "Pool with controlled temperature for therapy and leisure activities"
+    description: "image.6.description"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F56f58a6bd34344af91499c540cee3f5b?format=webp&width=1200",
-    title: "Classrooms and Therapy Rooms",
+    title: "image.7.title",
     category: "facilities",
-    description: "Dedicated spaces for therapeutic activities and educational workshops"
+    description: "image.7.description"
   },
 ];
 
@@ -66,6 +66,13 @@ export function ProjectGallery() {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<"all" | GalleryImage["category"]>("all");
+
+  // Translate image titles and descriptions dynamically
+  const galleryImages = galleryImagesBase.map((img) => ({
+    ...img,
+    title: t(`ui.gallery.images.${img.title}`),
+    description: t(`ui.gallery.images.${img.description}`),
+  }));
 
   const filteredImages =
     selectedCategory === "all"
@@ -211,7 +218,7 @@ export function ProjectGallery() {
             {/* Image Info */}
             <div className="bg-white rounded-lg p-6">
               <p className="text-sm font-semibold mb-2" style={{ color: "#0F3460" }}>
-                {categoryLabels[filteredImages[currentImageIndex].category]}
+                {t(`ui.gallery.categories.${filteredImages[currentImageIndex].category}`)}
               </p>
               <h3 className="text-2xl font-bold mb-2 text-gray-900">
                 {filteredImages[currentImageIndex].title}
@@ -223,7 +230,7 @@ export function ProjectGallery() {
               {/* Image Counter */}
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-500">
-                  Imagem {currentImageIndex + 1} de {filteredImages.length}
+                  {t('ui.gallery.imageCounter', { current: currentImageIndex + 1, total: filteredImages.length })}
                 </span>
                 <div className="flex gap-2">
                   <button
@@ -231,14 +238,14 @@ export function ProjectGallery() {
                     className="px-4 py-2 rounded-lg border-2 transition"
                     style={{ borderColor: "#0F3460", color: "#0F3460" }}
                   >
-                    ← Anterior
+                    {t('ui.gallery.previousBtn')}
                   </button>
                   <button
                     onClick={handleNext}
                     className="px-4 py-2 rounded-lg text-white transition"
                     style={{ backgroundColor: "#0F3460" }}
                   >
-                    Próxima →
+                    {t('ui.gallery.nextBtn')}
                   </button>
                 </div>
               </div>

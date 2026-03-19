@@ -468,7 +468,44 @@
         "facilities": "🏛️ Facilities",
         "gardens": "🌿 Gardens",
         "residences": "🏠 Residences"
-      }
+      },
+      "images": {
+        "0": {
+          "title": "Premium Event Hall",
+          "description": "Elegant space for events and celebrations with capacity for large groups"
+        },
+        "1": {
+          "title": "Heated Indoor Pool",
+          "description": "Climate-controlled pool for year-round use with excellent natural lighting"
+        },
+        "2": {
+          "title": "Multi-purpose Sports Complex",
+          "description": "Professional courts for tennis, futsal, and other sports"
+        },
+        "3": {
+          "title": "Premium Fitness Gym",
+          "description": "State-of-the-art equipment with guidance from specialized personal trainers"
+        },
+        "4": {
+          "title": "Resort Aerial View",
+          "description": "Panoramic view of the total Giardino complex area - 258,900 m²"
+        },
+        "5": {
+          "title": "Soccer Fields",
+          "description": "Professional fields with synthetic turf and full lighting"
+        },
+        "6": {
+          "title": "Covered Heated Pool",
+          "description": "Pool with controlled temperature for therapy and leisure activities"
+        },
+        "7": {
+          "title": "Classrooms and Therapy Rooms",
+          "description": "Dedicated spaces for therapeutic activities and educational workshops"
+        }
+      },
+      "previousBtn": "← Previous",
+      "nextBtn": "Next →",
+      "imageCounter": "Image {{current}} of {{total}}"
     },
     "sections": {
       "overview": "Overview",
