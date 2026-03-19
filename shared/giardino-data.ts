@@ -407,34 +407,41 @@ export const additionalServices = [
 
 export const generateYearlyProjections = () => {
   const projections = [];
+  let cumulativeProfit = 0;
+
+  // Fator de ocupação/ramp-up: começando com 80% e atingindo 100% no ano 3
+  const rampUpFactors = [0.80, 0.90, 1.0, 1.02, 1.04, 1.06, 1.08, 1.10, 1.12, 1.15];
 
   for (let year = 1; year <= 10; year++) {
-    // Assumindo crescimento conservador de 2% ao ano após ano 1
-    const growthFactor = 1 + (year > 1 ? 0.02 * (year - 1) : 0);
+    const rampFactor = rampUpFactors[year - 1] || 1.15;
 
-    const grossRevenue = totalMonthlyRevenue * 12 * growthFactor;
-    const hrCosts = totalHRCosts * 12 * (1 + 0.03 * (year - 1)); // 3% inflation annually
-    const operationalCosts = totalResidentialCosts * 12 * (1 + 0.03 * (year - 1));
-    const financingPayment = financing.monthlyPayment * 12;
+    // Receita bruta com ramp-up e crescimento gradual
+    const grossRevenue = Math.round(totalMonthlyRevenue * 12 * rampFactor);
+
+    // Custos com inflação anual de 2%
+    const costInflation = 1 + (year > 1 ? 0.02 * (year - 1) : 0);
+    const hrCosts = Math.round(totalHRCosts * 12 * costInflation);
+    const operationalCosts = Math.round(totalResidentialCosts * 12 * costInflation);
+    const financingPayment = Math.round(financing.monthlyPayment * 12);
 
     // Juros decrescem conforme o saldo diminui
-    const remainingBalance = financing.totalLoan - (financing.monthlyPayment * 12 * (year - 1));
-    const interestCost = Math.max(0, remainingBalance * financing.annualInterestRate);
+    const remainingBalance = Math.max(0, financing.totalLoan - (financing.monthlyPayment * 12 * (year - 1)));
+    const interestCost = Math.round(remainingBalance * financing.annualInterestRate);
 
     const totalCosts = hrCosts + operationalCosts + financingPayment + interestCost;
     const netProfit = grossRevenue - totalCosts;
-    const roi = ((netProfit * year) / financing.totalLoan) * 100;
+
+    cumulativeProfit += netProfit;
+
+    // ROI calculado sobre o lucro acumulado vs investimento inicial
+    const roi = ((cumulativeProfit) / financing.totalLoan) * 100;
 
     projections.push({
       year,
-      grossRevenue: Math.round(grossRevenue),
-      hrCosts: Math.round(hrCosts),
-      operationalCosts: Math.round(operationalCosts),
-      financingPayment: Math.round(financingPayment),
-      interestCost: Math.round(interestCost),
-      totalCosts: Math.round(totalCosts),
-      netProfit: Math.round(netProfit),
-      cumulativeProfit: Math.round(netProfit * year),
+      grossRevenue,
+      totalCosts,
+      netProfit,
+      cumulativeProfit: Math.round(cumulativeProfit),
       roi: roi.toFixed(2),
     });
   }

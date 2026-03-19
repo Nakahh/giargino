@@ -1054,38 +1054,31 @@ export default function Dashboard() {
               borderTopColor: GIARDINO_COLORS.secondary
             }}
           >
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{ color: GIARDINO_COLORS.secondary }}>
-              Projeção Financeira 10 Anos
-            </h2>
-            <ResponsiveContainer width="100%" height={400}>
-              <AreaChart data={cashFlowData}>
-                <defs>
-                  <linearGradient id="colorReceita" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={CHART_COLORS[0]} stopOpacity={0.8} />
-                    <stop offset="95%" stopColor={CHART_COLORS[0]} stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="colorLucro" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={CHART_COLORS[2]} stopOpacity={0.8} />
-                    <stop offset="95%" stopColor={CHART_COLORS[2]} stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip
-                  formatter={(value: number) => formatCurrency(value)}
-                  contentStyle={{
-                    backgroundColor: "#fff",
-                    border: "2px solid #2D5016",
-                    borderRadius: "8px",
-                    padding: "8px",
-                    boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
-                  }}
-                />
-                <Area type="monotone" dataKey="receita" stroke={CHART_COLORS[0]} fillOpacity={1} fill="url(#colorReceita)" />
-                <Area type="monotone" dataKey="lucro" stroke={CHART_COLORS[2]} fillOpacity={1} fill="url(#colorLucro)" />
-              </AreaChart>
-            </ResponsiveContainer>
+            <div className="mb-4 sm:mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary }}>
+                📊 Projeção Financeira 10 Anos
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600">Análise anual de receitas, custos e lucratividade ao longo da década</p>
+            </div>
+            <ResponsiveTable
+              data={giardino.yearlyProjections.map((proj: any) => ({
+                ano: `Ano ${proj.year}`,
+                receita: proj.grossRevenue,
+                custos: proj.totalCosts,
+                lucro: proj.netProfit,
+                acumulado: proj.cumulativeProfit,
+                roi: proj.roi,
+              }))}
+              columns={[
+                { key: "ano", label: "ANO", render: (v) => v },
+                { key: "receita", label: "RECEITA BRUTA", render: (v) => formatCurrency(v) },
+                { key: "custos", label: "CUSTOS TOTAIS", render: (v) => formatCurrency(v) },
+                { key: "lucro", label: "LUCRO LÍQUIDO", render: (v) => formatCurrency(v) },
+                { key: "acumulado", label: "LUCRO ACUMULADO", render: (v) => formatCurrency(v) },
+                { key: "roi", label: "ROI (%)", render: (v) => `${v}%` },
+              ]}
+              headerTextColor={GIARDINO_COLORS.secondary}
+            />
           </div>
         </div>
 

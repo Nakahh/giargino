@@ -752,6 +752,53 @@ export function PDFWrapper({ forPDF = false }: PDFWrapperProps) {
             ))}
           </div>
 
+          {/* Projeção Financeira 10 Anos */}
+          <div style={{ marginTop: "32px" }}>
+            <h3 style={{ fontSize: "18px", fontWeight: "bold", color: GIARDINO_COLORS.secondary, marginBottom: "16px" }}>
+              📊 Projeção Financeira 10 Anos
+            </h3>
+            <div
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderRadius: "8px",
+                padding: "16px",
+                boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                overflowX: "auto",
+              }}
+            >
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "10px" }}>
+                <thead>
+                  <tr style={{ borderBottom: "2px solid #2D5016", backgroundColor: "#f9fafb" }}>
+                    <th style={{ textAlign: "left", padding: "8px", fontWeight: "600", color: GIARDINO_COLORS.secondary }}>ANO</th>
+                    <th style={{ textAlign: "right", padding: "8px", fontWeight: "600", color: GIARDINO_COLORS.secondary }}>RECEITA BRUTA</th>
+                    <th style={{ textAlign: "right", padding: "8px", fontWeight: "600", color: GIARDINO_COLORS.secondary }}>CUSTOS TOTAIS</th>
+                    <th style={{ textAlign: "right", padding: "8px", fontWeight: "600", color: GIARDINO_COLORS.secondary }}>LUCRO LÍQUIDO</th>
+                    <th style={{ textAlign: "right", padding: "8px", fontWeight: "600", color: GIARDINO_COLORS.secondary }}>LUCRO ACUMULADO</th>
+                    <th style={{ textAlign: "right", padding: "8px", fontWeight: "600", color: GIARDINO_COLORS.secondary }}>ROI (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {giardino.yearlyProjections.map((proj: any, idx: number) => (
+                    <tr
+                      key={idx}
+                      style={{
+                        borderBottom: "1px solid #e5e7eb",
+                        backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f9fafb",
+                      }}
+                    >
+                      <td style={{ padding: "6px 8px", fontWeight: "600" }}>Ano {proj.year}</td>
+                      <td style={{ textAlign: "right", padding: "6px 8px" }}>{formatCurrency(proj.grossRevenue)}</td>
+                      <td style={{ textAlign: "right", padding: "6px 8px" }}>{formatCurrency(proj.totalCosts)}</td>
+                      <td style={{ textAlign: "right", padding: "6px 8px", color: "#059669", fontWeight: "500" }}>{formatCurrency(proj.netProfit)}</td>
+                      <td style={{ textAlign: "right", padding: "6px 8px", fontWeight: "600" }}>{formatCurrency(proj.cumulativeProfit)}</td>
+                      <td style={{ textAlign: "right", padding: "6px 8px", color: GIARDINO_COLORS.secondary, fontWeight: "600" }}>{proj.roi}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
           {/* Galeria de Imagens - Renderizando apenas uma vez */}
           <div style={{ marginTop: "32px" }}>
             <h3 style={{ fontSize: "18px", fontWeight: "bold", color: GIARDINO_COLORS.primary, marginBottom: "16px" }}>
