@@ -1,90 +1,118 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type SectionId = "overview" | "revenue" | "costs" | "hr" | "viability" | "project";
 
 interface UseScrollSyncOptions {
-  threshold?: number | number[];
-  rootMargin?: string;
   onSectionChange?: (sectionId: SectionId) => void;
   scrollContainerId?: string;
+  offset?: number;
+  threshold?: number | number[]; // Backward compatibility
+  rootMargin?: string; // Backward compatibility
 }
 
 /**
  * Hook que detecta qual seção está visível durante scroll
- * Sincroniza automaticamente com o activeTab
+ * Usa scroll listener para detecção super confiável
  */
 export function useScrollSync(options: UseScrollSyncOptions = {}) {
   const {
-    threshold = [0.1, 0.5],
-    rootMargin = "-50px 0px -50% 0px",
     onSectionChange,
     scrollContainerId = "dashboard-content",
+    offset = 100,
   } = options;
 
   const [visibleSection, setVisibleSection] = useState<SectionId>("overview");
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const visibleSectionsRef = useRef<Set<string>>(new Set());
-
-  const handleSectionChange = useCallback((sectionId: SectionId) => {
-    if (visibleSection !== sectionId) {
-      setVisibleSection(sectionId);
-      onSectionChange?.(sectionId);
-    }
-  }, [visibleSection, onSectionChange]);
+  const lastSectionRef = useRef<SectionId>("overview");
+  const scrollContainerRef = useRef<HTMLElement | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    // Limpar observer anterior
-    if (observerRef.current) {
-      observerRef.current.disconnect();
+    // Encontrar o container scrollável
+    let container = scrollContainerRef.current || document.getElementById(scrollContainerId);
+    
+    if (!container) {
+      return;
     }
 
-    // Encontrar o container scrollável
-    const scrollContainer = document.getElementById(scrollContainerId);
+    scrollContainerRef.current = container;
 
-    // Criar novo observer com a root correta
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const sectionId = entry.target.getAttribute("data-section") as SectionId;
+    // Função para detectar qual seção está visível
+    const detectVisibleSection = () => {
+      const sections = Array.from(document.querySelectorAll("[data-section]"));
+      
+      if (sections.length === 0) return;
 
-          if (entry.isIntersecting) {
-            visibleSectionsRef.current.add(sectionId);
-          } else {
-            visibleSectionsRef.current.delete(sectionId);
-          }
-        });
+      // Encontrar a seção mais próxima do topo do container
+      let visibleSectionId: SectionId = "overview";
+      let minDistance = Infinity;
 
-        // Encontrar a seção mais visível (primeira na lista de visíveis)
-        if (visibleSectionsRef.current.size > 0) {
-          // Pegar a primeira seção visível na ordem de renderização
-          const allSections = document.querySelectorAll("[data-section]");
-          for (const section of allSections) {
-            const sectionId = section.getAttribute("data-section") as SectionId;
-            if (visibleSectionsRef.current.has(sectionId)) {
-              handleSectionChange(sectionId);
-              break;
-            }
+      const containerRect = container!.getBoundingClientRect();
+      const referencePoint = containerRect.top + offset;
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        
+        // Verificar se seção está no viewport do container
+        const isInViewport = 
+          rect.bottom > containerRect.top && 
+          rect.top < containerRect.bottom;
+
+        if (isInViewport) {
+          // Distância do topo da seção ao ponto de referência
+          const distance = Math.abs(rect.top - referencePoint);
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            visibleSectionId = section.getAttribute("data-section") as SectionId;
           }
         }
-      },
-      {
-        root: scrollContainer,
-        threshold,
-        rootMargin,
-      }
-    );
+      });
 
-    // Observar todas as seções
-    const sections = document.querySelectorAll("[data-section]");
-    sections.forEach((section) => {
-      observerRef.current?.observe(section);
-    });
+      // Se nenhuma seção está no viewport, usar a primeira que está abaixo
+      if (minDistance === Infinity) {
+        for (const section of sections) {
+          const rect = section.getBoundingClientRect();
+          if (rect.top >= containerRect.bottom) {
+            visibleSectionId = section.getAttribute("data-section") as SectionId;
+            break;
+          }
+        }
+      }
+
+      // Atualizar apenas se mudou
+      if (visibleSectionId !== lastSectionRef.current) {
+        lastSectionRef.current = visibleSectionId;
+        setVisibleSection(visibleSectionId);
+        onSectionChange?.(visibleSectionId);
+      }
+    };
+
+    // Listener de scroll com debouncing
+    const handleScroll = () => {
+      // Limpar timer anterior
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
+      // Executar após um pequeno delay (debounce)
+      timerRef.current = setTimeout(detectVisibleSection, 10);
+    };
+
+    // Executar imediatamente no mount
+    setTimeout(detectVisibleSection, 0);
+
+    // Adicionar listener de scroll
+    container.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      observerRef.current?.disconnect();
-      visibleSectionsRef.current.clear();
+      if (container && scrollContainerRef.current === container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
     };
-  }, [threshold, rootMargin, handleSectionChange, scrollContainerId]);
+  }, [scrollContainerId, offset, onSectionChange]);
 
   return { visibleSection };
 }
