@@ -6,164 +6,96 @@ interface UseScrollSyncOptions {
   onSectionChange?: (sectionId: SectionId) => void;
   scrollContainerId?: string;
   offset?: number;
-  threshold?: number | number[]; // Backward compatibility
-  rootMargin?: string; // Backward compatibility
+  threshold?: number | number[]; 
+  rootMargin?: string;
 }
 
 /**
  * Hook que detecta qual seção está visível durante scroll
- * Usa scroll listener para detecção super confiável
  */
 export function useScrollSync(options: UseScrollSyncOptions = {}) {
   const {
     onSectionChange,
     scrollContainerId = "dashboard-content",
-    offset = 100,
   } = options;
 
   const [visibleSection, setVisibleSection] = useState<SectionId>("overview");
   const lastSectionRef = useRef<SectionId>("overview");
-  const scrollContainerRef = useRef<HTMLElement | null>(null);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    // Encontrar o container scrollável
-    let container = scrollContainerRef.current || document.getElementById(scrollContainerId);
-    
+    const container = document.getElementById(scrollContainerId);
+
     if (!container) {
+      console.error('Container not found:', scrollContainerId);
       return;
     }
 
-    scrollContainerRef.current = container;
-    console.log('✅ Container encontrado:', container.id);
-    console.log('📏 Container - height:', container.clientHeight, 'scrollHeight:', container.scrollHeight);
-
-    // Função para detectar qual seção está visível
     const detectVisibleSection = () => {
-      const sections = Array.from(document.querySelectorAll("[data-section]"));
-      console.log('🔍 Seções encontradas:', sections.length);
+      const sections = Array.from(document.querySelectorAll("[data-section]")) as HTMLElement[];
 
-      if (sections.length === 0) return;
+      if (sections.length === 0) {
+        return;
+      }
 
-      // Encontrar a seção mais próxima do topo do container
-      let visibleSectionId: SectionId = "overview";
-      let minDistance = Infinity;
+      // Usar o scroll position do container
+      const scrollTop = container.scrollTop;
+      const containerHeight = container.clientHeight;
+      const triggerPoint = scrollTop + 100; // Ponto de referência (100px do topo)
 
-      const containerRect = container!.getBoundingClientRect();
-      const referencePoint = containerRect.top + offset;
+      let nearestSection: SectionId = "overview";
+      let closestDistance = Infinity;
 
       sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        
-        // Verificar se seção está no viewport do container
-        const isInViewport = 
-          rect.bottom > containerRect.top && 
-          rect.top < containerRect.bottom;
+        // Posição relativa ao container
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
 
-        if (isInViewport) {
-          // Distância do topo da seção ao ponto de referência
-          const distance = Math.abs(rect.top - referencePoint);
+        // Verificar se a seção está visível
+        const isInView = sectionBottom > scrollTop && sectionTop < scrollTop + containerHeight;
 
-          if (distance < minDistance) {
-            minDistance = distance;
-            visibleSectionId = section.getAttribute("data-section") as SectionId;
+        if (isInView) {
+          // Distância do ponto de referência ao início da seção
+          const distance = Math.abs(sectionTop - triggerPoint);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            nearestSection = section.getAttribute("data-section") as SectionId;
           }
         }
       });
 
-      // Se nenhuma seção está no viewport, usar a primeira que está abaixo
-      if (minDistance === Infinity) {
+      // Se nenhuma está visível, usar a primeira que está abaixo
+      if (closestDistance === Infinity) {
         for (const section of sections) {
-          const rect = section.getBoundingClientRect();
-          if (rect.top >= containerRect.bottom) {
-            visibleSectionId = section.getAttribute("data-section") as SectionId;
+          if (section.offsetTop >= scrollTop + containerHeight) {
+            nearestSection = section.getAttribute("data-section") as SectionId;
             break;
           }
         }
       }
 
-      // Debug visual
-      const debugPanel = document.getElementById('scroll-sync-debug');
-      if (debugPanel) {
-        debugPanel.innerHTML = `
-          <div>📍 Seção: ${visibleSectionId}</div>
-          <div>📍 Última: ${lastSectionRef.current}</div>
-          <div>🔍 Seções: ${sections.length}</div>
-          <div>📏 Distance: ${minDistance.toFixed(0)}px</div>
-        `;
-      }
-
       // Atualizar apenas se mudou
-      if (visibleSectionId !== lastSectionRef.current) {
-        console.log('🎯 Seção mudada:', lastSectionRef.current, '→', visibleSectionId);
-        lastSectionRef.current = visibleSectionId;
-        setVisibleSection(visibleSectionId);
-        onSectionChange?.(visibleSectionId);
-        if (debugPanel) {
-          debugPanel.style.background = 'rgba(0, 100, 0, 0.95)';
-        }
-      } else {
-        console.log('📍 Seção atual:', visibleSectionId, '(sem mudança)');
-        if (debugPanel) {
-          debugPanel.style.background = 'rgba(0, 0, 0, 0.9)';
-        }
+      if (nearestSection !== lastSectionRef.current) {
+        lastSectionRef.current = nearestSection;
+        setVisibleSection(nearestSection);
+        onSectionChange?.(nearestSection);
       }
     };
 
-    // Listener de scroll com debouncing
+    // Executar imediatamente
+    detectVisibleSection();
+
+    // Listener de scroll
     const handleScroll = () => {
-      console.log('📜 Scroll evento disparado');
-      // Limpar timer anterior
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-
-      // Executar após um pequeno delay (debounce)
-      timerRef.current = setTimeout(() => {
-        console.log('⏱️ Debounce terminado, detectando seção...');
-        detectVisibleSection();
-      }, 10);
+      requestAnimationFrame(detectVisibleSection);
     };
 
-    // Debug visual - criar painel de debug
-    const debugPanel = document.getElementById('scroll-sync-debug') || document.createElement('div');
-    if (!debugPanel.id) {
-      debugPanel.id = 'scroll-sync-debug';
-      debugPanel.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: rgba(0, 0, 0, 0.9);
-        color: #0f0;
-        padding: 15px;
-        border-radius: 8px;
-        font-family: monospace;
-        font-size: 12px;
-        z-index: 9999;
-        max-width: 300px;
-        word-break: break-all;
-      `;
-      document.body.appendChild(debugPanel);
-    }
-    debugPanel.innerHTML += '<div>✅ useScrollSync iniciado</div>';
-
-    // Executar imediatamente no mount
-    console.log('🚀 Executando detectVisibleSection inicial');
-    setTimeout(detectVisibleSection, 0);
-
-    // Adicionar listener de scroll
-    console.log('🎧 Adicionando scroll listener');
     container.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      if (container && scrollContainerRef.current === container) {
-        container.removeEventListener("scroll", handleScroll);
-      }
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
+      container.removeEventListener("scroll", handleScroll);
     };
-  }, [scrollContainerId, offset, onSectionChange]);
+  }, [scrollContainerId, onSectionChange]);
 
   return { visibleSection };
 }

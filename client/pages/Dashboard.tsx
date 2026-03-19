@@ -312,17 +312,17 @@ export default function Dashboard() {
           { id: "project", label: "🏢 Sobre" },
         ]}
         activeTab={activeTab}
-        onTabChange={(tabId) =>
-          setActiveTab(
-            tabId as
-              | "overview"
-              | "revenue"
-              | "costs"
-              | "hr"
-              | "viability"
-              | "project"
-          )
-        }
+        onTabChange={(tabId) => {
+          const sectionId = tabId as
+            | "overview"
+            | "revenue"
+            | "costs"
+            | "hr"
+            | "viability"
+            | "project";
+          setActiveTab(sectionId);
+          scrollToSection(sectionId);
+        }}
         primaryColor={GIARDINO_COLORS.primary}
         accentColor={GIARDINO_COLORS.accent}
         lightColor={GIARDINO_COLORS.light}
@@ -1572,6 +1572,7 @@ export default function Dashboard() {
         </div>
         </div>
       </div>
+
     </div>
   );
 }

@@ -25,7 +25,10 @@ export function useAutoScroll(options: UseAutoScrollOptions = {}) {
 
   const scrollToSection = (sectionId: SectionId) => {
     const section = document.getElementById(`tab-${sectionId}`);
-    if (!section || !scrollContainerRef.current) return;
+
+    if (!section || !scrollContainerRef.current) {
+      return;
+    }
 
     const container = scrollContainerRef.current;
     const sectionTop = section.offsetTop;
