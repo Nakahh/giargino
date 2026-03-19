@@ -30,7 +30,9 @@
     "salesDistribution": "💰 Sales Distribution",
     "salesDistributionDesc": "Capital distributed by segment",
     "cashFlow": "📈 Projected Cash Flow (12 Months)",
-    "cashFlowDesc": "Estimated monthly revenue, costs and profit"
+    "cashFlowDesc": "Estimated monthly revenue, costs and profit",
+    "revenueDetail": "Revenue Details",
+    "costDetail": "Operating Costs Breakdown"
   },
   "projects": {
     "title": "🏛️ GIARDINO — Complete Project and Strategic Vision",
@@ -45,9 +47,23 @@
   },
   "revenue": {
     "residential": "Senior Residential",
+    "residentialDesc": "Monthly rent + services",
+    "residentialMonthly": "/month",
     "lifeStyleClub": "Life Style Club",
+    "lifeStyleClubDesc": "Membership fees for 6,000 members",
     "shopping": "Shopping/Mall",
-    "consumption": "Consumption"
+    "shoppingDesc": "Store rentals from 250 shops",
+    "consumption": "Consumption",
+    "consumptionDesc": "Bars, restaurants and events",
+    "total": "Total Revenue"
+  },
+  "costs": {
+    "hr": "MONTHLY HR",
+    "operational": "OPERATIONAL",
+    "humanResources": "Human Resources",
+    "operationalCosts": "Operating Costs",
+    "financing": "Financing",
+    "financingInterest": "Financing Interest"
   },
   "hr": {
     "title": "👥 Human Resources Structure",
@@ -61,11 +77,35 @@
     "title": "📊 Financial Projection 10 Years",
     "subtitle": "Annual analysis of revenue, costs and profitability over the decade",
     "year": "YEAR",
+    "month": "Month",
     "grossRevenue": "GROSS REVENUE",
     "totalCosts": "TOTAL COSTS",
     "netProfit": "NET PROFIT",
     "cumulativeProfit": "CUMULATIVE PROFIT",
-    "roi": "ROI (%)"
+    "roi": "ROI (%)",
+    "paybackPeriod": "Payback Period",
+    "years": "Years (payback period)",
+    "vpl": "NPV 10 YEARS",
+    "operatingMargin": "Operating Margin",
+    "grossRevenuePct": "Of gross revenue",
+    "month12": "Month 12",
+    "annualPayment": "Per year (financing)"
+  },
+  "revenueModel": {
+    "title": "💼 Revenue Model",
+    "residentialTitle": "Senior Residential",
+    "residentialSubtitle": "240 units - All-inclusive package with specialized care",
+    "clubTitle": "Life Style Club",
+    "clubSubtitle": "6,000 members with access to 360 daily services",
+    "commercialTitle": "Commercial Center",
+    "clubMembers": "Club Members"
+  },
+  "investment": {
+    "title": "💰 Investment Structure",
+    "downPayment": "Down payment: $6,000,000",
+    "annualPayments": "6 installments: $4,000,000/year",
+    "term": "Term: 120 months (10 years)",
+    "monthlyPayment": "Monthly payment: $200,000 + interest"
   },
   "currency": {
     "brl": "R$",

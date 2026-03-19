@@ -30,7 +30,9 @@
     "salesDistribution": "💰 Distribuição de Vendas",
     "salesDistributionDesc": "Capital distribuído por segmento",
     "cashFlow": "📈 Fluxo de Caixa Projetado (12 Meses)",
-    "cashFlowDesc": "Receita, custos e lucro mensal estimado"
+    "cashFlowDesc": "Receita, custos e lucro mensal estimado",
+    "revenueDetail": "Detalhamento de Receitas",
+    "costDetail": "Breakdown de Custos Operacionais"
   },
   "projects": {
     "title": "🏛️ GIARDINO — Projeto Completo e Visão Estratégica",
@@ -45,9 +47,23 @@
   },
   "revenue": {
     "residential": "Residencial Senior",
+    "residentialDesc": "Aluguel mensal + serviços",
+    "residentialMonthly": "/mês",
     "lifeStyleClub": "Clube Life Style",
+    "lifeStyleClubDesc": "Mensalidade de 6.000 membros",
     "shopping": "Shopping/Mall",
-    "consumption": "Consumação"
+    "shoppingDesc": "Aluguel de 250 lojas",
+    "consumption": "Consumação",
+    "consumptionDesc": "Bares, restaurantes e eventos",
+    "total": "Receita Total"
+  },
+  "costs": {
+    "hr": "RH MENSAL",
+    "operational": "OPERACIONAL",
+    "humanResources": "Recursos Humanos",
+    "operationalCosts": "Custos Operacionais",
+    "financing": "Financiamento",
+    "financingInterest": "Juros do Financiamento"
   },
   "hr": {
     "title": "👥 Estrutura de Recursos Humanos",
@@ -61,11 +77,35 @@
     "title": "📊 Projeção Financeira 10 Anos",
     "subtitle": "Análise anual de receitas, custos e lucratividade ao longo da década",
     "year": "ANO",
+    "month": "Mês",
     "grossRevenue": "RECEITA BRUTA",
     "totalCosts": "CUSTOS TOTAIS",
     "netProfit": "LUCRO LÍQUIDO",
     "cumulativeProfit": "LUCRO ACUMULADO",
-    "roi": "ROI (%)"
+    "roi": "ROI (%)",
+    "paybackPeriod": "Período de Retorno",
+    "years": "Anos (período de retorno)",
+    "vpl": "VPL 10 ANOS",
+    "operatingMargin": "Margem Operacional",
+    "grossRevenuePct": "Da receita bruta",
+    "month12": "Mês 12",
+    "annualPayment": "Ao ano (financiamento)"
+  },
+  "revenueModel": {
+    "title": "💼 Modelo de Receitas",
+    "residentialTitle": "Residencial Senior",
+    "residentialSubtitle": "240 unidades - Pacote all inclusive com cuidados especializados",
+    "clubTitle": "Clube Life Style",
+    "clubSubtitle": "6.000 membros com acesso a 360 diárias",
+    "commercialTitle": "Centro Comercial",
+    "clubMembers": "Membros do Clube"
+  },
+  "investment": {
+    "title": "💰 Estrutura de Investimento",
+    "downPayment": "Entrada: R$ 30.000.000",
+    "annualPayments": "6 parcelas: R$ 20.000.000/ano",
+    "term": "Prazo: 120 meses (10 anos)",
+    "monthlyPayment": "Pagamento mensal: R$ 1.000.000 + juros"
   },
   "currency": {
     "brl": "R$",

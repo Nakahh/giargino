@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Flower, Leaf } from "lucide-react";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 interface PremiumHeaderProps {
   title?: string;
@@ -11,6 +12,7 @@ interface PremiumHeaderProps {
   lightColor?: string;
   children?: React.ReactNode;
   compact?: boolean;
+  showLanguageSwitcher?: boolean;
 }
 
 export function PremiumHeader({
@@ -23,6 +25,7 @@ export function PremiumHeader({
   lightColor = "#FFFFFF",
   children,
   compact = false,
+  showLanguageSwitcher = true,
 }: PremiumHeaderProps) {
   const bgGradient = `linear-gradient(135deg, ${backgroundColor} 0%, #1F3B5E 100%)`;
 
@@ -72,17 +75,16 @@ export function PremiumHeader({
             </motion.p>
           </div>
 
-          {/* Custom children (ex: PDF export button) */}
-          {children && (
-            <motion.div
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex gap-2 md:gap-3 flex-wrap justify-center md:justify-end"
-            >
-              {children}
-            </motion.div>
-          )}
+          {/* Custom children and language switcher (ex: PDF export button) */}
+          <motion.div
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex gap-2 md:gap-3 flex-wrap justify-center md:justify-end items-center"
+          >
+            {showLanguageSwitcher && <LanguageSwitcher />}
+            {children}
+          </motion.div>
         </motion.div>
 
         {!compact && (
