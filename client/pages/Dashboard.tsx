@@ -312,17 +312,17 @@ export default function Dashboard() {
           { id: "project", label: "🏢 Sobre" },
         ]}
         activeTab={activeTab}
-        onTabChange={(tabId) =>
-          setActiveTab(
-            tabId as
-              | "overview"
-              | "revenue"
-              | "costs"
-              | "hr"
-              | "viability"
-              | "project"
-          )
-        }
+        onTabChange={(tabId) => {
+          const sectionId = tabId as
+            | "overview"
+            | "revenue"
+            | "costs"
+            | "hr"
+            | "viability"
+            | "project";
+          setActiveTab(sectionId);
+          scrollToSection(sectionId);
+        }}
         primaryColor={GIARDINO_COLORS.primary}
         accentColor={GIARDINO_COLORS.accent}
         lightColor={GIARDINO_COLORS.light}
@@ -330,6 +330,11 @@ export default function Dashboard() {
 
       {/* Content - Mobile Optimized */}
       <div id="dashboard-content" className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth bg-gradient-to-br from-slate-50 via-white to-slate-50 w-full">
+        {/* Debug: Show current section */}
+        <div className="fixed bottom-4 right-4 bg-black text-white px-3 py-2 rounded text-xs font-mono z-50 opacity-70">
+          Seção: {activeTab}
+        </div>
+
         <div className="max-w-7xl w-full mx-auto px-2 sm:px-4 md:px-6 py-4 md:py-8">
         {/* TAB: OVERVIEW - ALWAYS RENDERED */}
         <div
