@@ -30,17 +30,12 @@ export function useScrollSync(options: UseScrollSyncOptions = {}) {
       return;
     }
 
-    console.log('✅ Container found, starting scroll sync');
-
     const detectVisibleSection = () => {
       const sections = Array.from(document.querySelectorAll("[data-section]")) as HTMLElement[];
 
       if (sections.length === 0) {
-        console.warn('No sections found with [data-section]');
         return;
       }
-
-      console.log('📊 Sections found:', sections.length, sections.map(s => s.getAttribute("data-section")));
 
       // Usar o scroll position do container
       const scrollTop = container.scrollTop;
@@ -81,12 +76,9 @@ export function useScrollSync(options: UseScrollSyncOptions = {}) {
 
       // Atualizar apenas se mudou
       if (nearestSection !== lastSectionRef.current) {
-        console.log('🎯 Section changed:', lastSectionRef.current, '→', nearestSection);
         lastSectionRef.current = nearestSection;
         setVisibleSection(nearestSection);
         onSectionChange?.(nearestSection);
-      } else {
-        console.log('📍 Current section (no change):', nearestSection);
       }
     };
 

@@ -301,38 +301,6 @@ export default function Dashboard() {
         <SimplePDFExport />
       </PremiumHeader>
 
-      {/* Test Button */}
-      <button
-        onClick={() => {
-          console.log('🧪 Test button clicked');
-          const container = document.getElementById('dashboard-content');
-          if (container) {
-            console.log('📊 Container found, current scrollTop:', container.scrollTop);
-            console.log('📊 Container scrollHeight:', container.scrollHeight);
-            console.log('📊 Container clientHeight:', container.clientHeight);
-            container.scrollTo({ top: 1000, behavior: 'smooth' });
-          } else {
-            console.error('❌ Container not found!');
-          }
-        }}
-        style={{
-          position: 'fixed',
-          top: '100px',
-          right: '20px',
-          backgroundColor: '#ff0000',
-          color: '#fff',
-          padding: '10px 15px',
-          borderRadius: '4px',
-          border: 'none',
-          cursor: 'pointer',
-          zIndex: 9998,
-          fontSize: '12px',
-          fontWeight: 'bold'
-        }}
-      >
-        🧪 TEST SCROLL
-      </button>
-
       {/* Navigation Tabs Premium - Mobile Optimized */}
       <PremiumTabNav
         tabs={[
@@ -345,7 +313,6 @@ export default function Dashboard() {
         ]}
         activeTab={activeTab}
         onTabChange={(tabId) => {
-          console.log('🎯 Tab changed:', tabId);
           const sectionId = tabId as
             | "overview"
             | "revenue"
@@ -1606,22 +1573,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Debug: Show current section */}
-      <div style={{
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
-        backgroundColor: '#000',
-        color: '#fff',
-        padding: '10px 15px',
-        borderRadius: '4px',
-        fontSize: '12px',
-        fontFamily: 'monospace',
-        zIndex: 9999,
-        opacity: 0.9
-      }}>
-        Seção: {activeTab}
-      </div>
     </div>
   );
 }

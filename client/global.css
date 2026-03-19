@@ -240,6 +240,16 @@
 }
 
 @layer base {
+  /* Ensure root takes full viewport height for nested scroll */
+  html,
+  body,
+  #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
   * {
     @apply border-border;
   }
