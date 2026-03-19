@@ -72,6 +72,15 @@ function formatCurrency(value: number): string {
   }).format(value);
 }
 
+function formatCurrencyWithDecimals(value: number): string {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<
     "overview" | "revenue" | "costs" | "hr" | "viability" | "project"
@@ -516,25 +525,68 @@ export default function Dashboard() {
                   <p className="text-sm sm:text-base text-gray-600">Receita, custos e lucro mensal estimado</p>
                 </div>
                 <ResponsiveContainer width="100%" height={400}>
-                  <LineChart data={cashFlowData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
+                  <AreaChart data={cashFlowData} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
+                    <defs>
+                      <linearGradient id="colorReceita" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor={CHART_COLORS[0]} stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor={CHART_COLORS[0]} stopOpacity={0.1}/>
+                      </linearGradient>
+                      <linearGradient id="colorCustos" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor={CHART_COLORS[4]} stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor={CHART_COLORS[4]} stopOpacity={0.1}/>
+                      </linearGradient>
+                      <linearGradient id="colorLucro" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor={CHART_COLORS[2]} stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor={CHART_COLORS[2]} stopOpacity={0.1}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                    <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} />
                     <Tooltip
-                      formatter={(value: number) => formatCurrency(value)}
+                      formatter={(value: number) => formatCurrencyWithDecimals(value)}
+                      labelFormatter={(label) => `${label}`}
                       contentStyle={{
                         backgroundColor: "#fff",
                         border: "2px solid #F4C430",
                         borderRadius: "8px",
-                        padding: "8px",
-                        boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
+                        padding: "12px",
+                        boxShadow: "0 4px 6px rgba(0,0,0,0.15)"
                       }}
                     />
-                    <Legend />
-                    <Line type="monotone" dataKey="receita" stroke={CHART_COLORS[0]} strokeWidth={2} />
-                    <Line type="monotone" dataKey="custos" stroke={CHART_COLORS[4]} strokeWidth={2} />
-                    <Line type="monotone" dataKey="lucro" stroke={CHART_COLORS[2]} strokeWidth={2} />
-                  </LineChart>
+                    <Legend
+                      wrapperStyle={{ paddingTop: "20px", fontSize: "13px" }}
+                      verticalAlign="bottom"
+                      height={30}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="receita"
+                      stroke={CHART_COLORS[0]}
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorReceita)"
+                      name="Receita"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="custos"
+                      stroke={CHART_COLORS[4]}
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorCustos)"
+                      name="Custos"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="lucro"
+                      stroke={CHART_COLORS[2]}
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorLucro)"
+                      name="Lucro"
+                    />
+                  </AreaChart>
                 </ResponsiveContainer>
               </div>
             </div>
@@ -661,9 +713,9 @@ export default function Dashboard() {
                 { segment: "Consumação", monthly: giardino.monthlyRevenue.consumption.monthlyTotal, annual: giardino.monthlyRevenue.consumption.monthlyTotal * 12 },
               ]}
               columns={[
-                { key: "segment", label: "Segmento", render: (v) => v },
-                { key: "monthly", label: "Mensal", render: (v) => formatCurrency(v) },
-                { key: "annual", label: "Anual", render: (v) => formatCurrency(v) },
+                { key: "segment", label: "Segmento", format: (v) => v },
+                { key: "monthly", label: "Mensal", format: (v) => formatCurrency(v) },
+                { key: "annual", label: "Anual", format: (v) => formatCurrency(v) },
               ]}
               headerTextColor={GIARDINO_COLORS.primary}
             />
@@ -865,10 +917,10 @@ export default function Dashboard() {
             <ResponsiveTable
               data={hrData}
               columns={[
-                { key: "department", label: "Departamento", render: (v) => v },
-                { key: "count", label: "Quantidade", render: (v) => v },
-                { key: "salary", label: "Salário/pessoa", render: (v) => formatCurrency(v) },
-                { key: "total", label: "Total/mês", render: (v) => formatCurrency(v) },
+                { key: "department", label: "Departamento", format: (v) => v },
+                { key: "count", label: "Quantidade", format: (v) => v },
+                { key: "salary", label: "Salário/pessoa", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "total", label: "Total/mês", format: (v) => formatCurrencyWithDecimals(v) },
               ]}
               headerTextColor={GIARDINO_COLORS.secondary}
             />
@@ -1070,12 +1122,12 @@ export default function Dashboard() {
                 roi: proj.roi,
               }))}
               columns={[
-                { key: "ano", label: "ANO", render: (v) => v },
-                { key: "receita", label: "RECEITA BRUTA", render: (v) => formatCurrency(v) },
-                { key: "custos", label: "CUSTOS TOTAIS", render: (v) => formatCurrency(v) },
-                { key: "lucro", label: "LUCRO LÍQUIDO", render: (v) => formatCurrency(v) },
-                { key: "acumulado", label: "LUCRO ACUMULADO", render: (v) => formatCurrency(v) },
-                { key: "roi", label: "ROI (%)", render: (v) => `${v}%` },
+                { key: "ano", label: "ANO", format: (v) => v },
+                { key: "receita", label: "RECEITA BRUTA", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "custos", label: "CUSTOS TOTAIS", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "lucro", label: "LUCRO LÍQUIDO", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "acumulado", label: "LUCRO ACUMULADO", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "roi", label: "ROI (%)", format: (v) => `${v}%` },
               ]}
               headerTextColor={GIARDINO_COLORS.secondary}
             />
@@ -1221,6 +1273,282 @@ export default function Dashboard() {
                   {formatCurrency(giardino.totalMonthlyRevenue)}
                 </p>
                 <span className="text-xs text-red-600">/mês</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Project Complete Overview Section */}
+          <div className="space-y-6 md:space-y-8">
+            {/* Main Overview */}
+            <div
+              className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderTopColor: GIARDINO_COLORS.primary
+              }}
+            >
+              <h2 className="text-2xl sm:text-3xl font-bold mb-6" style={{ color: GIARDINO_COLORS.primary }}>
+                🏛️ GIARDINO — Projeto Completo e Visão Estratégica
+              </h2>
+              <p className="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed">
+                O projeto GIARDINO é um complexo residencial de luxo voltado para idosos e lifestyle premium, localizado em Mogi das Cruzes, São Paulo. Combina habitação especializada com serviços de wellness, clube social e shopping, criando um ecossistema completo de alta qualidade de vida.
+              </p>
+
+              {/* Two Column Layout */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                {/* Left Column - Vision and Segments */}
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.secondary }}>
+                      Visão Geral
+                    </h3>
+                    <p className="text-sm text-gray-700 leading-relaxed mb-3">
+                      O projeto GIARDINO é um complexo residencial de luxo voltado para idosos e lifestyle premium, localizado em Mogi das Cruzes, São Paulo. Combina habitação especializada com serviços de wellness, clube social e shopping, criando um ecossistema completo de alta qualidade de vida.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.secondary }}>
+                      Segmentos do Projeto
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex gap-3 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-600">
+                        <div className="font-bold text-blue-600 min-w-6">1</div>
+                        <div>
+                          <p className="font-semibold text-blue-900">Residencial Senior + SPA</p>
+                          <p className="text-xs text-gray-600">240 unidades - Pacote all inclusive com cuidados especializados</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-3 p-3 bg-amber-50 rounded-lg border-l-4 border-amber-600">
+                        <div className="font-bold text-amber-600 min-w-6">2</div>
+                        <div>
+                          <p className="font-semibold text-amber-900">Clube Life Style</p>
+                          <p className="text-xs text-gray-600">6.000 membros com acesso a 360 diárias</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-3 p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
+                        <div className="font-bold text-green-600 min-w-6">3</div>
+                        <div>
+                          <p className="font-semibold text-green-900">Loteamento Residencial</p>
+                          <p className="text-xs text-gray-600">400 terrenos de 500m² com acesso ao clube</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-3 p-3 bg-pink-50 rounded-lg border-l-4 border-pink-600">
+                        <div className="font-bold text-pink-600 min-w-6">4</div>
+                        <div>
+                          <p className="font-semibold text-pink-900">Centro Comercial</p>
+                          <p className="text-xs text-gray-600">Shopping com 250+ lojas, alimentação e cinemas</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column - Key Numbers */}
+                <div>
+                  <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.accent }}>
+                    Números Principais
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-l-4 border-blue-600">
+                      <p className="text-xs text-gray-600 font-semibold">Total de Unidades Residenciais</p>
+                      <p className="text-2xl font-bold text-blue-600">320</p>
+                    </div>
+                    <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border-l-4 border-green-600">
+                      <p className="text-xs text-gray-600 font-semibold">Membros do Clube</p>
+                      <p className="text-2xl font-bold text-green-600">6.000</p>
+                    </div>
+                    <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg border-l-4 border-purple-600">
+                      <p className="text-xs text-gray-600 font-semibold">Total de Funcionários</p>
+                      <p className="text-2xl font-bold text-purple-600">204</p>
+                    </div>
+                    <div className="p-4 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg border-l-4 border-amber-600">
+                      <p className="text-xs text-gray-600 font-semibold">Áreas Comerciais</p>
+                      <p className="text-2xl font-bold text-amber-600">250+</p>
+                    </div>
+                    <div className="p-4 bg-gradient-to-r from-red-50 to-red-100 rounded-lg border-l-4 border-red-600">
+                      <p className="text-xs text-gray-600 font-semibold">Investimento Total</p>
+                      <p className="text-2xl font-bold text-red-600">R$ 250M</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Facilities & Services */}
+            <div
+              className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderTopColor: GIARDINO_COLORS.secondary
+              }}
+            >
+              <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.secondary }}>
+                🏥 Facilities & Serviços
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Spa & Wellness</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Piscinas Olímpicas</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Academia 24h</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Quadras Esportivas</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Restaurante Premium</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Cabeleireiro</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Centro Médico 24h</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Home Care 24h</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Terapias Diversas</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Fisioterapia</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Consultas Médicas</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Concierge</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Investment Structure */}
+            <div
+              className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderTopColor: GIARDINO_COLORS.gold
+              }}
+            >
+              <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.gold }}>
+                💰 Estrutura de Investimento
+              </h3>
+              <div className="space-y-4">
+                <div className="p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border-l-4 border-blue-600">
+                  <div className="flex items-start gap-4">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 text-white font-bold text-lg">
+                      1
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-blue-900 mb-1">Proposta Inicial (Dinheiro)</h4>
+                      <p className="text-sm text-gray-700 mb-2">R$ 150.000.000 — Entrada + 6 parcelas anuais</p>
+                      <div className="text-xs text-gray-600 space-y-1">
+                        <p>• Entrada: R$ 30.000.000</p>
+                        <p>• 6 parcelas: R$ 20.000.000/ano</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border-l-4 border-green-600">
+                  <div className="flex items-start gap-4">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-600 text-white font-bold text-lg">
+                      2
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-green-900 mb-1">Financiamento Complementar</h4>
+                      <p className="text-sm text-gray-700 mb-2">R$ 100.000.000 — CAPEX com 6% a.a.</p>
+                      <div className="text-xs text-gray-600 space-y-1">
+                        <p>• Prazo: 120 meses (10 anos)</p>
+                        <p>• Pagamento mensal: R$ 1.000.000 + juros</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Revenue Comparison */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+              {/* Initial Sales */}
+              <div
+                className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
+                style={{
+                  backgroundColor: GIARDINO_COLORS.light,
+                  borderTopColor: "#10B981"
+                }}
+              >
+                <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: "#059669" }}>
+                  🎯 Receitas Iniciais (Vendas)
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Residencial Senior</span>
+                    <span className="font-bold text-green-600">R$ 160M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Clube Life Style</span>
+                    <span className="font-bold text-green-600">R$ 300M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Loteamento</span>
+                    <span className="font-bold text-green-600">R$ 144M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Shopping/Mall</span>
+                    <span className="font-bold text-green-600">R$ 2.6M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-100 to-green-200 rounded-lg border-t-2 border-green-600 mt-2">
+                    <span className="font-bold text-gray-800">TOTAL</span>
+                    <span className="text-xl font-bold text-green-700">R$ 606.6M</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Recurring Revenue */}
+              <div
+                className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
+                style={{
+                  backgroundColor: GIARDINO_COLORS.light,
+                  borderTopColor: GIARDINO_COLORS.gold
+                }}
+              >
+                <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.gold }}>
+                  💵 Receitas Mensais Recorrentes
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Residencial</span>
+                    <span className="font-bold text-amber-600">R$ 8.4M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Clube</span>
+                    <span className="font-bold text-amber-600">R$ 3.0M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Comércios</span>
+                    <span className="font-bold text-amber-600">R$ 1.575M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-amber-100 to-amber-200 rounded-lg border-t-2 border-amber-600 mt-2">
+                    <span className="font-bold text-gray-800">TOTAL</span>
+                    <span className="text-xl font-bold text-amber-700">R$ 13.7M</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
