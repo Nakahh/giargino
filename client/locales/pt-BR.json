@@ -327,6 +327,18 @@
     "revenueComparison": {
       "initialSales": {
         "title": "🎯 Receitas Iniciais (Vendas)",
+        "residentialSenior": {
+          "label": "Residencial Senior"
+        },
+        "lifeStyleClub": {
+          "label": "Clube Life Style"
+        },
+        "lot": {
+          "label": "Loteamento"
+        },
+        "mall": {
+          "label": "Shopping/Mall"
+        },
         "total": "TOTAL"
       },
       "recurring": {
@@ -334,6 +346,19 @@
         "residential": "Residencial",
         "club": "Clube",
         "commercial": "Comércios",
+        "total": "TOTAL"
+      },
+      "recurringRevenue": {
+        "title": "💵 Receitas Mensais Recorrentes",
+        "residential": {
+          "label": "Residencial"
+        },
+        "club": {
+          "label": "Clube"
+        },
+        "commerce": {
+          "label": "Comércios"
+        },
         "total": "TOTAL"
       }
     }
