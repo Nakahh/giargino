@@ -117,73 +117,86 @@ export function PDFWrapper({ forPDF = false }: PDFWrapperProps) {
       fill: CHART_COLORS[0],
     },
     {
-      name: "Hospedagem",
-      value: giardino.monthlyRevenue.hospitality.monthlyTotal,
+      name: "Clube Life Style",
+      value: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal,
       fill: CHART_COLORS[1],
     },
     {
-      name: "Clube Life Style",
-      value: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal,
+      name: "Shopping/Mall",
+      value: giardino.monthlyRevenue.shoppingMall.monthlyTotal,
       fill: CHART_COLORS[2],
     },
     {
-      name: "Bares/Restaurantes",
-      value: giardino.monthlyRevenue.barsRestaurantShops.monthlyTotal,
+      name: "Consumação",
+      value: giardino.monthlyRevenue.consumption.monthlyTotal,
       fill: CHART_COLORS[3],
     },
   ];
 
   // Dados de custos
+  const hrTotal =
+    giardino.hrCosts.housekeeping.monthlyTotal +
+    giardino.hrCosts.culinary.monthlyTotal +
+    giardino.hrCosts.laundry.monthlyTotal +
+    giardino.hrCosts.cleaning.monthlyTotal +
+    giardino.hrCosts.maintenance.monthlyTotal +
+    giardino.hrCosts.beauty.monthlyTotal +
+    giardino.hrCosts.reception.monthlyTotal +
+    giardino.hrCosts.security.monthlyTotal +
+    giardino.hrCosts.healthcare.monthlyTotal +
+    giardino.hrCosts.administrative.monthlyTotal;
+
+  const operationalTotal =
+    giardino.residentialCosts.hosting.monthlyTotal +
+    giardino.residentialCosts.meals.monthlyTotal +
+    giardino.residentialCosts.sportsRecreation.monthlyTotal +
+    giardino.residentialCosts.medicalCare.monthlyTotal +
+    giardino.residentialCosts.therapies.monthlyTotal +
+    giardino.residentialCosts.personalCare.monthlyTotal;
+
   const costData = [
     {
       name: "Recursos Humanos",
-      value:
-        giardino.hrCosts.housekeeping.monthlyTotal +
-        giardino.hrCosts.maintenance.monthlyTotal +
-        giardino.hrCosts.management.monthlyTotal +
-        giardino.hrCosts.food.monthlyTotal +
-        giardino.hrCosts.entertainment.monthlyTotal,
+      value: hrTotal,
       fill: CHART_COLORS[0],
     },
     {
       name: "Operacional",
-      value:
-        giardino.operationalCosts.utilities.monthlyTotal +
-        giardino.operationalCosts.maintenance.monthlyTotal +
-        giardino.operationalCosts.marketing.monthlyTotal,
+      value: operationalTotal,
       fill: CHART_COLORS[1],
     },
     {
-      name: "Financeiro",
-      value: giardino.financialCosts.monthlyTotal,
+      name: "Financiamento",
+      value: giardino.financing.monthlyPayment,
       fill: CHART_COLORS[2],
+    },
+    {
+      name: "Juros",
+      value: giardino.summary.monthlyAnalysis.estimatedMonthlyInterest,
+      fill: CHART_COLORS[3],
     },
   ];
 
   // Distribuição de Vendas Iniciais
   const salesDistribution = [
-    { name: "Residencial Senior", value: giardino.initialSalesDistribution.residentialSenior },
-    { name: "Hospedagem", value: giardino.initialSalesDistribution.hospitality },
-    { name: "Clube Life Style", value: giardino.initialSalesDistribution.lifeStyleClub },
-    { name: "Loteamento", value: giardino.initialSalesDistribution.lotting },
-    { name: "Centro Comercial", value: giardino.initialSalesDistribution.commercialCenter },
+    { name: "Residencial Senior", value: giardino.sales.residentialSenior.total },
+    { name: "Time Share", value: giardino.sales.timeShare.total },
+    { name: "Clube Life Style", value: giardino.sales.lifeStyleClub.total },
+    { name: "Loteamento", value: giardino.sales.subdivision.total },
+    { name: "Shopping/Mall", value: giardino.sales.mall.total },
   ];
 
   // Fluxo de Caixa
-  const cashFlowData = [
-    { month: "Jan", receita: 1200000, custos: 900000, lucro: 300000 },
-    { month: "Fev", receita: 1250000, custos: 920000, lucro: 330000 },
-    { month: "Mar", receita: 1300000, custos: 940000, lucro: 360000 },
-    { month: "Abr", receita: 1350000, custos: 960000, lucro: 390000 },
-    { month: "Mai", receita: 1400000, custos: 980000, lucro: 420000 },
-    { month: "Jun", receita: 1450000, custos: 1000000, lucro: 450000 },
-    { month: "Jul", receita: 1500000, custos: 1020000, lucro: 480000 },
-    { month: "Ago", receita: 1550000, custos: 1040000, lucro: 510000 },
-    { month: "Set", receita: 1600000, custos: 1060000, lucro: 540000 },
-    { month: "Out", receita: 1650000, custos: 1080000, lucro: 570000 },
-    { month: "Nov", receita: 1700000, custos: 1100000, lucro: 600000 },
-    { month: "Dez", receita: 1800000, custos: 1150000, lucro: 650000 },
-  ];
+  const monthlyOperatingCosts = giardino.summary.monthlyAnalysis.hrCosts + giardino.summary.monthlyAnalysis.residentialOperatingCosts;
+  const monthlyFinancingCosts = giardino.summary.monthlyAnalysis.financingPayment + giardino.summary.monthlyAnalysis.estimatedMonthlyInterest;
+  const totalMonthlyCosts = monthlyOperatingCosts + monthlyFinancingCosts;
+
+  const cashFlowData = Array.from({ length: 12 }).map((_, i) => ({
+    month: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"][i],
+    receita: giardino.totalMonthlyRevenue,
+    custos: totalMonthlyCosts,
+    lucro: giardino.totalMonthlyRevenue - totalMonthlyCosts,
+  }));
 
   // Dados de RH
   const hrData = [
@@ -416,7 +429,7 @@ export function PDFWrapper({ forPDF = false }: PDFWrapperProps) {
                   whiteSpace: "normal",
                 }}
               >
-                {formatCurrency(606_600_000)}
+                {formatCurrency(giardino.totalSales)}
               </h3>
               <p style={{ fontSize: "11px", color: "#999", margin: "0" }}>Investimento inicial</p>
             </div>
@@ -454,7 +467,7 @@ export function PDFWrapper({ forPDF = false }: PDFWrapperProps) {
                   whiteSpace: "normal",
                 }}
               >
-                {formatCurrency(469_000 + 4_320_000 + 1_000_000 + 500_000)}
+                {formatCurrency(monthlyOperatingCosts + monthlyFinancingCosts)}
               </h3>
               <p style={{ fontSize: "11px", color: "#999", margin: "0" }}>Custos operacionais</p>
             </div>
@@ -492,10 +505,7 @@ export function PDFWrapper({ forPDF = false }: PDFWrapperProps) {
                   whiteSpace: "normal",
                 }}
               >
-                {formatCurrency(
-                  giardino.totalMonthlyRevenue -
-                    (469_000 + 4_320_000 + 1_000_000 + 500_000)
-                )}
+                {formatCurrency(giardino.viability.monthlyNetProfit)}
               </h3>
               <p style={{ fontSize: "11px", color: "#999", margin: "0" }}>Mensal (aprox.)</p>
             </div>
@@ -562,7 +572,7 @@ export function PDFWrapper({ forPDF = false }: PDFWrapperProps) {
                 💼 Capital por Segmento
               </h3>
               <p style={{ fontSize: "12px", color: "#666", marginBottom: "16px" }}>
-                Vendas iniciais (CAPEX) por segmento - Total R$ 606,6 milhões
+                Vendas iniciais (CAPEX) por segmento - Total {formatCurrency(giardino.totalSales)}
               </p>
               <ResponsiveContainer width="100%" height={260}>
                 <BarChart data={salesDistribution} margin={{ top: 5, right: 10, left: 0, bottom: 40 }}>
@@ -670,7 +680,7 @@ export function PDFWrapper({ forPDF = false }: PDFWrapperProps) {
             }}
           >
             <p style={{ color: "#666", fontSize: "14px" }}>
-              Total de Custos Mensais: <strong>{formatCurrency(469_000 + 4_320_000 + 1_000_000 + 500_000)}</strong>
+              Total de Custos Mensais: <strong>{formatCurrency(monthlyOperatingCosts + monthlyFinancingCosts)}</strong>
             </p>
           </div>
         </div>
