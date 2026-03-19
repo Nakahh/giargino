@@ -1,6 +1,11 @@
 import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import {
+  tabTransitionVariants,
+  tapFeedbackVariants,
+  microInteractionVariants,
+} from "@/hooks/use-animations";
 
 interface Tab {
   id: string;
@@ -71,12 +76,17 @@ export function PremiumTabNav({
               key={tab.id}
               ref={activeTab === tab.id ? activeTabButtonRef : null}
               onClick={() => onTabChange(tab.id)}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.2 }}
+              variants={tapFeedbackVariants}
+              whileHover="whileHover"
+              whileTap="whileTap"
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
+              transition={{
+                delay: index * 0.05,
+                type: "spring",
+                stiffness: 100,
+                damping: 15,
+              }}
               className={cn(
                 "relative px-2 sm:px-3 md:px-5 py-2 md:py-3 text-xs sm:text-sm md:text-base",
                 "font-bold transition-all duration-300 whitespace-nowrap flex-shrink-0",
@@ -97,19 +107,22 @@ export function PremiumTabNav({
                     }
               }
             >
-              {/* Premium glow effect */}
+              {/* Premium glow effect + glassmorphism */}
               {activeTab === tab.id && (
                 <motion.div
-                  className="absolute inset-0 rounded-lg md:rounded-none"
+                  className="absolute inset-0 rounded-lg md:rounded-none blur-md"
                   style={{
-                    background: `radial-gradient(circle at center, ${accentColor}20, transparent)`,
+                    background: `radial-gradient(circle at center, ${accentColor}40, transparent)`,
                   }}
+                  initial={{ opacity: 0, scale: 0.8 }}
                   animate={{
-                    opacity: [0.5, 1, 0.5],
+                    opacity: [0.3, 0.6, 0.3],
+                    scale: [0.8, 1, 0.8],
                   }}
                   transition={{
-                    duration: 2,
+                    duration: 3,
                     repeat: Infinity,
+                    ease: "easeInOut",
                   }}
                 />
               )}

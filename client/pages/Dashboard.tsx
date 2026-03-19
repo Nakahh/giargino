@@ -27,6 +27,9 @@ import { PremiumKPICard } from "@/components/PremiumKPICard";
 import { PremiumGallery } from "@/components/PremiumGallery";
 import { PremiumFooter } from "@/components/PremiumFooter";
 import { giardino } from "@shared/giardino-data";
+import { useScrollSync } from "@/hooks/use-scroll-sync";
+import { useAutoScroll } from "@/hooks/use-auto-scroll";
+import { useMobileGestures } from "@/hooks/use-mobile-gestures";
 import {
   TrendingUp,
   Users,
@@ -87,7 +90,40 @@ export default function Dashboard() {
     project: null as HTMLDivElement | null,
   });
 
-  // Auto-scroll para a aba ativa no mobile
+  // ============================================
+  // NOVOS HOOKS - FASE 1
+  // ============================================
+
+  // useScrollSync: detecta qual seção está visível durante scroll
+  const { visibleSection } = useScrollSync({
+    threshold: 0.3,
+    rootMargin: "-50px 0px -50% 0px",
+    onSectionChange: (sectionId) => {
+      setActiveTab(sectionId);
+    },
+  });
+
+  // useAutoScroll: fornece função para fazer scroll automático
+  const { scrollToSection, scrollToActiveTab } = useAutoScroll({
+    scrollBehavior: "smooth",
+    offset: 0,
+  });
+
+  // useMobileGestures: detecta swipe left/right no mobile
+  useMobileGestures({
+    threshold: 50,
+    currentSection: activeTab,
+    onSwipeLeft: (nextSection) => {
+      setActiveTab(nextSection);
+      scrollToSection(nextSection);
+    },
+    onSwipeRight: (prevSection) => {
+      setActiveTab(prevSection);
+      scrollToSection(prevSection);
+    },
+  });
+
+  // Auto-scroll para a aba ativa no mobile quando tab muda
   useEffect(() => {
     if (activeTabButtonRef.current && tabsContainerRef.current) {
       const container = tabsContainerRef.current;
@@ -102,40 +138,6 @@ export default function Dashboard() {
       }, 0);
     }
   }, [activeTab]);
-
-  // Intersection Observer para mudar aba ao fazer scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const tabId = entry.target.id.replace("tab-", "") as
-              | "overview"
-              | "revenue"
-              | "costs"
-              | "hr"
-              | "viability"
-              | "project";
-            setActiveTab(tabId);
-          }
-        });
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-50px 0px -50% 0px",
-      }
-    );
-
-    Object.values(sectionRefs.current).forEach((section) => {
-      if (section) observer.observe(section);
-    });
-
-    return () => {
-      Object.values(sectionRefs.current).forEach((section) => {
-        if (section) observer.unobserve(section);
-      });
-    };
-  }, []);
 
   // Dados de receitas mensais
   const revenueData = [
@@ -328,16 +330,15 @@ export default function Dashboard() {
 
       {/* Content - Mobile Optimized */}
       <div id="dashboard-content" className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth bg-gradient-to-br from-slate-50 via-white to-slate-50 max-w-7xl w-full mx-auto px-2 sm:px-4 md:px-6 py-4 md:py-8">
-        {/* TAB: OVERVIEW */}
-        {activeTab === "overview" && (
-          <div
-            id="tab-overview"
-            data-section="overview"
-            ref={(el) => {
-              if (el) sectionRefs.current.overview = el;
-            }}
-            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
-          >
+        {/* TAB: OVERVIEW - ALWAYS RENDERED */}
+        <div
+          id="tab-overview"
+          data-section="overview"
+          ref={(el) => {
+            if (el) sectionRefs.current.overview = el;
+          }}
+          className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
+        >
             {/* KPI Cards Luxury Premium - Mobile Optimized */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
               {/* Card 1: Receita Mensal */}
@@ -603,19 +604,17 @@ export default function Dashboard() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-          </div>
-        )}
+        </div>
 
-        {/* TAB: REVENUE */}
-        {activeTab === "revenue" && (
-          <div
-            id="tab-revenue"
-            data-section="revenue"
-            ref={(el) => {
-              if (el) sectionRefs.current.revenue = el;
-            }}
-            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
-          >
+        {/* TAB: REVENUE - ALWAYS RENDERED */}
+        <div
+          id="tab-revenue"
+          data-section="revenue"
+          ref={(el) => {
+            if (el) sectionRefs.current.revenue = el;
+          }}
+          className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
+        >
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
               <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.primary}30` }}></div>
@@ -736,19 +735,17 @@ export default function Dashboard() {
                 headerTextColor={GIARDINO_COLORS.primary}
               />
             </div>
-          </div>
-        )}
+        </div>
 
-        {/* TAB: COSTS */}
-        {activeTab === "costs" && (
-          <div
-            id="tab-costs"
-            data-section="costs"
-            ref={(el) => {
-              if (el) sectionRefs.current.costs = el;
-            }}
-            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
-          >
+        {/* TAB: COSTS - ALWAYS RENDERED */}
+        <div
+          id="tab-costs"
+          data-section="costs"
+          ref={(el) => {
+            if (el) sectionRefs.current.costs = el;
+          }}
+          className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
+        >
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
               <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.gold}30` }}></div>
@@ -864,19 +861,17 @@ export default function Dashboard() {
                 headerTextColor={GIARDINO_COLORS.gold}
               />
             </div>
-          </div>
-        )}
+        </div>
 
-        {/* TAB: HR */}
-        {activeTab === "hr" && (
-          <div
-            id="tab-hr"
-            data-section="hr"
-            ref={(el) => {
-              if (el) sectionRefs.current.hr = el;
-            }}
-            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
-          >
+        {/* TAB: HR - ALWAYS RENDERED */}
+        <div
+          id="tab-hr"
+          data-section="hr"
+          ref={(el) => {
+            if (el) sectionRefs.current.hr = el;
+          }}
+          className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
+        >
             {/* Decorative Header */}
             <div className="flex items-center justify-center gap-3 mb-4">
               <div style={{ height: "2px", flex: 1, backgroundColor: `${GIARDINO_COLORS.secondary}30` }}></div>
@@ -969,19 +964,17 @@ export default function Dashboard() {
                 headerTextColor={GIARDINO_COLORS.secondary}
               />
             </div>
-          </div>
-        )}
+        </div>
 
-        {/* TAB: VIABILITY */}
-        {activeTab === "viability" && (
-          <div
-            id="tab-viability"
-            data-section="viability"
-            ref={(el) => {
-              if (el) sectionRefs.current.viability = el;
-            }}
-            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
-          >
+        {/* TAB: VIABILITY - ALWAYS RENDERED */}
+        <div
+          id="tab-viability"
+          data-section="viability"
+          ref={(el) => {
+            if (el) sectionRefs.current.viability = el;
+          }}
+          className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
+        >
             <div
               className="rounded-xl shadow-lg p-6 md:p-8 border-l-8"
               style={{
@@ -1232,19 +1225,17 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
-        )}
+        </div>
 
-        {/* TAB: PROJECT */}
-        {activeTab === "project" && (
-          <div
-            id="tab-project"
-            data-section="project"
-            ref={(el) => {
-              if (el) sectionRefs.current.project = el;
-            }}
-            className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
-          >
+        {/* TAB: PROJECT - ALWAYS RENDERED */}
+        <div
+          id="tab-project"
+          data-section="project"
+          ref={(el) => {
+            if (el) sectionRefs.current.project = el;
+          }}
+          className="space-y-6 md:space-y-8 fade-in slide-in-up py-4 md:py-8"
+        >
             <div
               className="rounded-xl shadow-lg p-6 md:p-8 border-l-8"
               style={{
@@ -1553,8 +1544,7 @@ export default function Dashboard() {
                 <ProjectGallery />
               </div>
             </div>
-          </div>
-        )}
+        </div>
       </div>
 
       {/* Footer Premium */}
