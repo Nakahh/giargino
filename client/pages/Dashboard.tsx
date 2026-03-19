@@ -1443,10 +1443,10 @@ export default function Dashboard() {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-bold text-blue-900 mb-1">Proposta Inicial (Dinheiro)</h4>
-                      <p className="text-sm text-gray-700 mb-2">R$ 150.000.000 — Entrada + 6 parcelas anuais</p>
+                      <p className="text-sm text-gray-700 mb-2">{formatCurrency(150000000)} — Entrada + 6 parcelas anuais</p>
                       <div className="text-xs text-gray-600 space-y-1">
-                        <p>• Entrada: R$ 30.000.000</p>
-                        <p>• 6 parcelas: R$ 20.000.000/ano</p>
+                        <p>• Entrada: {formatCurrency(30000000)}</p>
+                        <p>• 6 parcelas: {formatCurrency(20000000)}/ano</p>
                       </div>
                     </div>
                   </div>
@@ -1458,10 +1458,10 @@ export default function Dashboard() {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-bold text-green-900 mb-1">Financiamento Complementar</h4>
-                      <p className="text-sm text-gray-700 mb-2">R$ 100.000.000 — CAPEX com 6% a.a.</p>
+                      <p className="text-sm text-gray-700 mb-2">{formatCurrency(100000000)} — CAPEX com 6% a.a.</p>
                       <div className="text-xs text-gray-600 space-y-1">
                         <p>• Prazo: 120 meses (10 anos)</p>
-                        <p>• Pagamento mensal: R$ 1.000.000 + juros</p>
+                        <p>• Pagamento mensal: {formatCurrency(1000000)} + juros</p>
                       </div>
                     </div>
                   </div>
@@ -1485,23 +1485,23 @@ export default function Dashboard() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
                     <span className="text-sm font-medium text-gray-700">Residencial Senior</span>
-                    <span className="font-bold text-green-600">R$ 160M</span>
+                    <span className="font-bold text-green-600">{formatCurrency(160000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
                     <span className="text-sm font-medium text-gray-700">Clube Life Style</span>
-                    <span className="font-bold text-green-600">R$ 300M</span>
+                    <span className="font-bold text-green-600">{formatCurrency(300000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
                     <span className="text-sm font-medium text-gray-700">Loteamento</span>
-                    <span className="font-bold text-green-600">R$ 144M</span>
+                    <span className="font-bold text-green-600">{formatCurrency(144000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
                     <span className="text-sm font-medium text-gray-700">Shopping/Mall</span>
-                    <span className="font-bold text-green-600">R$ 2.6M</span>
+                    <span className="font-bold text-green-600">{formatCurrency(2600000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-100 to-green-200 rounded-lg border-t-2 border-green-600 mt-2">
                     <span className="font-bold text-gray-800">TOTAL</span>
-                    <span className="text-xl font-bold text-green-700">R$ 606.6M</span>
+                    <span className="text-xl font-bold text-green-700">{formatCurrency(606600000)}</span>
                   </div>
                 </div>
               </div>
@@ -1520,19 +1520,19 @@ export default function Dashboard() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
                     <span className="text-sm font-medium text-gray-700">Residencial</span>
-                    <span className="font-bold text-amber-600">R$ 8.4M</span>
+                    <span className="font-bold text-amber-600">{formatCurrency(8400000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
                     <span className="text-sm font-medium text-gray-700">Clube</span>
-                    <span className="font-bold text-amber-600">R$ 3.0M</span>
+                    <span className="font-bold text-amber-600">{formatCurrency(3000000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
                     <span className="text-sm font-medium text-gray-700">Comércios</span>
-                    <span className="font-bold text-amber-600">R$ 1.575M</span>
+                    <span className="font-bold text-amber-600">{formatCurrency(1575000)}</span>
                   </div>
                   <div className="flex justify-between items-center p-4 bg-gradient-to-r from-amber-100 to-amber-200 rounded-lg border-t-2 border-amber-600 mt-2">
                     <span className="font-bold text-gray-800">TOTAL</span>
-                    <span className="text-xl font-bold text-amber-700">R$ 13.7M</span>
+                    <span className="text-xl font-bold text-amber-700">{formatCurrency(13700000)}</span>
                   </div>
                 </div>
               </div>

@@ -206,7 +206,7 @@ export function PDFWrapper({ forPDF = false }: PDFWrapperProps) {
   // Dados de viabilidade
   const viabilityMetrics = [
     { metric: "TIR (Taxa Interna de Retorno)", value: "18.5%", color: GIARDINO_COLORS.accent },
-    { metric: "VPL (Valor Presente Líquido)", value: "R$ 156,8 M", color: GIARDINO_COLORS.secondary },
+    { metric: "VPL (Valor Presente Líquido)", value: formatCurrencyWithDecimals(156800000), color: GIARDINO_COLORS.secondary },
     { metric: "Payback", value: "5.2 anos", color: GIARDINO_COLORS.primary },
     { metric: "ROI (Retorno sobre Investimento)", value: "245%", color: GIARDINO_COLORS.accent },
   ];
