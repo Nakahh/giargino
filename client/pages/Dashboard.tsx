@@ -959,14 +959,14 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.secondary }}>
-                    PAYBACK
+                    {t('viability.cards.payback.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary, wordWrap: "break-word" }}>
                     <span style={{ fontSize: "2rem" }}>
                       3.5
                     </span>
                   </h3>
-                  <p className="text-xs text-gray-500">Anos (período de retorno)</p>
+                  <p className="text-xs text-gray-500">{t('viability.cards.payback.helper')}</p>
                 </div>
                 <Leaf className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.secondary }} />
               </div>
@@ -983,12 +983,12 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 text-gray-600 tracking-wide">
-                    VPL 10 ANOS
+                    {t('viability.cards.npv10Years.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold, wordWrap: "break-word" }}>
                     {formatCurrency(150_000_000 + 100_000_000)}
                   </h3>
-                  <p className="text-xs text-gray-500">Valor presente líquido</p>
+                  <p className="text-xs text-gray-500">{t('viability.cards.npv10Years.helper')}</p>
                 </div>
                 <Crown className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.gold }} />
               </div>
@@ -1005,14 +1005,14 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 text-gray-600 tracking-wide">
-                    TIR
+                    {t('viability.cards.irr.label')}
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent, wordWrap: "break-word" }}>
                     <span style={{ fontSize: "2rem" }}>
                       18%
                     </span>
                   </h3>
-                  <p className="text-xs text-gray-500">Taxa interna de retorno</p>
+                  <p className="text-xs text-gray-500">{t('viability.cards.irr.helper')}</p>
                 </div>
                 <Zap className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.accent }} />
               </div>
@@ -1028,30 +1028,30 @@ export default function Dashboard() {
             }}
           >
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{ color: GIARDINO_COLORS.primary }}>
-              Indicadores Chave
+              {t('viability.indicators.title')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div className="p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border-l-4 border-blue-600">
                 <p className="text-sm sm:text-base font-semibold mb-2" style={{ color: GIARDINO_COLORS.primary }}>
-                  Margem Operacional
+                  {t('viability.indicators.operationalMargin.label')}
                 </p>
                 <p className="text-2xl sm:text-3xl font-bold" style={{ color: GIARDINO_COLORS.primary }}>
                   35%
                 </p>
                 <p className="text-amber-600 text-xs mt-1">
-                  Da receita bruta
+                  {t('viability.indicators.operationalMargin.helper')}
                 </p>
               </div>
 
               <div className="p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border-l-4 border-green-600">
                 <p className="text-sm sm:text-base font-semibold mb-2" style={{ color: GIARDINO_COLORS.secondary }}>
-                  Crescimento Anual Esperado
+                  {t('viability.indicators.expectedAnnualGrowth.label')}
                 </p>
                 <p className="text-2xl sm:text-3xl font-bold" style={{ color: GIARDINO_COLORS.secondary }}>
                   2% a.a.
                 </p>
                 <p className="text-green-600 text-xs mt-1">
-                  Conservador e realista
+                  {t('viability.indicators.expectedAnnualGrowth.helper')}
                 </p>
               </div>
 
@@ -1060,10 +1060,10 @@ export default function Dashboard() {
                   Break-even
                 </p>
                 <p className="text-2xl sm:text-3xl font-bold" style={{ color: GIARDINO_COLORS.gold }}>
-                  Mês 12
+                  Month 12
                 </p>
                 <p className="text-amber-600 text-xs mt-1">
-                  Ao ano (financiamento)
+                  {t('viability.indicators.breakEven.helper')}
                 </p>
               </div>
 
@@ -1072,16 +1072,16 @@ export default function Dashboard() {
                   Risco Estimado
                 </p>
                 <p className="text-2xl sm:text-3xl font-bold" style={{ color: "#8B5CF6" }}>
-                  Médio
+                  {t('viability.indicators.estimatedRisk.value')}
                 </p>
                 <p className="text-purple-600 text-xs mt-1">
-                  Mercado estável e demanda garantida
+                  {t('viability.indicators.estimatedRisk.helper')}
                 </p>
               </div>
             </div>
 
             <p className="text-xs text-gray-600 mt-4 italic">
-              * Projeção com crescimento conservador de 2% a.a. e inflação de 3% a.a. nos custos. ROI calculado com base no investimento inicial de R$ 100M.
+              {t('viability.indicators.disclaimer')}
             </p>
           </div>
 
@@ -1095,9 +1095,9 @@ export default function Dashboard() {
           >
             <div className="mb-4 sm:mb-6">
               <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary }}>
-                📊 Projeção Financeira 10 Anos
+                {t('viability.projection.title')}
               </h2>
-              <p className="text-sm sm:text-base text-gray-600">Análise anual de receitas, custos e lucratividade ao longo da década</p>
+              <p className="text-sm sm:text-base text-gray-600">{t('viability.projection.subtitle')}</p>
             </div>
             <ResponsiveTable
               data={giardino.yearlyProjections.map((proj: any) => ({
@@ -1109,12 +1109,12 @@ export default function Dashboard() {
                 roi: proj.roi,
               }))}
               columns={[
-                { key: "ano", label: "ANO", format: (v) => v },
-                { key: "receita", label: "RECEITA BRUTA", format: (v) => formatCurrencyWithDecimals(v) },
-                { key: "custos", label: "CUSTOS TOTAIS", format: (v) => formatCurrencyWithDecimals(v) },
-                { key: "lucro", label: "LUCRO LÍQUIDO", format: (v) => formatCurrencyWithDecimals(v) },
-                { key: "acumulado", label: "LUCRO ACUMULADO", format: (v) => formatCurrencyWithDecimals(v) },
-                { key: "roi", label: "ROI (%)", format: (v) => `${v}%` },
+                { key: "ano", label: t('viability.projection.columns.year'), format: (v) => v },
+                { key: "receita", label: t('viability.projection.columns.grossRevenue'), format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "custos", label: t('viability.projection.columns.totalCosts'), format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "lucro", label: t('viability.projection.columns.netProfit'), format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "acumulado", label: t('viability.projection.columns.cumulativeProfit'), format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "roi", label: t('viability.projection.columns.roi'), format: (v) => `${v}%` },
               ]}
               headerTextColor={GIARDINO_COLORS.secondary}
             />
@@ -1139,34 +1139,34 @@ export default function Dashboard() {
             }}
           >
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{ color: GIARDINO_COLORS.primary }}>
-              📍 Visão Geral do Projeto
+              {t('project.overview.title')}
             </h2>
 
             <div className="space-y-4">
               <div className="border-l-4 border-blue-600 pl-4">
-                <h3 className="text-xl font-bold text-blue-900 mb-2">Localização Estratégica</h3>
+                <h3 className="text-xl font-bold text-blue-900 mb-2">{t('project.overview.location.title')}</h3>
                 <p className="text-gray-700">
-                  Mogi das Cruzes, São Paulo — Acesso direto à Via Dutra, próximo ao eixo administrativo da região.
+                  {t('project.overview.location.description')}
                 </p>
               </div>
 
               <div className="border-l-4 border-green-600 pl-4">
-                <h3 className="text-xl font-bold text-green-900 mb-2">Área Total</h3>
+                <h3 className="text-xl font-bold text-green-900 mb-2">{t('project.overview.area.title')}</h3>
                 <p className="text-gray-700">
-                  258.900 m² — Espaço amplo para residencial, clube, loteamento e centro comercial.
+                  {t('project.overview.area.description')}
                 </p>
               </div>
 
               <div className="border-l-4 border-amber-600 pl-4">
-                <h3 className="text-xl font-bold text-amber-900 mb-2">Fases de Desenvolvimento</h3>
+                <h3 className="text-xl font-bold text-amber-900 mb-2">{t('project.overview.phases.title')}</h3>
                 <ul className="text-gray-700 space-y-2">
                   <li className="flex items-start gap-4">
                     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">
                       1
                     </div>
                     <div>
-                      <h4 className="font-semibold text-blue-900">Fase 1: Infraestrutura</h4>
-                      <p>Preparação de terreno, acesso, utilidades (água, energia, gás, internet)</p>
+                      <h4 className="font-semibold text-blue-900">{t('project.overview.phases.phase1.title')}</h4>
+                      <p>{t('project.overview.phases.phase1.description')}</p>
                     </div>
                   </li>
                   <li className="flex items-start gap-4">
@@ -1174,11 +1174,11 @@ export default function Dashboard() {
                       2
                     </div>
                     <div>
-                      <h4 className="font-semibold text-blue-900">Fase 2: Construção Residencial</h4>
+                      <h4 className="font-semibold text-blue-900">{t('project.overview.phases.phase2.title')}</h4>
                       <p>
-                        Edifícios de Residencial Senior + Clube Life Style
+                        {t('project.overview.phases.phase2.description')}
                         <br />
-                        • 6 parcelas: R$ 20.000.000/ano
+                        {t('project.overview.phases.phase2.installments')}
                       </p>
                     </div>
                   </li>
@@ -1187,11 +1187,11 @@ export default function Dashboard() {
                       3
                     </div>
                     <div>
-                      <h4 className="font-semibold text-blue-900">Fase 3: Operação Integral</h4>
+                      <h4 className="font-semibold text-blue-900">{t('project.overview.phases.phase3.title')}</h4>
                       <p>
-                        Gestão de Residencial Senior, Clube Life Style, Loteamento e Centro Comercial (shopping)
+                        {t('project.overview.phases.phase3.description')}
                         <br />
-                        • Pagamento mensal: R$ 1.000.000 + juros
+                        {t('project.overview.phases.phase3.monthlyPayment')}
                       </p>
                     </div>
                   </li>
@@ -1209,57 +1209,57 @@ export default function Dashboard() {
             }}
           >
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{ color: GIARDINO_COLORS.gold }}>
-              💼 Modelo de Receitas
+              {t('project.revenueModel.title')}
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {/* Revenue Stream 1 */}
               <div className="p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border-l-4 border-blue-600">
-                <h3 className="text-lg font-bold text-blue-900 mb-2">Residencial Senior</h3>
-                <p className="text-gray-700 mb-2">Aluguel mensal + serviços</p>
+                <h3 className="text-lg font-bold text-blue-900 mb-2">{t('project.revenueModel.residentialSenior.title')}</h3>
+                <p className="text-gray-700 mb-2">{t('project.revenueModel.residentialSenior.description')}</p>
                 <p className="text-2xl font-bold text-blue-600">
                   {formatCurrency(giardino.monthlyRevenue.residentialSenior.monthlyTotal)}
                 </p>
-                <span className="text-xs text-blue-600">/mês</span>
+                <span className="text-xs text-blue-600">/{t('project.overview.phases.month')}</span>
               </div>
 
               {/* Revenue Stream 2 */}
               <div className="p-4 sm:p-6 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg border-l-4 border-amber-600">
-                <h3 className="text-lg font-bold text-amber-900 mb-2">Clube Life Style</h3>
-                <p className="text-gray-700 mb-2">Mensalidade de 6.000 membros</p>
+                <h3 className="text-lg font-bold text-amber-900 mb-2">{t('project.revenueModel.lifeStyleClub.title')}</h3>
+                <p className="text-gray-700 mb-2">{t('project.revenueModel.lifeStyleClub.description')}</p>
                 <p className="text-2xl font-bold text-amber-600">
                   {formatCurrency(giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal)}
                 </p>
-                <span className="text-xs text-amber-600">/mês</span>
+                <span className="text-xs text-amber-600">/{t('project.overview.phases.month')}</span>
               </div>
 
               {/* Revenue Stream 3 */}
               <div className="p-4 sm:p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg border-l-4 border-purple-600">
-                <h3 className="text-lg font-bold text-purple-900 mb-2">Shopping/Mall</h3>
-                <p className="text-gray-700 mb-2">Aluguel de 250 lojas</p>
+                <h3 className="text-lg font-bold text-purple-900 mb-2">{t('project.revenueModel.shoppingMall.title')}</h3>
+                <p className="text-gray-700 mb-2">{t('project.revenueModel.shoppingMall.description')}</p>
                 <p className="text-2xl font-bold text-purple-600">
                   {formatCurrency(giardino.monthlyRevenue.shoppingMall.monthlyTotal)}
                 </p>
-                <span className="text-xs text-purple-600">/mês</span>
+                <span className="text-xs text-purple-600">/{t('project.overview.phases.month')}</span>
               </div>
 
               {/* Revenue Stream 4 */}
               <div className="p-4 sm:p-6 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg border-l-4 border-pink-600">
-                <h3 className="text-lg font-bold text-pink-900 mb-2">Consumação</h3>
-                <p className="text-gray-700 mb-2">Bares, restaurantes e eventos</p>
+                <h3 className="text-lg font-bold text-pink-900 mb-2">{t('project.revenueModel.consumption.title')}</h3>
+                <p className="text-gray-700 mb-2">{t('project.revenueModel.consumption.description')}</p>
                 <p className="text-2xl font-bold text-pink-600">
                   {formatCurrency(giardino.monthlyRevenue.consumption.monthlyTotal)}
                 </p>
-                <span className="text-xs text-pink-600">/mês</span>
+                <span className="text-xs text-pink-600">/{t('project.overview.phases.month')}</span>
               </div>
 
               {/* Total Revenue */}
               <div className="p-4 sm:p-6 bg-gradient-to-br from-red-50 to-red-100 rounded-lg border-l-4 border-red-600 md:col-span-2">
-                <h3 className="text-lg font-bold text-red-900 mb-2">Receita Total</h3>
+                <h3 className="text-lg font-bold text-red-900 mb-2">{t('project.revenueModel.total.label')}</h3>
                 <p className="text-3xl font-bold text-red-600">
                   {formatCurrency(giardino.totalMonthlyRevenue)}
                 </p>
-                <span className="text-xs text-red-600">/mês</span>
+                <span className="text-xs text-red-600">/{t('project.overview.phases.month')}</span>
               </div>
             </div>
           </div>
