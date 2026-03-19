@@ -25,7 +25,6 @@ import { PremiumHeader } from "@/components/PremiumHeader";
 import { PremiumKPICard } from "@/components/PremiumKPICard";
 import { PremiumGallery } from "@/components/PremiumGallery";
 import { PremiumFooter } from "@/components/PremiumFooter";
-import { SectionPositionIndicator } from "@/components/SectionPositionIndicator";
 import { giardino } from "@shared/giardino-data";
 import { useScrollSync } from "@/hooks/use-scroll-sync";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
@@ -1540,16 +1539,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Floating Section Position Indicator */}
-      <SectionPositionIndicator
-        activeSection={activeTab}
-        primaryColor={GIARDINO_COLORS.primary}
-        accentColor={GIARDINO_COLORS.accent}
-        onNavigate={(sectionId) => {
-          setActiveTab(sectionId);
-          scrollToSection(sectionId);
-        }}
-      />
     </div>
   );
 }
