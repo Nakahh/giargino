@@ -292,6 +292,59 @@
         "investmentValue": "R$ 250M"
       }
     },
+    "investmentStructure": {
+      "title": "💰 Estrutura de Investimento",
+      "initialProposal": {
+        "title": "Proposta Inicial (Dinheiro)",
+        "description": "R$ 150.000.000 — Entrada + 6 parcelas anuais",
+        "entryLabel": "• Entrada:",
+        "installmentsLabel": "• 6 parcelas:"
+      },
+      "complementaryFinancing": {
+        "title": "Financiamento Complementar",
+        "description": "R$ 100.000.000 — CAPEX com 6% a.a.",
+        "termLabel": "• Prazo: 120 meses (10 anos)",
+        "monthlyPaymentLabel": "• Pagamento mensal:"
+      }
+    },
+    "revenueComparison": {
+      "initialSales": {
+        "title": "🎯 Receitas Iniciais (Vendas)",
+        "residentialSenior": {
+          "label": "Residencial Senior"
+        },
+        "lifeStyleClub": {
+          "label": "Clube Life Style"
+        },
+        "lot": {
+          "label": "Loteamento"
+        },
+        "mall": {
+          "label": "Shopping/Mall"
+        },
+        "total": "TOTAL"
+      },
+      "recurring": {
+        "title": "💵 Receitas Mensais Recorrentes",
+        "residential": "Residencial",
+        "club": "Clube",
+        "commercial": "Comércios",
+        "total": "TOTAL"
+      },
+      "recurringRevenue": {
+        "title": "💵 Receitas Mensais Recorrentes",
+        "residential": {
+          "label": "Residencial"
+        },
+        "club": {
+          "label": "Clube"
+        },
+        "commerce": {
+          "label": "Comércios"
+        },
+        "total": "TOTAL"
+      }
+    },
     "facilities": {
       "title": "🏥 Facilities & Serviços",
       "pool": "Piscinas Olímpicas",
@@ -364,6 +417,7 @@
     }
   },
   "footer": {
+    "title": "🌿 GIARDINO — INVESTIMENTO PREMIUM 🌿",
     "subtitle": "Modelo de Investimento Residencial Senior + Clube Life Style",
     "meta": "© 2024 — Mogi das Cruzes, São Paulo | Área Total: 258.900 m²",
     "confidentiality": "Documento de Apresentação de Investimento — Confidencial"
