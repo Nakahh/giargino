@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import giardinoLogo from "/giardino-logo.png";
 import {
   BarChart,
   Bar,
@@ -281,7 +282,7 @@ export default function Dashboard() {
         title={t('header.title')}
         subtitle={t('header.subtitle')}
         description={t('header.description')}
-        logoUrl="/giardino-logo.png"
+        logoUrl={giardinoLogo}
         backgroundColor="#2C3E50"
         accentColor={GIARDINO_COLORS.accent}
         lightColor={GIARDINO_COLORS.light}

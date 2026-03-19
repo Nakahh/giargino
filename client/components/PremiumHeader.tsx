@@ -109,7 +109,7 @@ export function PremiumHeader({
                 <motion.img
                   src={logoUrl}
                   alt="GIARDINO Logo"
-                  className="h-28 md:h-40 w-auto object-contain"
+                  className="h-56 md:h-80 w-auto object-contain"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 />
