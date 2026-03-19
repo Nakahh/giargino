@@ -713,9 +713,9 @@ export default function Dashboard() {
                 { segment: "Consumação", monthly: giardino.monthlyRevenue.consumption.monthlyTotal, annual: giardino.monthlyRevenue.consumption.monthlyTotal * 12 },
               ]}
               columns={[
-                { key: "segment", label: "Segmento", render: (v) => v },
-                { key: "monthly", label: "Mensal", render: (v) => formatCurrency(v) },
-                { key: "annual", label: "Anual", render: (v) => formatCurrency(v) },
+                { key: "segment", label: "Segmento", format: (v) => v },
+                { key: "monthly", label: "Mensal", format: (v) => formatCurrency(v) },
+                { key: "annual", label: "Anual", format: (v) => formatCurrency(v) },
               ]}
               headerTextColor={GIARDINO_COLORS.primary}
             />
@@ -917,10 +917,10 @@ export default function Dashboard() {
             <ResponsiveTable
               data={hrData}
               columns={[
-                { key: "department", label: "Departamento", render: (v) => v },
-                { key: "count", label: "Quantidade", render: (v) => v },
-                { key: "salary", label: "Salário/pessoa", render: (v) => formatCurrencyWithDecimals(v) },
-                { key: "total", label: "Total/mês", render: (v) => formatCurrencyWithDecimals(v) },
+                { key: "department", label: "Departamento", format: (v) => v },
+                { key: "count", label: "Quantidade", format: (v) => v },
+                { key: "salary", label: "Salário/pessoa", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "total", label: "Total/mês", format: (v) => formatCurrencyWithDecimals(v) },
               ]}
               headerTextColor={GIARDINO_COLORS.secondary}
             />
@@ -1122,12 +1122,12 @@ export default function Dashboard() {
                 roi: proj.roi,
               }))}
               columns={[
-                { key: "ano", label: "ANO", render: (v) => v },
-                { key: "receita", label: "RECEITA BRUTA", render: (v) => formatCurrencyWithDecimals(v) },
-                { key: "custos", label: "CUSTOS TOTAIS", render: (v) => formatCurrencyWithDecimals(v) },
-                { key: "lucro", label: "LUCRO LÍQUIDO", render: (v) => formatCurrencyWithDecimals(v) },
-                { key: "acumulado", label: "LUCRO ACUMULADO", render: (v) => formatCurrencyWithDecimals(v) },
-                { key: "roi", label: "ROI (%)", render: (v) => `${v}%` },
+                { key: "ano", label: "ANO", format: (v) => v },
+                { key: "receita", label: "RECEITA BRUTA", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "custos", label: "CUSTOS TOTAIS", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "lucro", label: "LUCRO LÍQUIDO", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "acumulado", label: "LUCRO ACUMULADO", format: (v) => formatCurrencyWithDecimals(v) },
+                { key: "roi", label: "ROI (%)", format: (v) => `${v}%` },
               ]}
               headerTextColor={GIARDINO_COLORS.secondary}
             />
