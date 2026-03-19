@@ -1,10 +1,12 @@
 import { FileText, Loader } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 
 export function FullPDFExport() {
   const [isGenerating, setIsGenerating] = useState(false);
+  const { t } = useTranslation();
 
   const generatePDF = async () => {
     setIsGenerating(true);
@@ -439,29 +441,29 @@ export function FullPDFExport() {
       });
 
       // Salvar PDF
-      pdf.save("GIARDINO-Projeto-Completo-Premium.pdf");
+      pdf.save(t('ui.pdf.filename'));
 
       alert(
-        "✅ PDF Completo gerado com sucesso!\n\n" +
-        "📄 GIARDINO-Projeto-Completo-Premium.pdf\n\n" +
-        `Total: ${currentPageCount} páginas\n\n` +
-        "✓ Inclui:\n" +
-        "• Header profissional\n" +
-        "• 6 Abas completas com todos os dados\n" +
-        "• Footer com branding\n" +
-        "• Layout A4 otimizado\n" +
-        "• Sem menu de navegação"
+        `${t('ui.messages.pdfSuccessFull')}\n\n` +
+        `📄 ${t('ui.pdf.filename')}\n\n` +
+        `${t('ui.pdf.totalPages', { count: currentPageCount })}\n\n` +
+        `${t('ui.pdf.includesFull')}\n` +
+        `• ${t('ui.pdf.header')}\n` +
+        `• ${t('ui.pdf.tabsAll')}\n` +
+        `• ${t('ui.pdf.footer')}\n` +
+        `• ${t('ui.pdf.layout')}\n` +
+        `• ${t('ui.pdf.withoutMenu')}`
       );
     } catch (error) {
       console.error("Erro ao gerar PDF:", error);
       alert(
-        "❌ Erro ao gerar PDF.\n\n" +
-        "Tente:\n" +
-        "1. Recarregar a página\n" +
-        "2. Aguarde o dashboard carregar completamente\n" +
-        "3. Tente novamente\n\n" +
-        "Erro: " +
-        (error instanceof Error ? error.message : "Desconhecido")
+        `${t('ui.messages.pdfError')}\n\n` +
+        `${t('ui.messages.tryAgain')}\n` +
+        `${t('ui.messages.reloadPage')}\n` +
+        `${t('ui.messages.waitLoad')}\n` +
+        `${t('ui.messages.tryOnceMore')}\n\n` +
+        `Erro: ` +
+        (error instanceof Error ? error.message : "Unknown")
       );
     } finally {
       setIsGenerating(false);
@@ -480,17 +482,17 @@ export function FullPDFExport() {
         borderWidth: "2px",
         cursor: isGenerating ? "not-allowed" : "pointer",
       }}
-      title="Gera PDF visual idêntico ao site com todas as abas, cards, gráficos, tabelas e imagens em formato A4"
+      title={t('ui.buttons.downloadProject')}
     >
       {isGenerating ? (
         <>
           <Loader className="w-5 h-5 animate-spin" />
-          Gerando PDF (pode levar alguns segundos)...
+          {t('ui.buttons.downloadCompleteWait')}
         </>
       ) : (
         <>
           <FileText className="w-5 h-5" />
-          📄 Baixar Projeto Completo
+          {t('ui.buttons.downloadProject')}
         </>
       )}
     </button>

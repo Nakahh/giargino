@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 
 type SectionId = "overview" | "revenue" | "costs" | "hr" | "viability" | "project";
@@ -10,13 +11,13 @@ interface SectionPositionIndicatorProps {
   onNavigate?: (sectionId: SectionId) => void;
 }
 
-const SECTIONS = [
-  { id: "overview", label: "Geral", emoji: "📊" },
-  { id: "revenue", label: "Receitas", emoji: "💰" },
-  { id: "costs", label: "Custos", emoji: "📉" },
-  { id: "hr", label: "RH", emoji: "👥" },
-  { id: "viability", label: "Viabilidade", emoji: "✓" },
-  { id: "project", label: "Sobre", emoji: "🏢" },
+const SECTION_BASE = [
+  { id: "overview", emoji: "📊" },
+  { id: "revenue", emoji: "💰" },
+  { id: "costs", emoji: "📉" },
+  { id: "hr", emoji: "👥" },
+  { id: "viability", emoji: "✓" },
+  { id: "project", emoji: "🏢" },
 ];
 
 export function SectionPositionIndicator({
@@ -25,6 +26,12 @@ export function SectionPositionIndicator({
   accentColor = "#F4C430",
   onNavigate,
 }: SectionPositionIndicatorProps) {
+  const { t } = useTranslation();
+
+  const SECTIONS = SECTION_BASE.map(section => ({
+    ...section,
+    label: t(`ui.sections.${section.id}`)
+  }));
   const currentIndex = SECTIONS.findIndex((s) => s.id === activeSection);
   const totalSections = SECTIONS.length;
   const progressPercent = ((currentIndex + 1) / totalSections) * 100;

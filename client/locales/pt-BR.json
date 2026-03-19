@@ -342,5 +342,57 @@
   "currency": {
     "brl": "R$",
     "usd": "$"
+  },
+  "ui": {
+    "buttons": {
+      "downloadProject": "📄 Baixar Projeto Completo",
+      "downloadComplete": "Gerando PDF...",
+      "downloadCompleteWait": "Gerando PDF (pode levar alguns segundos)...",
+      "langSwitchPortuguese": "Mudar para Português",
+      "langSwitchEnglish": "Switch to English"
+    },
+    "messages": {
+      "pdfSuccess": "✅ PDF gerado com sucesso!",
+      "pdfSuccessFull": "✅ PDF Completo gerado com sucesso!",
+      "pdfError": "❌ Erro ao gerar PDF.",
+      "dashboardNotFound": "Dashboard não encontrado!",
+      "tryAgain": "Tente:",
+      "reloadPage": "1. Recarregar a página",
+      "waitLoad": "2. Aguarde o dashboard carregar completamente",
+      "tryOnceMore": "3. Tente novamente"
+    },
+    "pdf": {
+      "filename": "GIARDINO-Projeto-Completo-Premium.pdf",
+      "totalPages": "Total: {{count}} páginas",
+      "header": "Header profissional",
+      "sixTabs": "6 Abas completas com dados",
+      "tabsAll": "6 Abas completas com todos os dados",
+      "footer": "Footer com branding",
+      "layout": "Layout A4 otimizado",
+      "navigation": "Menu de navegação removido",
+      "design": "Design otimizado para impressão",
+      "withoutMenu": "Sem menu de navegação",
+      "includes": "✓ Conteúdo:",
+      "includesFull": "✓ Inclui:"
+    },
+    "gallery": {
+      "title": "Galeria do Projeto",
+      "description": "Conheça os espaços premium do GIARDINO",
+      "scroll": "Deslize para navegar"
+    },
+    "sections": {
+      "overview": "Geral",
+      "revenue": "Receitas",
+      "costs": "Custos",
+      "hr": "RH",
+      "viability": "Viabilidade",
+      "about": "Sobre"
+    },
+    "header": {
+      "residentialSenior": "RESIDENCIAL SÊNIOR",
+      "premiumModel": "Modelo de Investimento Premium",
+      "projectComposition": "Residencial Senior + Clube Life Style + Loteamento + Centro Comercial",
+      "locationArea": "Localização: Mogi das Cruzes, São Paulo — Área: 258.900 m²"
+    }
   }
 }

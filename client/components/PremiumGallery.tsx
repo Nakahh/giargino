@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface PremiumGalleryProps {
   images?: string[];
@@ -16,9 +17,13 @@ const defaultImages = [
 
 export function PremiumGallery({
   images = defaultImages,
-  title = "Galeria do Projeto",
-  description = "Conheça os espaços premium do GIARDINO",
+  title,
+  description,
 }: PremiumGalleryProps) {
+  const { t } = useTranslation();
+  const finalTitle = title || t('ui.gallery.title');
+  const finalDescription = description || t('ui.gallery.description');
+  const scrollHint = t('ui.gallery.scroll');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -83,24 +88,24 @@ export function PremiumGallery({
       transition={{ duration: 0.6 }}
       className="w-full"
     >
-      {title && (
+      {finalTitle && (
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-1 sm:mb-2"
         >
-          {title}
+          {finalTitle}
         </motion.h2>
       )}
-      {description && (
+      {finalDescription && (
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
           className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-8"
         >
-          {description}
+          {finalDescription}
         </motion.p>
       )}
 
@@ -198,7 +203,7 @@ export function PremiumGallery({
           transition={{ duration: 2, repeat: Infinity }}
           className="inline-flex items-center gap-1"
         >
-          Deslize para navegar
+          {scrollHint}
           <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 2, repeat: Infinity }}>
             →
           </motion.span>

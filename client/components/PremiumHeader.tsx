@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Flower, Leaf } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 interface PremiumHeaderProps {
@@ -17,8 +18,8 @@ interface PremiumHeaderProps {
 
 export function PremiumHeader({
   title = "GIARDINO",
-  subtitle = "RESIDENCIAL SÊNIOR",
-  description = "Modelo de Investimento Premium",
+  subtitle,
+  description,
   logoUrl = "",
   backgroundColor = "#2C3E50",
   accentColor = "#F4C430",
@@ -27,6 +28,13 @@ export function PremiumHeader({
   compact = false,
   showLanguageSwitcher = true,
 }: PremiumHeaderProps) {
+  const { t } = useTranslation();
+
+  const finalSubtitle = subtitle || t('header.subtitle');
+  const finalDescription = description || t('header.description');
+  const projectComposition = t('ui.header.projectComposition');
+  const locationArea = t('ui.header.locationArea');
+
   const bgGradient = `linear-gradient(135deg, ${backgroundColor} 0%, #1F3B5E 100%)`;
 
   return (
@@ -62,7 +70,7 @@ export function PremiumHeader({
               className="text-sm md:text-base font-semibold"
               style={{ color: lightColor }}
             >
-              {subtitle}
+              {finalSubtitle}
             </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
@@ -71,7 +79,7 @@ export function PremiumHeader({
               className="text-xs md:text-sm font-light mt-1"
               style={{ color: `${lightColor}cc` }}
             >
-              {description}
+              {finalDescription}
             </motion.p>
           </div>
 
@@ -148,7 +156,7 @@ export function PremiumHeader({
                 className="text-2xl font-light mb-2 text-center"
                 style={{ color: lightColor }}
               >
-                Modelo de Investimento Premium
+                {finalDescription}
               </motion.h2>
               <motion.p
                 initial={{ opacity: 0 }}
@@ -157,7 +165,7 @@ export function PremiumHeader({
                 className="text-base mb-3 text-center"
                 style={{ color: `${lightColor}dd` }}
               >
-                Residencial Senior + Clube Life Style + Loteamento + Centro Comercial
+                {projectComposition}
               </motion.p>
               <motion.div
                 initial={{ opacity: 0 }}
@@ -173,7 +181,7 @@ export function PremiumHeader({
                   className="text-sm font-semibold"
                   style={{ color: `${lightColor}ee` }}
                 >
-                  Localização: Mogi das Cruzes, São Paulo — Área: 258.900 m²
+                  {locationArea}
                 </p>
                 <Leaf
                   className="w-4 h-4"

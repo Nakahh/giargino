@@ -1,10 +1,12 @@
 import { FileText, Loader } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 
 export function SimplePDFExport() {
   const [isGenerating, setIsGenerating] = useState(false);
+  const { t } = useTranslation();
 
   const generatePDF = async () => {
     setIsGenerating(true);
@@ -282,27 +284,27 @@ export function SimplePDFExport() {
       console.log("\n=== FINALIZANDO PDF ===");
       console.log(`Total de páginas: ${totalPages}`);
 
-      pdf.save("GIARDINO-Projeto-Completo-Premium.pdf");
+      pdf.save(t('ui.pdf.filename'));
 
       alert(
-        `✅ PDF gerado com sucesso!\n\n` +
-        `📄 GIARDINO-Projeto-Completo-Premium.pdf\n\n` +
-        `Total: ${totalPages} páginas\n\n` +
-        `✓ Conteúdo:\n` +
-        `• Header profissional\n` +
-        `• 6 Abas completas com dados\n` +
-        `• Footer com branding\n\n` +
-        `⚠ Menu de navegação removido\n` +
-        `⚠ Design otimizado para impressão`
+        `${t('ui.messages.pdfSuccess')}\n\n` +
+        `📄 ${t('ui.pdf.filename')}\n\n` +
+        `${t('ui.pdf.totalPages', { count: totalPages })}\n\n` +
+        `${t('ui.pdf.includes')}\n` +
+        `• ${t('ui.pdf.header')}\n` +
+        `• ${t('ui.pdf.sixTabs')}\n` +
+        `• ${t('ui.pdf.footer')}\n\n` +
+        `⚠ ${t('ui.pdf.navigation')}\n` +
+        `⚠ ${t('ui.pdf.design')}`
       );
     } catch (error) {
       console.error("ERRO:", error);
       alert(
-        `❌ Erro ao gerar PDF:\n\n${error instanceof Error ? error.message : String(error)}\n\n` +
-        `Tente:\n` +
-        `1. Recarregar a página\n` +
-        `2. Aguardar o dashboard carregar completamente\n` +
-        `3. Tentar novamente`
+        `${t('ui.messages.pdfError')}\n\n${error instanceof Error ? error.message : String(error)}\n\n` +
+        `${t('ui.messages.tryAgain')}\n` +
+        `${t('ui.messages.reloadPage')}\n` +
+        `${t('ui.messages.waitLoad')}\n` +
+        `${t('ui.messages.tryOnceMore')}`
       );
     } finally {
       setIsGenerating(false);
@@ -321,17 +323,17 @@ export function SimplePDFExport() {
         borderWidth: "2px",
         cursor: isGenerating ? "not-allowed" : "pointer",
       }}
-      title="Gera cópia perfeita em PDF com todas as abas e dados"
+      title={t('ui.buttons.downloadProject')}
     >
       {isGenerating ? (
         <>
           <Loader className="w-5 h-5 animate-spin" />
-          Gerando PDF...
+          {t('ui.buttons.downloadComplete')}
         </>
       ) : (
         <>
           <FileText className="w-5 h-5" />
-          📄 Baixar Projeto Completo
+          {t('ui.buttons.downloadProject')}
         </>
       )}
     </button>
