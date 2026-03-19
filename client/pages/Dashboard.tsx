@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import {
   BarChart,
   Bar,
@@ -25,6 +26,7 @@ import { PremiumHeader } from "@/components/PremiumHeader";
 import { PremiumKPICard } from "@/components/PremiumKPICard";
 import { PremiumGallery } from "@/components/PremiumGallery";
 import { giardino } from "@shared/giardino-data";
+import { useCurrency } from "@/hooks/use-currency";
 import { useScrollSync } from "@/hooks/use-scroll-sync";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
 import { useMobileGestures } from "@/hooks/use-mobile-gestures";
@@ -63,25 +65,9 @@ const CHART_COLORS = [
   "#10B981", // Verde esmeralda
 ];
 
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-function formatCurrencyWithDecimals(value: number): string {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value);
-}
-
 export default function Dashboard() {
+  const { t, i18n } = useTranslation();
+  const { formatCurrency, formatCurrencyWithDecimals } = useCurrency();
   const [activeTab, setActiveTab] = useState<
     "overview" | "revenue" | "costs" | "hr" | "viability" | "project"
   >("overview");
@@ -141,22 +127,22 @@ export default function Dashboard() {
   // Dados de receitas mensais
   const revenueData = [
     {
-      name: "Residencial Senior",
+      name: t('revenue.labels.residentialSenior'),
       value: giardino.monthlyRevenue.residentialSenior.monthlyTotal,
       fill: CHART_COLORS[0],
     },
     {
-      name: "Clube Life Style",
+      name: t('revenue.labels.lifeStyleClub'),
       value: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal,
       fill: CHART_COLORS[1],
     },
     {
-      name: "Shopping/Mall",
+      name: t('revenue.labels.shoppingMall'),
       value: giardino.monthlyRevenue.shoppingMall.monthlyTotal,
       fill: CHART_COLORS[2],
     },
     {
-      name: "Consumação",
+      name: t('revenue.labels.consumption'),
       value: giardino.monthlyRevenue.consumption.monthlyTotal,
       fill: CHART_COLORS[3],
     },
@@ -165,7 +151,7 @@ export default function Dashboard() {
   // Dados de custos
   const costData = [
     {
-      name: "Recursos Humanos",
+      name: t('costs.labels.hr'),
       value: giardino.hrCosts.housekeeping.monthlyTotal +
         giardino.hrCosts.culinary.monthlyTotal +
         giardino.hrCosts.laundry.monthlyTotal +
@@ -179,7 +165,7 @@ export default function Dashboard() {
       fill: CHART_COLORS[4],
     },
     {
-      name: "Custos Operacionais",
+      name: t('costs.labels.operational'),
       value: giardino.residentialCosts.hosting.monthlyTotal +
         giardino.residentialCosts.meals.monthlyTotal +
         giardino.residentialCosts.sportsRecreation.monthlyTotal +
@@ -189,12 +175,12 @@ export default function Dashboard() {
       fill: CHART_COLORS[1],
     },
     {
-      name: "Financiamento",
+      name: t('costs.labels.financing'),
       value: giardino.financing.monthlyPayment,
       fill: CHART_COLORS[5],
     },
     {
-      name: "Juros do Financiamento",
+      name: t('costs.labels.interest'),
       value: 500_000,
       fill: CHART_COLORS[3],
     },
@@ -206,7 +192,7 @@ export default function Dashboard() {
   const totalMonthlyCosts = monthlyOperatingCosts + monthlyFinancingCosts;
 
   const cashFlowData = Array.from({ length: 12 }).map((_, i) => ({
-    month: `Mês ${i + 1}`,
+    month: i18n.language === 'en-US' ? `Month ${i + 1}` : `Mês ${i + 1}`,
     receita: giardino.totalMonthlyRevenue,
     custos: totalMonthlyCosts,
     lucro: giardino.totalMonthlyRevenue - totalMonthlyCosts,
@@ -215,73 +201,73 @@ export default function Dashboard() {
   // Dados de distribuição de vendas iniciais
   const salesDistribution = [
     {
-      name: "Residencial Senior",
+      name: t('revenue.labels.residentialSenior'),
       value: giardino.sales.residentialSenior.total,
     },
     { name: "Time Share", value: giardino.sales.timeShare.total },
-    { name: "Clube Life Style", value: giardino.sales.lifeStyleClub.total },
-    { name: "Loteamento", value: giardino.sales.subdivision.total },
-    { name: "Shopping/Mall", value: giardino.sales.mall.total },
+    { name: t('revenue.labels.lifeStyleClub'), value: giardino.sales.lifeStyleClub.total },
+    { name: i18n.language === 'en-US' ? "Subdivision" : "Loteamento", value: giardino.sales.subdivision.total },
+    { name: t('revenue.labels.shoppingMall'), value: giardino.sales.mall.total },
   ];
 
   // Dados de RH por departamento
   const hrData = [
     {
-      department: "Camareiras",
+      department: t('hr.departments.housekeeping'),
       count: 24,
       salary: 1_800,
       total: 43_200,
     },
     {
-      department: "Cozinha",
+      department: t('hr.departments.kitchen'),
       count: 26,
       salary: 1_800,
       total: 46_800,
     },
     {
-      department: "Lavanderia",
+      department: t('hr.departments.laundry'),
       count: 10,
       salary: 1_800,
       total: 18_000,
     },
     {
-      department: "Limpeza",
+      department: t('hr.departments.cleaning'),
       count: 10,
       salary: 1_800,
       total: 18_000,
     },
     {
-      department: "Manutenção",
+      department: t('hr.departments.maintenance'),
       count: 8,
       salary: 2_200,
       total: 17_600,
     },
     {
-      department: "Beleza",
+      department: t('hr.departments.beauty'),
       count: 5,
       salary: 2_000,
       total: 10_000,
     },
     {
-      department: "Recepção",
+      department: t('hr.departments.reception'),
       count: 6,
       salary: 1_800,
       total: 10_800,
     },
     {
-      department: "Segurança",
+      department: t('hr.departments.security'),
       count: 12,
       salary: 1_800,
       total: 21_600,
     },
     {
-      department: "Saúde",
+      department: t('hr.departments.healthcare'),
       count: 8,
       salary: 3_000,
       total: 24_000,
     },
     {
-      department: "Administrativo",
+      department: t('hr.departments.administrative'),
       count: 6,
       salary: 2_500,
       total: 15_000,
@@ -292,9 +278,9 @@ export default function Dashboard() {
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: GIARDINO_COLORS.light }}>
       {/* Header Premium com Logo - Mobile Optimized */}
       <PremiumHeader
-        title="GIARDINO"
-        subtitle="RESIDENCIAL SÊNIOR"
-        description="Modelo de Investimento Premium"
+        title={t('header.title')}
+        subtitle={t('header.subtitle')}
+        description={t('header.description')}
         backgroundColor="#2C3E50"
         accentColor={GIARDINO_COLORS.accent}
         lightColor={GIARDINO_COLORS.light}
@@ -328,12 +314,12 @@ export default function Dashboard() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.secondary }}>
-                      RECEITA MENSAL
+                      {t('kpi.monthlyRevenue')}
                     </p>
                     <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary, wordWrap: "break-word" }}>
                       {formatCurrency(giardino.totalMonthlyRevenue)}
                     </h3>
-                    <p className="text-xs text-gray-500">Faturamento/mês</p>
+                    <p className="text-xs text-gray-500">{t('kpi.monthlyRevenueSubtitle')}</p>
                   </div>
                   <DollarSign className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.primary }} />
                 </div>
@@ -350,12 +336,12 @@ export default function Dashboard() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.primary }}>
-                      TOTAL VENDAS
+                      {t('kpi.totalSales')}
                     </p>
                     <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary, wordWrap: "break-word" }}>
                       {formatCurrency(giardino.totalSales)}
                     </h3>
-                    <p className="text-xs text-gray-500">Capital inicial</p>
+                    <p className="text-xs text-gray-500">{t('kpi.totalSalesSubtitle')}</p>
                   </div>
                   <ShoppingCart className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.secondary }} />
                 </div>
@@ -372,12 +358,12 @@ export default function Dashboard() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <p className="text-sm sm:text-base font-bold mb-2 text-gray-600 tracking-wide">
-                      CUSTOS MENSAIS
+                      {t('kpi.monthlyCosts')}
                     </p>
                     <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold, wordWrap: "break-word" }}>
                       {formatCurrency(giardino.summary.monthlyAnalysis.hrCosts + giardino.summary.monthlyAnalysis.residentialOperatingCosts)}
                     </h3>
-                    <p className="text-xs text-gray-500">RH + Operacional</p>
+                    <p className="text-xs text-gray-500">{t('kpi.monthlyCostsSubtitle')}</p>
                   </div>
                   <Zap className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.gold }} />
                 </div>
@@ -394,12 +380,12 @@ export default function Dashboard() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <p className="text-sm sm:text-base font-bold mb-2 text-gray-600 tracking-wide">
-                      LUCRO LÍQUIDO
+                      {t('kpi.netProfit')}
                     </p>
                     <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent, wordWrap: "break-word" }}>
                       {formatCurrency(giardino.viability.monthlyNetProfit)}
                     </h3>
-                    <p className="text-xs text-gray-500">Mensal (aprox.)</p>
+                    <p className="text-xs text-gray-500">{t('kpi.netProfitSubtitle')}</p>
                   </div>
                   <TrendingUp className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.accent }} />
                 </div>
@@ -418,9 +404,9 @@ export default function Dashboard() {
               >
                 <div className="mb-4 sm:mb-6">
                   <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.primary }}>
-                    📊 Distribuição de Receitas
+                    {t('charts.revenueDistribution')}
                   </h2>
-                  <p className="text-sm sm:text-base text-gray-600">Contribuição de cada segmento na receita bruta mensal</p>
+                  <p className="text-sm sm:text-base text-gray-600">{t('charts.revenueDistributionDesc')}</p>
                 </div>
                 <ResponsiveContainer width="100%" height={380}>
                   <PieChart>
@@ -469,9 +455,9 @@ export default function Dashboard() {
               >
                 <div className="mb-4 sm:mb-6">
                   <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary }}>
-                    💰 Distribuição de Vendas
+                    {t('charts.salesDistribution')}
                   </h2>
-                  <p className="text-sm sm:text-base text-gray-600">Capital distribuído por segmento</p>
+                  <p className="text-sm sm:text-base text-gray-600">{t('charts.salesDistributionDesc')}</p>
                 </div>
                 <ResponsiveContainer width="100%" height={380}>
                   <PieChart>
@@ -510,7 +496,7 @@ export default function Dashboard() {
                 </ResponsiveContainer>
               </div>
 
-              {/* Fluxo de Caixa Projetado */}
+              {/* Cash Flow Chart */}
               <div
                 className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4 lg:col-span-2"
                 style={{
@@ -520,9 +506,9 @@ export default function Dashboard() {
               >
                 <div className="mb-4 sm:mb-6">
                   <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold }}>
-                    📈 Fluxo de Caixa Projetado (12 Meses)
+                    {t('charts.cashFlow')}
                   </h2>
-                  <p className="text-sm sm:text-base text-gray-600">Receita, custos e lucro mensal estimado</p>
+                  <p className="text-sm sm:text-base text-gray-600">{t('charts.cashFlowDesc')}</p>
                 </div>
                 <ResponsiveContainer width="100%" height={400}>
                   <AreaChart data={cashFlowData} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
@@ -566,7 +552,7 @@ export default function Dashboard() {
                       strokeWidth={2}
                       fillOpacity={1}
                       fill="url(#colorReceita)"
-                      name="Receita"
+                      name={t('charts.cashFlowReceipt')}
                     />
                     <Area
                       type="monotone"
@@ -575,7 +561,7 @@ export default function Dashboard() {
                       strokeWidth={2}
                       fillOpacity={1}
                       fill="url(#colorCustos)"
-                      name="Custos"
+                      name={t('charts.cashFlowCosts')}
                     />
                     <Area
                       type="monotone"
@@ -584,7 +570,7 @@ export default function Dashboard() {
                       strokeWidth={2}
                       fillOpacity={1}
                       fill="url(#colorLucro)"
-                      name="Lucro"
+                      name={t('charts.cashFlowProfit')}
                     />
                   </AreaChart>
                 </ResponsiveContainer>

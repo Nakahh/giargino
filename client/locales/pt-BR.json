@@ -31,31 +31,50 @@
     "salesDistributionDesc": "Capital distribuído por segmento",
     "cashFlow": "📈 Fluxo de Caixa Projetado (12 Meses)",
     "cashFlowDesc": "Receita, custos e lucro mensal estimado",
+    "cashFlowReceipt": "Receita",
+    "cashFlowCosts": "Custos",
+    "cashFlowProfit": "Lucro",
+    "monthLabel": "Mês {{month}}",
     "revenueDetail": "Detalhamento de Receitas",
-    "costDetail": "Breakdown de Custos Operacionais"
-  },
-  "projects": {
-    "title": "🏛️ GIARDINO — Projeto Completo e Visão Estratégica",
-    "description": "O projeto GIARDINO é um complexo residencial de luxo voltado para idosos e lifestyle premium, localizado em Mogi das Cruzes, São Paulo. Combina habitação especializada com serviços de wellness, clube social e shopping, criando um ecossistema completo de alta qualidade de vida.",
-    "overview": "Visão Geral",
-    "segments": "Segmentos do Projeto",
-    "keyNumbers": "Números Principais",
-    "facilities": "🏥 Facilities & Serviços",
-    "investment": "💰 Estrutura de Investimento",
-    "initialRevenue": "🎯 Receitas Iniciais (Vendas)",
-    "recurringRevenue": "💵 Receitas Mensais Recorrentes"
+    "revenueDetailDesc": "Análise detalhada de todas as fontes de receita",
+    "costDetail": "Breakdown de Custos Operacionais",
+    "costDetailDesc": "Distribuição dos custos principais"
   },
   "revenue": {
     "residential": "Residencial Senior",
-    "residentialDesc": "Aluguel mensal + serviços",
-    "residentialMonthly": "/mês",
     "lifeStyleClub": "Clube Life Style",
-    "lifeStyleClubDesc": "Mensalidade de 6.000 membros",
     "shopping": "Shopping/Mall",
-    "shoppingDesc": "Aluguel de 250 lojas",
     "consumption": "Consumação",
-    "consumptionDesc": "Bares, restaurantes e eventos",
-    "total": "Receita Total"
+    "cards": {
+      "residentialSenior": {
+        "label": "RESIDENCIAL SENIOR"
+      },
+      "shoppingMall": {
+        "label": "SHOPPING/MALL"
+      },
+      "lifeStyleClub": {
+        "label": "CLUBE LIFE STYLE"
+      },
+      "consumption": {
+        "label": "CONSUMAÇÃO"
+      },
+      "monthlySuffix": "/mês"
+    },
+    "table": {
+      "title": "Detalhamento de Receitas",
+      "subtitle": "Análise detalhada de todas as fontes de receita",
+      "columns": {
+        "segment": "Segmento",
+        "monthly": "Mensal",
+        "annual": "Anual"
+      }
+    },
+    "labels": {
+      "residentialSenior": "Residencial Senior",
+      "lifeStyleClub": "Clube Life Style",
+      "shoppingMall": "Shopping/Mall",
+      "consumption": "Consumação"
+    }
   },
   "costs": {
     "hr": "RH MENSAL",
@@ -63,49 +82,234 @@
     "humanResources": "Recursos Humanos",
     "operationalCosts": "Custos Operacionais",
     "financing": "Financiamento",
-    "financingInterest": "Juros do Financiamento"
+    "financingInterest": "Juros do Financiamento",
+    "cards": {
+      "hrMonthly": {
+        "label": "RH MENSAL",
+        "helper": "Folha de pagamento"
+      },
+      "operational": {
+        "label": "OPERACIONAL",
+        "helper": "Serviços + Insumos"
+      },
+      "financing": {
+        "label": "FINANCIAMENTO",
+        "helper": "Parcela mensal"
+      },
+      "interest": {
+        "label": "JUROS",
+        "helper": "Juros do financiamento"
+      }
+    },
+    "labels": {
+      "hr": "Recursos Humanos",
+      "operational": "Custos Operacionais",
+      "financing": "Financiamento",
+      "interest": "Juros do Financiamento"
+    }
   },
   "hr": {
     "title": "👥 Estrutura de Recursos Humanos",
     "subtitle": "Distribuição de pessoal por departamento",
-    "department": "Departamento",
-    "quantity": "Quantidade",
-    "salaryPerPerson": "Salário/pessoa",
-    "totalPerMonth": "Total/mês"
+    "table": {
+      "columns": {
+        "department": "Departamento",
+        "quantity": "Quantidade",
+        "salaryPerPerson": "Salário/pessoa",
+        "totalPerMonth": "Total/mês"
+      }
+    },
+    "departments": {
+      "housekeeping": "Camareiras",
+      "kitchen": "Cozinha",
+      "laundry": "Lavanderia",
+      "cleaning": "Limpeza",
+      "maintenance": "Manutenção",
+      "beauty": "Beleza",
+      "reception": "Recepção",
+      "security": "Segurança",
+      "healthcare": "Saúde",
+      "administrative": "Administrativo"
+    }
   },
   "viability": {
     "title": "📊 Projeção Financeira 10 Anos",
     "subtitle": "Análise anual de receitas, custos e lucratividade ao longo da década",
-    "year": "ANO",
-    "month": "Mês",
-    "grossRevenue": "RECEITA BRUTA",
-    "totalCosts": "CUSTOS TOTAIS",
-    "netProfit": "LUCRO LÍQUIDO",
-    "cumulativeProfit": "LUCRO ACUMULADO",
-    "roi": "ROI (%)",
-    "paybackPeriod": "Período de Retorno",
-    "years": "Anos (período de retorno)",
-    "vpl": "VPL 10 ANOS",
-    "operatingMargin": "Margem Operacional",
-    "grossRevenuePct": "Da receita bruta",
-    "month12": "Mês 12",
-    "annualPayment": "Ao ano (financiamento)"
+    "cards": {
+      "annualRoi": {
+        "label": "ROI ANUAL",
+        "helper": "Retorno sobre investimento"
+      },
+      "payback": {
+        "label": "PAYBACK",
+        "helper": "Anos (período de retorno)"
+      },
+      "npv10Years": {
+        "label": "VPL 10 ANOS",
+        "helper": "Valor presente líquido"
+      },
+      "irr": {
+        "label": "TIR",
+        "helper": "Taxa interna de retorno"
+      }
+    },
+    "indicators": {
+      "title": "Indicadores Chave",
+      "operationalMargin": {
+        "label": "Margem Operacional",
+        "helper": "Da receita bruta"
+      },
+      "expectedAnnualGrowth": {
+        "label": "Crescimento Anual Esperado",
+        "helper": "Conservador e realista"
+      },
+      "breakEven": {
+        "label": "Break-even",
+        "helper": "Ao ano (financiamento)"
+      },
+      "estimatedRisk": {
+        "label": "Risco Estimado",
+        "value": "Médio",
+        "helper": "Mercado estável e demanda garantida"
+      },
+      "disclaimer": "* Projeção com crescimento conservador de 2% a.a. e inflação de 3% a.a. nos custos. ROI calculado com base no investimento inicial de R$ 100M."
+    },
+    "projection": {
+      "title": "📊 Projeção Financeira 10 Anos",
+      "subtitle": "Análise anual de receitas, custos e lucratividade ao longo da década",
+      "columns": {
+        "year": "ANO",
+        "grossRevenue": "RECEITA BRUTA",
+        "totalCosts": "CUSTOS TOTAIS",
+        "netProfit": "LUCRO LÍQUIDO",
+        "cumulativeProfit": "LUCRO ACUMULADO",
+        "roi": "ROI (%)"
+      }
+    }
   },
-  "revenueModel": {
-    "title": "💼 Modelo de Receitas",
-    "residentialTitle": "Residencial Senior",
-    "residentialSubtitle": "240 unidades - Pacote all inclusive com cuidados especializados",
-    "clubTitle": "Clube Life Style",
-    "clubSubtitle": "6.000 membros com acesso a 360 diárias",
-    "commercialTitle": "Centro Comercial",
-    "clubMembers": "Membros do Clube"
+  "project": {
+    "overview": {
+      "title": "📍 Visão Geral do Projeto",
+      "location": {
+        "title": "Localização Estratégica",
+        "description": "Mogi das Cruzes, São Paulo — Acesso direto à Via Dutra, próximo ao eixo administrativo da região."
+      },
+      "area": {
+        "title": "Área Total",
+        "description": "258.900 m² — Espaço amplo para residencial, clube, loteamento e centro comercial."
+      },
+      "phases": {
+        "title": "Fases de Desenvolvimento",
+        "phase1": {
+          "title": "Fase 1: Infraestrutura",
+          "description": "Preparação de terreno, acesso, utilidades (água, energia, gás, internet)"
+        },
+        "phase2": {
+          "title": "Fase 2: Construção Residencial",
+          "description": "Edifícios de Residencial Senior + Clube Life Style",
+          "installments": "• 6 parcelas: R$ 20.000.000/ano"
+        },
+        "phase3": {
+          "title": "Fase 3: Operação Integral",
+          "description": "Gestão de Residencial Senior, Clube Life Style, Loteamento e Centro Comercial (shopping)",
+          "monthlyPayment": "• Pagamento mensal: R$ 1.000.000 + juros"
+        }
+      }
+    },
+    "revenueModel": {
+      "title": "💼 Modelo de Receitas",
+      "residentialSenior": {
+        "title": "Residencial Senior",
+        "description": "Aluguel mensal + serviços"
+      },
+      "lifeStyleClub": {
+        "title": "Clube Life Style",
+        "description": "Mensalidade de 6.000 membros"
+      },
+      "shoppingMall": {
+        "title": "Shopping/Mall",
+        "description": "Aluguel de 250 lojas"
+      },
+      "consumption": {
+        "title": "Consumação",
+        "description": "Bares, restaurantes e eventos"
+      },
+      "total": {
+        "label": "Receita Total"
+      }
+    },
+    "fullOverview": {
+      "title": "🏛️ GIARDINO — Projeto Completo e Visão Estratégica",
+      "vision": {
+        "title": "Visão Geral",
+        "description": "O projeto GIARDINO é um complexo residencial de luxo voltado para idosos e lifestyle premium, localizado em Mogi das Cruzes, São Paulo. Combina habitação especializada com serviços de wellness, clube social e shopping, criando um ecossistema completo de alta qualidade de vida."
+      },
+      "segments": {
+        "title": "Segmentos do Projeto",
+        "residentialSeniorSpa": "Residencial Senior + SPA",
+        "residentialSeniorSpaDesc": "240 unidades - Pacote all inclusive com cuidados especializados",
+        "lifeStyleClub": "Clube Life Style",
+        "lifeStyleClubDesc": "6.000 membros com acesso a 360 diárias",
+        "subdivision": "Loteamento Residencial",
+        "subdivisionDesc": "400 terrenos de 500m² com acesso ao clube",
+        "commercialCenter": "Centro Comercial",
+        "commercialCenterDesc": "Shopping com 250+ lojas, alimentação e cinemas"
+      },
+      "keyNumbers": {
+        "title": "Números Principais",
+        "residentialUnits": "Total de Unidades Residenciais",
+        "clubMembers": "Membros do Clube",
+        "employees": "Total de Funcionários",
+        "commercialUnits": "Áreas Comerciais",
+        "totalInvestment": "Investimento Total"
+      }
+    },
+    "facilities": {
+      "title": "🏥 Facilities & Serviços",
+      "pool": "Piscinas Olímpicas",
+      "gym": "Academia 24h",
+      "sportsCourts": "Quadras Esportivas",
+      "restaurant": "Restaurante Premium",
+      "hairdresser": "Cabeleireiro",
+      "medicalCenter": "Centro Médico 24h",
+      "homeCare": "Home Care 24h",
+      "therapies": "Terapias Diversas",
+      "physiotherapy": "Fisioterapia",
+      "medicalConsultations": "Consultas Médicas"
+    },
+    "investment": {
+      "title": "💰 Estrutura de Investimento",
+      "initialProposal": {
+        "title": "Proposta Inicial (Dinheiro)",
+        "description": "R$ 150.000.000 — Entrada + 6 parcelas anuais",
+        "downPayment": "• Entrada: R$ 30.000.000",
+        "installments": "• 6 parcelas: R$ 20.000.000/ano"
+      },
+      "financing": {
+        "title": "Financiamento Complementar",
+        "description": "R$ 100.000.000 — CAPEX com 6% a.a.",
+        "term": "• Prazo: 120 meses (10 anos)",
+        "monthlyPayment": "• Pagamento mensal: R$ 1.000.000 + juros"
+      }
+    },
+    "revenueComparison": {
+      "initialSales": {
+        "title": "🎯 Receitas Iniciais (Vendas)",
+        "total": "TOTAL"
+      },
+      "recurring": {
+        "title": "💵 Receitas Mensais Recorrentes",
+        "residential": "Residencial",
+        "club": "Clube",
+        "commercial": "Comércios",
+        "total": "TOTAL"
+      }
+    }
   },
-  "investment": {
-    "title": "💰 Estrutura de Investimento",
-    "downPayment": "Entrada: R$ 30.000.000",
-    "annualPayments": "6 parcelas: R$ 20.000.000/ano",
-    "term": "Prazo: 120 meses (10 anos)",
-    "monthlyPayment": "Pagamento mensal: R$ 1.000.000 + juros"
+  "footer": {
+    "subtitle": "Modelo de Investimento Residencial Senior + Clube Life Style",
+    "meta": "© 2024 — Mogi das Cruzes, São Paulo | Área Total: 258.900 m²",
+    "confidentiality": "Documento de Apresentação de Investimento — Confidencial"
   },
   "currency": {
     "brl": "R$",

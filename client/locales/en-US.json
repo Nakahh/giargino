@@ -31,31 +31,50 @@
     "salesDistributionDesc": "Capital distributed by segment",
     "cashFlow": "📈 Projected Cash Flow (12 Months)",
     "cashFlowDesc": "Estimated monthly revenue, costs and profit",
+    "cashFlowReceipt": "Revenue",
+    "cashFlowCosts": "Costs",
+    "cashFlowProfit": "Profit",
+    "monthLabel": "Month {{month}}",
     "revenueDetail": "Revenue Details",
-    "costDetail": "Operating Costs Breakdown"
-  },
-  "projects": {
-    "title": "🏛️ GIARDINO — Complete Project and Strategic Vision",
-    "description": "The GIARDINO project is a luxury residential complex aimed at seniors and premium lifestyle, located in Mogi das Cruzes, São Paulo. It combines specialized housing with wellness services, social club and shopping, creating a complete ecosystem of high quality of life.",
-    "overview": "Overview",
-    "segments": "Project Segments",
-    "keyNumbers": "Key Numbers",
-    "facilities": "🏥 Facilities & Services",
-    "investment": "💰 Investment Structure",
-    "initialRevenue": "🎯 Initial Revenue (Sales)",
-    "recurringRevenue": "💵 Monthly Recurring Revenue"
+    "revenueDetailDesc": "Detailed analysis of all revenue sources",
+    "costDetail": "Operating Costs Breakdown",
+    "costDetailDesc": "Distribution of main costs"
   },
   "revenue": {
     "residential": "Senior Residential",
-    "residentialDesc": "Monthly rent + services",
-    "residentialMonthly": "/month",
     "lifeStyleClub": "Life Style Club",
-    "lifeStyleClubDesc": "Membership fees for 6,000 members",
     "shopping": "Shopping/Mall",
-    "shoppingDesc": "Store rentals from 250 shops",
     "consumption": "Consumption",
-    "consumptionDesc": "Bars, restaurants and events",
-    "total": "Total Revenue"
+    "cards": {
+      "residentialSenior": {
+        "label": "SENIOR RESIDENTIAL"
+      },
+      "shoppingMall": {
+        "label": "SHOPPING/MALL"
+      },
+      "lifeStyleClub": {
+        "label": "LIFE STYLE CLUB"
+      },
+      "consumption": {
+        "label": "CONSUMPTION"
+      },
+      "monthlySuffix": "/month"
+    },
+    "table": {
+      "title": "Revenue Details",
+      "subtitle": "Detailed analysis of all revenue sources",
+      "columns": {
+        "segment": "Segment",
+        "monthly": "Monthly",
+        "annual": "Annual"
+      }
+    },
+    "labels": {
+      "residentialSenior": "Senior Residential",
+      "lifeStyleClub": "Life Style Club",
+      "shoppingMall": "Shopping/Mall",
+      "consumption": "Consumption"
+    }
   },
   "costs": {
     "hr": "MONTHLY HR",
@@ -63,49 +82,234 @@
     "humanResources": "Human Resources",
     "operationalCosts": "Operating Costs",
     "financing": "Financing",
-    "financingInterest": "Financing Interest"
+    "financingInterest": "Financing Interest",
+    "cards": {
+      "hrMonthly": {
+        "label": "MONTHLY HR",
+        "helper": "Payroll"
+      },
+      "operational": {
+        "label": "OPERATIONAL",
+        "helper": "Services + Supplies"
+      },
+      "financing": {
+        "label": "FINANCING",
+        "helper": "Monthly installment"
+      },
+      "interest": {
+        "label": "INTEREST",
+        "helper": "Financing interest"
+      }
+    },
+    "labels": {
+      "hr": "Human Resources",
+      "operational": "Operating Costs",
+      "financing": "Financing",
+      "interest": "Financing Interest"
+    }
   },
   "hr": {
     "title": "👥 Human Resources Structure",
     "subtitle": "Personnel distribution by department",
-    "department": "Department",
-    "quantity": "Quantity",
-    "salaryPerPerson": "Salary/person",
-    "totalPerMonth": "Total/month"
+    "table": {
+      "columns": {
+        "department": "Department",
+        "quantity": "Quantity",
+        "salaryPerPerson": "Salary/person",
+        "totalPerMonth": "Total/month"
+      }
+    },
+    "departments": {
+      "housekeeping": "Housekeeping",
+      "kitchen": "Kitchen",
+      "laundry": "Laundry",
+      "cleaning": "Cleaning",
+      "maintenance": "Maintenance",
+      "beauty": "Beauty",
+      "reception": "Reception",
+      "security": "Security",
+      "healthcare": "Healthcare",
+      "administrative": "Administrative"
+    }
   },
   "viability": {
     "title": "📊 Financial Projection 10 Years",
     "subtitle": "Annual analysis of revenue, costs and profitability over the decade",
-    "year": "YEAR",
-    "month": "Month",
-    "grossRevenue": "GROSS REVENUE",
-    "totalCosts": "TOTAL COSTS",
-    "netProfit": "NET PROFIT",
-    "cumulativeProfit": "CUMULATIVE PROFIT",
-    "roi": "ROI (%)",
-    "paybackPeriod": "Payback Period",
-    "years": "Years (payback period)",
-    "vpl": "NPV 10 YEARS",
-    "operatingMargin": "Operating Margin",
-    "grossRevenuePct": "Of gross revenue",
-    "month12": "Month 12",
-    "annualPayment": "Per year (financing)"
+    "cards": {
+      "annualRoi": {
+        "label": "ANNUAL ROI",
+        "helper": "Return on investment"
+      },
+      "payback": {
+        "label": "PAYBACK",
+        "helper": "Years (payback period)"
+      },
+      "npv10Years": {
+        "label": "NPV 10 YEARS",
+        "helper": "Net present value"
+      },
+      "irr": {
+        "label": "IRR",
+        "helper": "Internal rate of return"
+      }
+    },
+    "indicators": {
+      "title": "Key Indicators",
+      "operationalMargin": {
+        "label": "Operating Margin",
+        "helper": "Of gross revenue"
+      },
+      "expectedAnnualGrowth": {
+        "label": "Expected Annual Growth",
+        "helper": "Conservative and realistic"
+      },
+      "breakEven": {
+        "label": "Break-even",
+        "helper": "Per year (financing)"
+      },
+      "estimatedRisk": {
+        "label": "Estimated Risk",
+        "value": "Medium",
+        "helper": "Stable market and guaranteed demand"
+      },
+      "disclaimer": "* Projection with conservative growth of 2% p.a. and 3% p.a. inflation on costs. ROI calculated based on initial investment of $20M."
+    },
+    "projection": {
+      "title": "📊 Financial Projection 10 Years",
+      "subtitle": "Annual analysis of revenue, costs and profitability over the decade",
+      "columns": {
+        "year": "YEAR",
+        "grossRevenue": "GROSS REVENUE",
+        "totalCosts": "TOTAL COSTS",
+        "netProfit": "NET PROFIT",
+        "cumulativeProfit": "CUMULATIVE PROFIT",
+        "roi": "ROI (%)"
+      }
+    }
   },
-  "revenueModel": {
-    "title": "💼 Revenue Model",
-    "residentialTitle": "Senior Residential",
-    "residentialSubtitle": "240 units - All-inclusive package with specialized care",
-    "clubTitle": "Life Style Club",
-    "clubSubtitle": "6,000 members with access to 360 daily services",
-    "commercialTitle": "Commercial Center",
-    "clubMembers": "Club Members"
+  "project": {
+    "overview": {
+      "title": "📍 Project Overview",
+      "location": {
+        "title": "Strategic Location",
+        "description": "Mogi das Cruzes, São Paulo — Direct access to Via Dutra, near the administrative hub of the region."
+      },
+      "area": {
+        "title": "Total Area",
+        "description": "258,900 m² — Ample space for residential, club, subdivision and commercial center."
+      },
+      "phases": {
+        "title": "Development Phases",
+        "phase1": {
+          "title": "Phase 1: Infrastructure",
+          "description": "Land preparation, access, utilities (water, energy, gas, internet)"
+        },
+        "phase2": {
+          "title": "Phase 2: Residential Construction",
+          "description": "Senior Residential + Life Style Club Buildings",
+          "installments": "• 6 installments: $4,000,000/year"
+        },
+        "phase3": {
+          "title": "Phase 3: Full Operations",
+          "description": "Management of Senior Residential, Life Style Club, Subdivision and Commercial Center (shopping)",
+          "monthlyPayment": "• Monthly payment: $200,000 + interest"
+        }
+      }
+    },
+    "revenueModel": {
+      "title": "💼 Revenue Model",
+      "residentialSenior": {
+        "title": "Senior Residential",
+        "description": "Monthly rent + services"
+      },
+      "lifeStyleClub": {
+        "title": "Life Style Club",
+        "description": "Membership fees for 6,000 members"
+      },
+      "shoppingMall": {
+        "title": "Shopping/Mall",
+        "description": "Store rentals from 250 shops"
+      },
+      "consumption": {
+        "title": "Consumption",
+        "description": "Bars, restaurants and events"
+      },
+      "total": {
+        "label": "Total Revenue"
+      }
+    },
+    "fullOverview": {
+      "title": "🏛️ GIARDINO — Complete Project and Strategic Vision",
+      "vision": {
+        "title": "Overview",
+        "description": "The GIARDINO project is a luxury residential complex aimed at seniors and premium lifestyle, located in Mogi das Cruzes, São Paulo. It combines specialized housing with wellness services, social club and shopping, creating a complete ecosystem of high quality of life."
+      },
+      "segments": {
+        "title": "Project Segments",
+        "residentialSeniorSpa": "Senior Residential + SPA",
+        "residentialSeniorSpaDesc": "240 units - All-inclusive package with specialized care",
+        "lifeStyleClub": "Life Style Club",
+        "lifeStyleClubDesc": "6,000 members with access to 360 daily services",
+        "subdivision": "Residential Subdivision",
+        "subdivisionDesc": "400 plots of 500m² with club access",
+        "commercialCenter": "Commercial Center",
+        "commercialCenterDesc": "Shopping with 250+ stores, food and cinemas"
+      },
+      "keyNumbers": {
+        "title": "Key Numbers",
+        "residentialUnits": "Total Residential Units",
+        "clubMembers": "Club Members",
+        "employees": "Total Employees",
+        "commercialUnits": "Commercial Areas",
+        "totalInvestment": "Total Investment"
+      }
+    },
+    "facilities": {
+      "title": "🏥 Facilities & Services",
+      "pool": "Olympic Pools",
+      "gym": "24h Gym",
+      "sportsCourts": "Sports Courts",
+      "restaurant": "Premium Restaurant",
+      "hairdresser": "Hairdresser",
+      "medicalCenter": "24h Medical Center",
+      "homeCare": "24h Home Care",
+      "therapies": "Diverse Therapies",
+      "physiotherapy": "Physiotherapy",
+      "medicalConsultations": "Medical Consultations"
+    },
+    "investment": {
+      "title": "💰 Investment Structure",
+      "initialProposal": {
+        "title": "Initial Proposal (Money)",
+        "description": "$30,000,000 — Down payment + 6 annual installments",
+        "downPayment": "• Down payment: $6,000,000",
+        "installments": "• 6 installments: $4,000,000/year"
+      },
+      "financing": {
+        "title": "Complementary Financing",
+        "description": "$20,000,000 — CAPEX at 6% p.a.",
+        "term": "• Term: 120 months (10 years)",
+        "monthlyPayment": "• Monthly payment: $200,000 + interest"
+      }
+    },
+    "revenueComparison": {
+      "initialSales": {
+        "title": "🎯 Initial Revenue (Sales)",
+        "total": "TOTAL"
+      },
+      "recurring": {
+        "title": "💵 Monthly Recurring Revenue",
+        "residential": "Residential",
+        "club": "Club",
+        "commercial": "Commercial",
+        "total": "TOTAL"
+      }
+    }
   },
-  "investment": {
-    "title": "💰 Investment Structure",
-    "downPayment": "Down payment: $6,000,000",
-    "annualPayments": "6 installments: $4,000,000/year",
-    "term": "Term: 120 months (10 years)",
-    "monthlyPayment": "Monthly payment: $200,000 + interest"
+  "footer": {
+    "subtitle": "Investment Model Senior Residential + Life Style Club",
+    "meta": "© 2024 — Mogi das Cruzes, São Paulo | Total Area: 258,900 m²",
+    "confidentiality": "Investment Presentation Document — Confidential"
   },
   "currency": {
     "brl": "R$",
