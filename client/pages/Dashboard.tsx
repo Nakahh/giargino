@@ -1434,7 +1434,7 @@ export default function Dashboard() {
               }}
             >
               <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.gold }}>
-                💰 Estrutura de Investimento
+                {t('project.investment.title')}
               </h3>
               <div className="space-y-4">
                 <div className="p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border-l-4 border-blue-600">
@@ -1443,11 +1443,11 @@ export default function Dashboard() {
                       1
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-bold text-blue-900 mb-1">Proposta Inicial (Dinheiro)</h4>
-                      <p className="text-sm text-gray-700 mb-2">{formatCurrency(150000000)} — Entrada + 6 parcelas anuais</p>
+                      <h4 className="font-bold text-blue-900 mb-1">{t('project.investment.initialProposal.title')}</h4>
+                      <p className="text-sm text-gray-700 mb-2">{t('project.investment.initialProposal.description')}</p>
                       <div className="text-xs text-gray-600 space-y-1">
-                        <p>• Entrada: {formatCurrency(30000000)}</p>
-                        <p>• 6 parcelas: {formatCurrency(20000000)}/ano</p>
+                        <p>{t('project.investment.initialProposal.downPaymentLabel')} {t('project.investment.initialProposal.downPayment')}</p>
+                        <p>{t('project.investment.initialProposal.installmentsLabel')} {t('project.investment.initialProposal.installments')}</p>
                       </div>
                     </div>
                   </div>
@@ -1458,11 +1458,11 @@ export default function Dashboard() {
                       2
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-bold text-green-900 mb-1">Financiamento Complementar</h4>
-                      <p className="text-sm text-gray-700 mb-2">{formatCurrency(100000000)} — CAPEX com 6% a.a.</p>
+                      <h4 className="font-bold text-green-900 mb-1">{t('project.investment.complementaryFinancing.title')}</h4>
+                      <p className="text-sm text-gray-700 mb-2">{t('project.investment.complementaryFinancing.description')}</p>
                       <div className="text-xs text-gray-600 space-y-1">
-                        <p>• Prazo: 120 meses (10 anos)</p>
-                        <p>• Pagamento mensal: {formatCurrency(1000000)} + juros</p>
+                        <p>{t('project.investment.complementaryFinancing.termLabel')} {t('project.investment.complementaryFinancing.term')}</p>
+                        <p>{t('project.investment.complementaryFinancing.monthlyPaymentLabel')} {t('project.investment.complementaryFinancing.monthlyPayment')}</p>
                       </div>
                     </div>
                   </div>

@@ -234,12 +234,12 @@
         "phase2": {
           "title": "Phase 2: Residential Construction",
           "description": "Senior Residential + Life Style Club Buildings",
-          "installments": "• 6 installments: $4,000,000/year"
+          "installments": "• 6 installments: $3,803,698/year"
         },
         "phase3": {
           "title": "Phase 3: Full Operations",
           "description": "Management of Senior Residential, Life Style Club, Subdivision and Commercial Center (shopping)",
-          "monthlyPayment": "• Monthly payment: $200,000 + interest"
+          "monthlyPayment": "• Monthly payment: $190,185 + interest"
         }
       },
       "completeTitle": "🏛️ GIARDINO — Complete Project and Strategic Vision",
@@ -275,7 +275,7 @@
         "totalInvestment": {
           "label": "Total Investment"
         },
-        "investmentValue": "$50M"
+        "investmentValue": "$47,895,620"
       }
     },
     "revenueModel": {
@@ -344,32 +344,32 @@
       "title": "💰 Investment Structure",
       "initialProposal": {
         "title": "Initial Proposal (Money)",
-        "description": "$30,000,000 — Down payment + 6 annual installments",
-        "entryLabel": "• Down payment:",
+        "description": "$28,877,372 — Down payment + 6 annual installments",
+        "downPaymentLabel": "• Down payment:",
+        "downPayment": "$5,703,676",
         "installmentsLabel": "• 6 installments:",
-        "downPayment": "• Down payment: $6,000,000",
-        "installments": "• 6 installments: $4,000,000/year"
+        "installments": "$3,803,698/year"
       },
       "complementaryFinancing": {
         "title": "Complementary Financing",
-        "description": "$20,000,000 — CAPEX at 6% p.a.",
-        "termLabel": "• Term: 120 months (10 years)",
+        "description": "$19,018,248 — CAPEX at 6% p.a.",
+        "termLabel": "• Term:",
+        "term": "120 months (10 years)",
         "monthlyPaymentLabel": "• Monthly payment:",
-        "term": "• Term: 120 months (10 years)",
-        "monthlyPayment": "• Monthly payment: $200,000 + interest"
+        "monthlyPayment": "$190,185 + interest"
       }
     },
     "investmentStructure": {
       "title": "💰 Investment Structure",
       "initialProposal": {
         "title": "Initial Proposal (Money)",
-        "description": "$30,000,000 — Down payment + 6 annual installments",
+        "description": "$28,877,372 — Down payment + 6 annual installments",
         "entryLabel": "• Down payment:",
         "installmentsLabel": "• 6 installments:"
       },
       "complementaryFinancing": {
         "title": "Complementary Financing",
-        "description": "$20,000,000 — CAPEX at 6% p.a.",
+        "description": "$19,018,248 — CAPEX at 6% p.a.",
         "termLabel": "• Term: 120 months (10 years)",
         "monthlyPaymentLabel": "• Monthly payment:"
       }
@@ -451,7 +451,17 @@
     "gallery": {
       "title": "Project Gallery",
       "description": "Discover the premium spaces of GIARDINO",
-      "scroll": "Swipe to navigate"
+      "scroll": "Swipe to navigate",
+      "viewDetails": "View Details",
+      "allCategories": "All Categories",
+      "categories": {
+        "dining": "🍽️ Dining",
+        "pool": "🏊 Pools",
+        "sports": "⚽ Sports",
+        "facilities": "🏛️ Facilities",
+        "gardens": "🌿 Gardens",
+        "residences": "🏠 Residences"
+      }
     },
     "sections": {
       "overview": "Overview",
