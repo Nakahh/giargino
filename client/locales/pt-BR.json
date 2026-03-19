@@ -1,0 +1,74 @@
+{
+  "header": {
+    "title": "GIARDINO",
+    "subtitle": "RESIDENCIAL SÊNIOR",
+    "description": "Modelo de Investimento Premium",
+    "location": "Localização: Mogi das Cruzes, São Paulo — Área: 258.900 m²",
+    "downloadBtn": "📄 Baixar Projeto Completo"
+  },
+  "tabs": {
+    "overview": "Visão Geral",
+    "revenue": "Receitas",
+    "costs": "Custos",
+    "hr": "RH",
+    "viability": "Viabilidade",
+    "project": "Projeto"
+  },
+  "kpi": {
+    "monthlyRevenue": "RECEITA MENSAL",
+    "monthlyRevenueSubtitle": "Faturamento/mês",
+    "totalSales": "TOTAL VENDAS",
+    "totalSalesSubtitle": "Capital inicial",
+    "monthlyCosts": "CUSTOS MENSAIS",
+    "monthlyCostsSubtitle": "RH + Operacional",
+    "netProfit": "LUCRO LÍQUIDO",
+    "netProfitSubtitle": "Mensal (aprox.)"
+  },
+  "charts": {
+    "revenueDistribution": "📊 Distribuição de Receitas",
+    "revenueDistributionDesc": "Contribuição de cada segmento na receita bruta mensal",
+    "salesDistribution": "💰 Distribuição de Vendas",
+    "salesDistributionDesc": "Capital distribuído por segmento",
+    "cashFlow": "📈 Fluxo de Caixa Projetado (12 Meses)",
+    "cashFlowDesc": "Receita, custos e lucro mensal estimado"
+  },
+  "projects": {
+    "title": "🏛️ GIARDINO — Projeto Completo e Visão Estratégica",
+    "description": "O projeto GIARDINO é um complexo residencial de luxo voltado para idosos e lifestyle premium, localizado em Mogi das Cruzes, São Paulo. Combina habitação especializada com serviços de wellness, clube social e shopping, criando um ecossistema completo de alta qualidade de vida.",
+    "overview": "Visão Geral",
+    "segments": "Segmentos do Projeto",
+    "keyNumbers": "Números Principais",
+    "facilities": "🏥 Facilities & Serviços",
+    "investment": "💰 Estrutura de Investimento",
+    "initialRevenue": "🎯 Receitas Iniciais (Vendas)",
+    "recurringRevenue": "💵 Receitas Mensais Recorrentes"
+  },
+  "revenue": {
+    "residential": "Residencial Senior",
+    "lifeStyleClub": "Clube Life Style",
+    "shopping": "Shopping/Mall",
+    "consumption": "Consumação"
+  },
+  "hr": {
+    "title": "👥 Estrutura de Recursos Humanos",
+    "subtitle": "Distribuição de pessoal por departamento",
+    "department": "Departamento",
+    "quantity": "Quantidade",
+    "salaryPerPerson": "Salário/pessoa",
+    "totalPerMonth": "Total/mês"
+  },
+  "viability": {
+    "title": "📊 Projeção Financeira 10 Anos",
+    "subtitle": "Análise anual de receitas, custos e lucratividade ao longo da década",
+    "year": "ANO",
+    "grossRevenue": "RECEITA BRUTA",
+    "totalCosts": "CUSTOS TOTAIS",
+    "netProfit": "LUCRO LÍQUIDO",
+    "cumulativeProfit": "LUCRO ACUMULADO",
+    "roi": "ROI (%)"
+  },
+  "currency": {
+    "brl": "R$",
+    "usd": "$"
+  }
+}

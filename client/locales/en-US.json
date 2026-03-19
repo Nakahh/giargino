@@ -1,0 +1,74 @@
+{
+  "header": {
+    "title": "GIARDINO",
+    "subtitle": "SENIOR RESIDENTIAL",
+    "description": "Premium Investment Model",
+    "location": "Location: Mogi das Cruzes, São Paulo — Area: 258,900 m²",
+    "downloadBtn": "📄 Download Complete Project"
+  },
+  "tabs": {
+    "overview": "Overview",
+    "revenue": "Revenue",
+    "costs": "Costs",
+    "hr": "HR",
+    "viability": "Viability",
+    "project": "Project"
+  },
+  "kpi": {
+    "monthlyRevenue": "MONTHLY REVENUE",
+    "monthlyRevenueSubtitle": "Billing/month",
+    "totalSales": "TOTAL SALES",
+    "totalSalesSubtitle": "Initial capital",
+    "monthlyCosts": "MONTHLY COSTS",
+    "monthlyCostsSubtitle": "HR + Operating",
+    "netProfit": "NET PROFIT",
+    "netProfitSubtitle": "Monthly (approx.)"
+  },
+  "charts": {
+    "revenueDistribution": "📊 Revenue Distribution",
+    "revenueDistributionDesc": "Contribution of each segment to gross monthly revenue",
+    "salesDistribution": "💰 Sales Distribution",
+    "salesDistributionDesc": "Capital distributed by segment",
+    "cashFlow": "📈 Projected Cash Flow (12 Months)",
+    "cashFlowDesc": "Estimated monthly revenue, costs and profit"
+  },
+  "projects": {
+    "title": "🏛️ GIARDINO — Complete Project and Strategic Vision",
+    "description": "The GIARDINO project is a luxury residential complex aimed at seniors and premium lifestyle, located in Mogi das Cruzes, São Paulo. It combines specialized housing with wellness services, social club and shopping, creating a complete ecosystem of high quality of life.",
+    "overview": "Overview",
+    "segments": "Project Segments",
+    "keyNumbers": "Key Numbers",
+    "facilities": "🏥 Facilities & Services",
+    "investment": "💰 Investment Structure",
+    "initialRevenue": "🎯 Initial Revenue (Sales)",
+    "recurringRevenue": "💵 Monthly Recurring Revenue"
+  },
+  "revenue": {
+    "residential": "Senior Residential",
+    "lifeStyleClub": "Life Style Club",
+    "shopping": "Shopping/Mall",
+    "consumption": "Consumption"
+  },
+  "hr": {
+    "title": "👥 Human Resources Structure",
+    "subtitle": "Personnel distribution by department",
+    "department": "Department",
+    "quantity": "Quantity",
+    "salaryPerPerson": "Salary/person",
+    "totalPerMonth": "Total/month"
+  },
+  "viability": {
+    "title": "📊 Financial Projection 10 Years",
+    "subtitle": "Annual analysis of revenue, costs and profitability over the decade",
+    "year": "YEAR",
+    "grossRevenue": "GROSS REVENUE",
+    "totalCosts": "TOTAL COSTS",
+    "netProfit": "NET PROFIT",
+    "cumulativeProfit": "CUMULATIVE PROFIT",
+    "roi": "ROI (%)"
+  },
+  "currency": {
+    "brl": "R$",
+    "usd": "$"
+  }
+}
