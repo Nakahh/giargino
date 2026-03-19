@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface Tab {
   id: string;
@@ -47,66 +48,100 @@ export function PremiumTabNav({
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-white sticky top-0 z-10 shadow-lg overflow-x-auto transition-all duration-300"
+      className={cn(
+        "sticky top-0 z-50 overflow-x-auto transition-all duration-300 shadow-lg",
+        "md:shadow-xl"
+      )}
       style={{
-        background: `linear-gradient(180deg, ${lightColor} 0%, ${lightColor}dd 100%)`,
-        backdropFilter: "blur(8px)",
-        borderBottom: `3px solid ${accentColor}20`,
+        background: `linear-gradient(180deg, ${lightColor} 0%, ${lightColor}f5 100%)`,
+        backdropFilter: "blur(12px)",
+        borderBottom: `2px solid ${accentColor}30`,
       }}
     >
-      <div className="max-w-7xl mx-auto px-1 sm:px-2 md:px-6">
+      <div className="max-w-7xl mx-auto px-0">
         <div
           ref={tabsContainerRef}
-          className="flex gap-1 md:gap-2 overflow-x-auto scrollbar-hide py-2 md:py-0"
+          className={cn(
+            "flex gap-0.5 md:gap-1 overflow-x-auto scrollbar-hide",
+            "py-1 md:py-0 px-1 sm:px-2 md:px-0"
+          )}
         >
-          {tabs.map((tab) => (
+          {tabs.map((tab, index) => (
             <motion.button
               key={tab.id}
               ref={activeTab === tab.id ? activeTabButtonRef : null}
               onClick={() => onTabChange(tab.id)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.2 }}
-              className="relative px-3 sm:px-4 md:px-6 py-2.5 md:py-4 text-xs sm:text-sm md:text-base font-bold border-b-3 transition-all duration-300 whitespace-nowrap flex-shrink-0 rounded-t-lg group"
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className={cn(
+                "relative px-2 sm:px-3 md:px-5 py-2 md:py-3 text-xs sm:text-sm md:text-base",
+                "font-bold transition-all duration-300 whitespace-nowrap flex-shrink-0",
+                "rounded-lg md:rounded-none group overflow-hidden"
+              )}
               style={
                 activeTab === tab.id
                   ? {
                       backgroundColor: primaryColor,
                       borderColor: accentColor,
                       color: lightColor,
-                      boxShadow: `0 4px 12px ${primaryColor}30`,
+                      boxShadow: `0 4px 16px ${primaryColor}40, 0 0 20px ${accentColor}30`,
                     }
                   : {
-                      color: "#4b5563",
+                      color: "#6b7280",
+                      backgroundColor: "transparent",
                       borderColor: "transparent",
                     }
               }
             >
-              <span className="relative z-10">{tab.label}</span>
+              {/* Premium glow effect */}
+              {activeTab === tab.id && (
+                <motion.div
+                  className="absolute inset-0 rounded-lg md:rounded-none"
+                  style={{
+                    background: `radial-gradient(circle at center, ${accentColor}20, transparent)`,
+                  }}
+                  animate={{
+                    opacity: [0.5, 1, 0.5],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                  }}
+                />
+              )}
+
+              <span className="relative z-10 block">{tab.label}</span>
 
               {/* Animated underline indicator */}
               <motion.div
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r"
+                className={cn(
+                  "absolute bottom-0 left-0 right-0 h-1 md:h-0.5 rounded-t-lg",
+                  "bg-gradient-to-r"
+                )}
                 style={{
-                  backgroundImage: `linear-gradient(90deg, ${accentColor}, transparent)`,
+                  backgroundImage: `linear-gradient(90deg, ${accentColor}, ${accentColor}60, transparent)`,
                 }}
                 initial={{ scaleX: 0 }}
                 animate={{
                   scaleX: activeTab === tab.id ? 1 : 0,
                 }}
                 transition={{ duration: 0.3 }}
-                layoutId={`tab-indicator-${tab.id}`}
               />
 
-              {/* Hover effect background */}
+              {/* Hover effect background - mobile friendly */}
               <motion.div
-                className="absolute inset-0 rounded-t-lg opacity-0 group-hover:opacity-5"
+                className="absolute inset-0 rounded-lg md:rounded-none opacity-0"
                 style={{
                   backgroundColor: primaryColor,
                 }}
                 animate={{
-                  opacity: activeTab === tab.id ? 0 : 0.05,
+                  opacity: activeTab === tab.id ? 0.05 : 0,
                 }}
+                transition={{ duration: 0.2 }}
               />
             </motion.button>
           ))}

@@ -1,10 +1,19 @@
-/* Scroll Snap Styles for Mobile Experience */
+/* ============================================
+   SCROLL SNAP SYSTEM - MOBILE FIRST PREMIUM
+   ============================================ */
 
-/* Container com scroll snap */
+/* Base container com scroll snap obrigatório */
 #dashboard-content {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-stop: always;
+  
+  /* Otimização de performance */
+  will-change: scroll-position;
+  contain: layout style paint;
 }
 
 /* Seções com snap points */
@@ -12,98 +21,337 @@
   scroll-snap-align: start;
   scroll-snap-stop: always;
   min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  /* Otimização de renderização */
+  will-change: auto;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Animações suaves ao entrar na viewport */
+/* ============================================
+   ANIMAÇÕES DE ENTRADA PREMIUM
+   ============================================ */
+
 @media (prefers-reduced-motion: no-preference) {
   [data-section] {
-    animation: fadeInUp 0.6s ease-out;
+    animation: sectionFadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  [data-section]:nth-child(odd) {
+    animation: sectionSlideInLeft 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  [data-section]:nth-child(even) {
+    animation: sectionSlideInRight 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 }
 
-@keyframes fadeInUp {
+@keyframes sectionFadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(40px) scale(0.98);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 
-/* Otimizações mobile */
+@keyframes sectionSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px) translateY(20px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes sectionSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px) translateY(20px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ============================================
+   MOBILE OPTIMIZATIONS - PRIMARY STRATEGY
+   ============================================ */
+
 @media (max-width: 768px) {
+  /* Scroll snap obrigatório em mobile */
+  #dashboard-content {
+    scroll-snap-type: y mandatory;
+    scroll-padding: 0;
+    -webkit-scroll-snap-type: y mandatory;
+  }
+
+  [data-section] {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100vh;
+  }
+
+  /* Suavizar scroll behavior */
+  * {
+    scroll-behavior: smooth;
+  }
+
+  /* Previne zoom em inputs */
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+
+  /* Melhorar padding em seções mobile */
+  [data-section] {
+    padding: 1.5rem;
+  }
+
+  /* Sticky header com glass effect */
+  .sticky {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid rgba(244, 196, 48, 0.1);
+  }
+}
+
+/* ============================================
+   TABLET OPTIMIZATIONS
+   ============================================ */
+
+@media (min-width: 769px) and (max-width: 1024px) {
   #dashboard-content {
     scroll-snap-type: y proximity;
   }
 
   [data-section] {
     scroll-snap-align: start;
-  }
-
-  /* Suavizar transitions em mobile */
-  * {
-    scroll-behavior: smooth;
-  }
-
-  /* Evitar zoom em inputs mobile */
-  input[type="text"],
-  input[type="number"],
-  input[type="email"],
-  input[type="tel"],
-  textarea {
-    font-size: 16px; /* Previne zoom automático em iOS */
+    min-height: 100vh;
+    padding: 2rem;
   }
 }
 
-/* Header sticky com smooth transition */
-.sticky {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  transition: all 0.3s ease-out;
+/* ============================================
+   DESKTOP OPTIMIZATIONS
+   ============================================ */
+
+@media (min-width: 1025px) {
+  #dashboard-content {
+    scroll-snap-type: y proximity;
+  }
+
+  [data-section] {
+    scroll-snap-align: start;
+    scroll-snap-stop: none;
+    min-height: 100vh;
+    padding: 3rem;
+  }
 }
 
-/* Cards com efeito de levantamento ao scroll */
-[role="presentation"] {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* ============================================
+   PROGRESS INDICATORS & SECTION MARKERS
+   ============================================ */
 
-/* Indicadores visuais de seção ativa */
 .section-indicator {
-  transition: all 0.4s ease-out;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
+  display: inline-block;
+  padding: 0.25rem 0;
 }
 
 .section-indicator::after {
   content: "";
   position: absolute;
-  bottom: -4px;
+  bottom: -6px;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #1f3b5e, #f4c430);
+  height: 2px;
+  background: linear-gradient(90deg, #1f3b5e, #f4c430, #2d5016);
   border-radius: 2px;
   transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 10px rgba(244, 196, 48, 0.5);
 }
 
 .section-indicator.active::after {
   transform: scaleX(1);
+  box-shadow: 0 0 15px rgba(244, 196, 48, 0.8);
 }
 
-/* Parallax suave em mobile */
-@supports (animation: parallax 1s linear forwards) {
-  [data-parallax] {
-    transform: translateZ(0);
+/* ============================================
+   PARALLAX & SCROLL EFFECTS
+   ============================================ */
+
+[data-parallax] {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+[data-parallax="slow"] {
+  transform: translateY(calc(var(--scroll-y, 0px) * 0.5));
+}
+
+[data-parallax="medium"] {
+  transform: translateY(calc(var(--scroll-y, 0px) * 0.3));
+}
+
+[data-parallax="fast"] {
+  transform: translateY(calc(var(--scroll-y, 0px) * 0.1));
+}
+
+/* ============================================
+   MOMENTUM & INERTIA SCROLLING
+   ============================================ */
+
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  #dashboard-content {
+    scroll-behavior: smooth;
   }
 }
 
-/* Desabilitar scroll snap em dispositivos com input pen (tablets) */
+/* Native iOS momentum scrolling */
 @media (hover: none) and (pointer: coarse) {
-  /* Manter scroll snap em phones mas não em tablets com stylus */
+  #dashboard-content {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ============================================
+   GRADIENT ANIMATIONS ON SCROLL
+   ============================================ */
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+[data-gradient] {
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease infinite;
+}
+
+/* ============================================
+   BLUR & GLASS MORPHISM EFFECTS
+   ============================================ */
+
+.glass-section {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(244, 196, 48, 0.15);
+  border-radius: 1.5rem;
+}
+
+.glass-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+  border-radius: 1.5rem;
+  pointer-events: none;
+}
+
+/* ============================================
+   HOVER STATES & INTERACTIONS
+   ============================================ */
+
+[role="presentation"] {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[role="presentation"]:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(31, 59, 94, 0.15);
+}
+
+/* ============================================
+   ACCESSIBILITY & RESPECTS USER PREFERENCES
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  #dashboard-content,
+  [data-section],
+  [data-parallax],
+  .section-indicator {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #dashboard-content {
+    background-color: #0f1419;
+  }
+
+  [data-section] {
+    background-color: #1a1f2e;
+  }
+
+  .sticky {
+    background: rgba(15, 20, 25, 0.85);
+    border-bottom-color: rgba(244, 196, 48, 0.1);
+  }
+
+  .glass-section {
+    background: rgba(30, 40, 50, 0.75);
+    border-color: rgba(244, 196, 48, 0.1);
+  }
+}
+
+/* ============================================
+   DEVICE-SPECIFIC FIXES
+   ============================================ */
+
+/* iPhone notch safe area */
+@supports (padding: max(0px)) {
+  @media (orientation: landscape) {
+    [data-section] {
+      padding-top: max(1.5rem, env(safe-area-inset-top));
+      padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+      padding-left: max(1.5rem, env(safe-area-inset-left));
+      padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
+  }
+}
+
+/* Desabilitar scroll snap em devices com pen input */
+@media (hover: none) and (pointer: coarse) and (any-pointer: fine) {
   #dashboard-content {
     scroll-snap-type: y proximity;
   }

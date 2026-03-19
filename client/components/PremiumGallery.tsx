@@ -28,16 +28,22 @@ export function PremiumGallery({
     enter: (dir: number) => ({
       x: dir > 0 ? 1000 : -1000,
       opacity: 0,
+      filter: "blur(10px)",
+      scale: 0.95,
     }),
     center: {
       zIndex: 1,
       x: 0,
       opacity: 1,
+      filter: "blur(0px)",
+      scale: 1,
     },
     exit: (dir: number) => ({
       zIndex: 0,
       x: dir < 0 ? 1000 : -1000,
       opacity: 0,
+      filter: "blur(10px)",
+      scale: 0.95,
     }),
   };
 
@@ -82,7 +88,7 @@ export function PremiumGallery({
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="text-3xl md:text-4xl font-bold text-gray-900 mb-2"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-1 sm:mb-2"
         >
           {title}
         </motion.h2>
@@ -92,16 +98,16 @@ export function PremiumGallery({
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-gray-600 mb-8"
+          className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-8"
         >
           {description}
         </motion.p>
       )}
 
-      <div className="relative rounded-2xl overflow-hidden bg-gray-100 shadow-2xl">
+      <div className="relative rounded-lg sm:rounded-2xl overflow-hidden bg-gradient-to-b from-gray-100 to-gray-200 shadow-lg sm:shadow-2xl group">
         <motion.div
           ref={containerRef}
-          className="relative h-96 md:h-[500px] w-full"
+          className="relative h-48 sm:h-64 md:h-96 lg:h-[500px] w-full"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
@@ -131,24 +137,24 @@ export function PremiumGallery({
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={handlePrevious}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 md:p-3 rounded-full bg-white/80 hover:bg-white text-gray-900 transition-all backdrop-blur-sm"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-white/90 hover:bg-white text-gray-900 transition-all backdrop-blur-md shadow-lg hover:shadow-xl group-hover:scale-110"
             aria-label="Previous slide"
           >
-            <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
           </motion.button>
 
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 md:p-3 rounded-full bg-white/80 hover:bg-white text-gray-900 transition-all backdrop-blur-sm"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-white/90 hover:bg-white text-gray-900 transition-all backdrop-blur-md shadow-lg hover:shadow-xl group-hover:scale-110"
             aria-label="Next slide"
           >
-            <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
           </motion.button>
 
           {/* Slide indicators */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-1.5 sm:gap-2">
             {images.map((_, index) => (
               <motion.button
                 key={index}
@@ -156,10 +162,14 @@ export function PremiumGallery({
                   setDirection(index > currentIndex ? 1 : -1);
                   setCurrentIndex(index);
                 }}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentIndex ? "w-8 bg-white" : "w-2 bg-white/50"
+                className={`rounded-full transition-all backdrop-blur-sm ${
+                  index === currentIndex
+                    ? "h-2 sm:h-2.5 w-6 sm:w-8 bg-white shadow-lg"
+                    : "h-2 sm:h-2.5 w-2 sm:w-2.5 bg-white/60 hover:bg-white/80"
                 }`}
                 whileHover={{ scale: 1.2 }}
+                animate={index === currentIndex ? { scale: [1, 1.1, 1] } : {}}
+                transition={index === currentIndex ? { duration: 0.6 } : {}}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
@@ -169,7 +179,7 @@ export function PremiumGallery({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute top-4 right-4 z-20 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm"
+            className="absolute top-2 sm:top-4 right-2 sm:right-4 z-20 bg-black/70 text-white px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold backdrop-blur-md shadow-lg"
           >
             {currentIndex + 1} / {images.length}
           </motion.div>
@@ -181,13 +191,17 @@ export function PremiumGallery({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
-        className="text-center mt-4 text-sm text-gray-600 md:hidden"
+        className="text-center mt-2 sm:mt-4 text-xs sm:text-sm text-gray-600 md:hidden font-medium"
       >
         <motion.span
           animate={{ x: [0, 4, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
+          className="inline-flex items-center gap-1"
         >
-          Deslize para navegar →
+          Deslize para navegar
+          <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 2, repeat: Infinity }}>
+            →
+          </motion.span>
         </motion.span>
       </motion.div>
     </motion.div>
