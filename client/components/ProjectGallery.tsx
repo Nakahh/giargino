@@ -61,15 +61,6 @@ const galleryImages: GalleryImage[] = [
   },
 ];
 
-const categoryLabels = {
-  dining: "🍽️ Dining",
-  pool: "🏊 Pools",
-  sports: "⚽ Sports",
-  facilities: "🏛️ Facilities",
-  gardens: "🌿 Gardens",
-  residences: "🏠 Residences",
-};
-
 export function ProjectGallery() {
   const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
@@ -138,8 +129,8 @@ export function ProjectGallery() {
             }
           >
             {category === "all"
-              ? "Todas as Categorias"
-              : categoryLabels[category]}
+              ? t('ui.gallery.allCategories')
+              : t(`ui.gallery.categories.${category}`)}
           </button>
         ))}
       </div>
@@ -167,13 +158,13 @@ export function ProjectGallery() {
                   className="px-6 py-2 bg-white text-gray-900 font-semibold rounded-lg"
                   style={{ borderColor: "#FCD34D", borderWidth: "2px" }}
                 >
-                  Ver Detalhes
+                  {t('ui.gallery.viewDetails')}
                 </button>
               </div>
             </div>
             <div className="p-4 bg-white">
               <p className="text-sm font-semibold mb-1" style={{ color: "#0F3460" }}>
-                {categoryLabels[image.category]}
+                {t(`ui.gallery.categories.${image.category}`)}
               </p>
               <h3 className="font-bold text-gray-900">{image.title}</h3>
               <p className="text-sm text-gray-600 mt-1">{image.description}</p>

@@ -382,7 +382,17 @@
     "gallery": {
       "title": "Galeria do Projeto",
       "description": "Conheça os espaços premium do GIARDINO",
-      "scroll": "Deslize para navegar"
+      "scroll": "Deslize para navegar",
+      "viewDetails": "Ver Detalhes",
+      "allCategories": "Todas as Categorias",
+      "categories": {
+        "dining": "🍽️ Gastronomia",
+        "pool": "🏊 Piscinas",
+        "sports": "⚽ Esportes",
+        "facilities": "🏛️ Facilidades",
+        "gardens": "🌿 Jardins",
+        "residences": "🏠 Residências"
+      }
     },
     "sections": {
       "overview": "Geral",

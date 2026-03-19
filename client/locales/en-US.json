@@ -451,7 +451,17 @@
     "gallery": {
       "title": "Project Gallery",
       "description": "Discover the premium spaces of GIARDINO",
-      "scroll": "Swipe to navigate"
+      "scroll": "Swipe to navigate",
+      "viewDetails": "View Details",
+      "allCategories": "All Categories",
+      "categories": {
+        "dining": "🍽️ Dining",
+        "pool": "🏊 Pools",
+        "sports": "⚽ Sports",
+        "facilities": "🏛️ Facilities",
+        "gardens": "🌿 Gardens",
+        "residences": "🏠 Residences"
+      }
     },
     "sections": {
       "overview": "Overview",
