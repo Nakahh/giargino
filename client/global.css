@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap");
 @import url("./styles/scroll-snap.css");
 @import url("./styles/design-tokens.css");
+@import url("./styles/motion.css");
 
 @tailwind base;
 @tailwind components;

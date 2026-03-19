@@ -1,128 +1,152 @@
-import { LucideIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
-import { flipCardVariants, successStateVariants } from "@/hooks/use-animations";
-import { useState } from "react";
-import { useCurrency } from "@/hooks/use-currency";
+import { Progress } from "@/components/ui/progress";
+
+type ContextColor = "success" | "warning" | "neutral";
 
 interface KPICardProps {
+  icon: React.ReactNode;
   title: string;
   value: string | number;
-  subtitle?: string;
-  icon?: LucideIcon;
-  trend?: {
-    value: number;
-    isPositive: boolean;
-  };
-  bgColor?: string;
-  iconColor?: string;
-  premium?: boolean;
+  context: string;
+  contextColor: ContextColor;
+  progressValue: number;
+  animateValue: boolean;
+  className?: string;
+}
+
+const contextColorClasses: Record<ContextColor, string> = {
+  success: "text-emerald-600",
+  warning: "text-amber-600",
+  neutral: "text-slate-500",
+};
+
+function useCountUp(target: number, animate: boolean, duration = 800) {
+  const reduceMotion = useReducedMotion();
+  const [current, setCurrent] = useState(animate && !reduceMotion ? 0 : target);
+
+  useEffect(() => {
+    if (!animate || reduceMotion) {
+      setCurrent(target);
+      return;
+    }
+
+    let rafId = 0;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+      setCurrent(target * eased);
+
+      if (progress < 1) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        setCurrent(target);
+      }
+    };
+
+    setCurrent(0);
+    rafId = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(rafId);
+  }, [target, animate, reduceMotion, duration]);
+
+  return current;
+}
+
+function formatCount(value: number) {
+  const fractionDigits = Number.isInteger(value) ? 0 : 2;
+  return new Intl.NumberFormat("pt-BR", {
+    maximumFractionDigits: fractionDigits,
+  }).format(value);
 }
 
 export function KPICard({
+  icon,
   title,
   value,
-  subtitle,
-  icon: Icon,
-  trend,
-  bgColor = "bg-gradient-to-br from-blue-50 to-blue-100",
-  iconColor = "text-blue-600",
-  premium = false,
+  context,
+  contextColor,
+  progressValue,
+  animateValue,
+  className,
 }: KPICardProps) {
-  const [isFlipped, setIsFlipped] = useState(false);
-  const { formatCurrency } = useCurrency();
+  const reduceMotion = useReducedMotion();
+  const numericValue = typeof value === "number" ? value : null;
+  const animatedValue = useCountUp(numericValue ?? 0, animateValue && numericValue !== null);
+
+  const displayValue =
+    numericValue !== null
+      ? formatCount(animateValue && !reduceMotion ? animatedValue : numericValue)
+      : value;
+
+  const clampedProgress = Math.max(0, Math.min(progressValue, 100));
 
   return (
-    <motion.div
-      variants={premium ? flipCardVariants : undefined}
-      initial={premium ? "initial" : undefined}
-      whileHover={premium ? "whileHover" : { scale: 1.05 }}
-      whileTap={premium ? "whileTap" : undefined}
-      onClick={() => premium && setIsFlipped(!isFlipped)}
-      transition={{ duration: premium ? 0.6 : 0.3 }}
-      className={cn(
-        "rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 transition-all relative overflow-hidden group",
-        "border border-transparent cursor-pointer",
-        premium
-          ? "glass-effect-premium shadow-xl perspective"
-          : "shadow-lg border-2 hover:shadow-xl hover:scale-105 " + bgColor
-      )}
-      style={
-        !premium
-          ? {
-              backgroundImage:
-                "linear-gradient(135deg, rgba(244,196,48,0.05) 0%, rgba(255,255,255,0) 100%)",
-            }
+    <motion.article
+      initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      whileHover={
+        reduceMotion
+          ? undefined
           : {
-              transformStyle: "preserve-3d",
-              transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+              y: -4,
+              boxShadow:
+                "0 12px 30px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(244, 196, 48, 0.28)",
             }
       }
-    >
-      {/* Decorative corner accent */}
-      <motion.div
-        className="absolute top-0 right-0 w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 opacity-5 sm:opacity-10 rounded-full"
-        animate={premium ? { scale: [1, 1.2, 1] } : {}}
-        transition={premium ? { duration: 4, repeat: Infinity } : {}}
-        style={{ backgroundColor: "#F4C430", transform: "translate(50%, -50%)" }}
-      />
-
-      {/* Glow effect for premium */}
-      {premium && (
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-yellow-400/20 to-transparent rounded-full blur-xl" />
-        </div>
+      viewport={{ once: true, amount: 0.35 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className={cn(
+        "group relative overflow-hidden rounded-2xl border border-[rgba(244,196,48,0.30)]",
+        "bg-white/90 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.08)] backdrop-blur-sm",
+        "transform-gpu will-change-transform",
+        "transition-transform duration-300",
+        "card-hover-premium",
+        className
       )}
+      style={{
+        backgroundImage:
+          "linear-gradient(180deg, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0) 100%)",
+      }}
+      aria-label={`${title}: ${displayValue}`}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-900/[0.03] via-transparent to-transparent" />
 
-      <div className="flex items-start justify-between relative z-10">
-        <div className="flex-1 min-w-0">
-          <motion.p
-            className="text-xs sm:text-sm font-semibold text-gray-600 mb-1 sm:mb-2 uppercase tracking-wide"
-            animate={premium ? { opacity: [0.7, 1, 0.7] } : {}}
-            transition={premium ? { duration: 3, repeat: Infinity } : {}}
-          >
-            {title}
-          </motion.p>
-          <motion.h3
-            className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1 sm:mb-2 leading-tight break-words"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            {typeof value === "number" ? formatCurrency(value) : value}
-          </motion.h3>
-          {subtitle && (
-            <p className="text-xs text-gray-500 font-medium">{subtitle}</p>
-          )}
-          {trend && (
-            <motion.div
-              className={cn(
-                "text-xs sm:text-sm font-bold mt-2 sm:mt-3 flex items-center gap-1",
-                trend.isPositive ? "text-green-600" : "text-red-600"
-              )}
-              animate={premium ? { scale: [1, 1.05, 1] } : {}}
-              transition={premium ? { duration: 2, repeat: Infinity } : {}}
-            >
-              {trend.isPositive ? "↗" : "↘"}{" "}
-              {Math.abs(trend.value).toFixed(1)}%
-            </motion.div>
-          )}
+      <motion.div
+        className="relative z-10 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/5 text-primary"
+        animate={reduceMotion ? undefined : { scale: [1, 1.03, 1] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+      >
+        {icon}
+      </motion.div>
+
+      <div className="relative z-10 mt-5">
+        <p className="text-sm font-semibold tracking-tight text-slate-600">{title}</p>
+
+        <motion.h3
+          className="mt-2 text-[3.5rem] font-bold leading-none tracking-tight text-slate-900 md:text-[3.5rem]"
+          initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.05 }}
+        >
+          {displayValue}
+        </motion.h3>
+
+        <p className={cn("mt-3 text-xs font-medium tracking-wide", contextColorClasses[contextColor])}>
+          {context}
+        </p>
+
+        <div className="mt-5">
+          <Progress
+            value={clampedProgress}
+            className="h-1.5 rounded-full bg-slate-200/70"
+          />
         </div>
-        {Icon && (
-          <motion.div
-            animate={premium ? { rotate: [0, 5, 0] } : {}}
-            transition={premium ? { duration: 3, repeat: Infinity } : {}}
-          >
-            <Icon
-              className={cn(
-                "w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 flex-shrink-0 ml-2 sm:ml-4",
-                iconColor
-              )}
-              strokeWidth={1.5}
-            />
-          </motion.div>
-        )}
       </div>
-    </motion.div>
+    </motion.article>
   );
 }
