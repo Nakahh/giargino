@@ -1,8 +1,7 @@
 /** @import must precede all other statements */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap");
 @import url("./styles/scroll-snap.css");
+@import url("./styles/design-tokens.css");
 
 @tailwind base;
 @tailwind components;
@@ -16,51 +15,56 @@
   */
   :root {
     --background: 0 0% 100%;
-    --foreground: 219 20% 15%;
+    --foreground: 222 18% 13%;
 
     --card: 0 0% 100%;
-    --card-foreground: 219 20% 15%;
+    --card-foreground: 222 18% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 219 20% 15%;
+    --popover-foreground: 222 18% 13%;
 
-    /* GIARDINO Colors - Logo Official */
-    --primary: 213 51% 30%;        /* Azul Marinho #1B3A5C */
+    /* GIARDINO Colors - Logo Official - Premium */
+    --primary: 213 51% 25%;        /* Azul Marinho #1F3B5E */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 119 22% 34%;      /* Verde Escuro #4B7C4F */
+    --secondary: 98 45% 23%;       /* Verde Escuro #2D5016 */
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 220 13% 91%;
-    --muted-foreground: 215 15% 52%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 13% 42%;
 
-    --accent: 43 100% 52%;         /* Amarelo Ouro #FFD700 */
+    --accent: 44 89% 61%;          /* Ouro Refinado #F4C430 */
     --accent-foreground: 213 51% 15%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 43 100% 52%;
+    --success: 160 84% 39%;
+    --success-foreground: 210 40% 98%;
 
-    --radius: 0.75rem;
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 18% 13%;
+
+    --error: 0 84% 60%;
+    --error-foreground: 210 40% 98%;
+
+    --info: 217 91% 60%;
+    --info-foreground: 210 40% 98%;
+
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: 44 89% 61%;
+
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
+    --sidebar-primary: 213 51% 25%;
     --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 213 51% 25%;
+    --sidebar-border: 220 13% 90%;
+    --sidebar-ring: 44 89% 61%;
   }
 
   .dark {
@@ -544,59 +548,85 @@
     }
   }
 
-  /* Responsive Typography Optimization - FASE 3 */
+  /* Premium Typography - Giardino Design System */
   body {
     @apply bg-background text-foreground;
-    font-family: "Montserrat", system-ui, -apple-system, sans-serif;
-    letter-spacing: -0.2px;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    letter-spacing: normal;
     line-height: 1.6;
-    color: #374151; /* Melhorado contraste (gray-700) */
+    color: #374151;
   }
 
   h1,
-  h2 {
-    font-family: "Playfair Display", "Montserrat", system-ui, -apple-system, sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1.2;
-  }
-
+  h2,
   h3,
   h4,
   h5,
   h6 {
-    font-family: "Montserrat", system-ui, -apple-system, sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    line-height: 1.3;
+    font-family: "Inter", "Sora", system-ui, -apple-system, sans-serif;
+    color: #1A1A1A;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
-  /* H1: Responsive 2xl sm:3xl md:4xl */
+  /* H1: Hero Title - 4rem */
   h1 {
-    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold;
-    letter-spacing: -1.5px;
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
-  /* H2: Responsive xl sm:2xl md:3xl */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+
+  /* H2: Section Title - 2.5rem */
   h2 {
-    @apply text-xl sm:text-2xl md:text-3xl font-bold;
-    letter-spacing: -0.8px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
-  /* H3: Responsive lg sm:xl */
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 1.875rem;
+    }
+  }
+
+  /* H3: Card Title - 1.5rem */
   h3 {
-    @apply text-lg sm:text-xl font-semibold;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
 
-  /* Body text: Improved line-height */
+  @media (max-width: 768px) {
+    h3 {
+      font-size: 1.25rem;
+    }
+  }
+
+  /* H4, H5, H6 - Smaller headings */
+  h4, h5, h6 {
+    font-weight: 600;
+  }
+
+  /* Body text: Hierarchy */
   p {
+    font-size: 1rem;
     line-height: 1.6;
-    color: #4b5563; /* Melhorado contraste */
+    color: #374151;
   }
 
   /* Small text: Accessibility */
   small, .text-sm {
+    font-size: 0.875rem;
     line-height: 1.5;
+    color: #6B7280;
   }
 
   :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
