@@ -12,61 +12,61 @@ interface GalleryImage {
 const galleryImages: GalleryImage[] = [
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Fa067ca4bbd23418da604f0a0be440e7a?format=webp&width=1200",
-    title: "Sala de Eventos Premium",
+    title: "Premium Event Hall",
     category: "dining",
-    description: "Espaço elegante para eventos e celebrações com capacidade para grandes grupos"
+    description: "Elegant space for events and celebrations with capacity for large groups"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F3b289804842f48e7ba6c7336aeebd197?format=webp&width=1200",
-    title: "Piscina Interna Aquecida",
+    title: "Heated Indoor Pool",
     category: "pool",
-    description: "Piscina climatizada para uso o ano todo com excelente iluminação natural"
+    description: "Climate-controlled pool for year-round use with excellent natural lighting"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Ffc6a1a394a7e41699eca446712818e7f?format=webp&width=1200",
-    title: "Complexo Esportivo Multiuso",
+    title: "Multi-purpose Sports Complex",
     category: "sports",
-    description: "Quadras profissionais para tênis, futsal e outras modalidades esportivas"
+    description: "Professional courts for tennis, futsal, and other sports"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Fd6137460547d4b51a94c210a5592a91e?format=webp&width=1200",
-    title: "Academia Fitness Premium",
+    title: "Premium Fitness Gym",
     category: "facilities",
-    description: "Equipamento de ponta com acompanhamento de personal trainers especializados"
+    description: "State-of-the-art equipment with guidance from specialized personal trainers"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F7d667954fcd34263859b88608d9ccf15?format=webp&width=1200",
-    title: "Área Aérea do Resort",
+    title: "Resort Aerial View",
     category: "facilities",
-    description: "Vista panorâmica da área total do complexo Giardino - 258.900 m²"
+    description: "Panoramic view of the total Giardino complex area - 258,900 m²"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F5551d0485b564236aa1843f5240f438e?format=webp&width=1200",
-    title: "Campos de Futebol",
+    title: "Soccer Fields",
     category: "sports",
-    description: "Campos profissionais com grama sintética e iluminação completa"
+    description: "Professional fields with synthetic turf and full lighting"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2Fda58e1d2441b45f7a977f1baaa7127b0?format=webp&width=1200",
-    title: "Piscina Aquecida Coberta",
+    title: "Covered Heated Pool",
     category: "pool",
-    description: "Piscina com temperatura controlada para atividades de terapia e lazer"
+    description: "Pool with controlled temperature for therapy and leisure activities"
   },
   {
     url: "https://cdn.builder.io/api/v1/image/assets%2F762d7c0e481d4150a40ab9f799de5814%2F56f58a6bd34344af91499c540cee3f5b?format=webp&width=1200",
-    title: "Salas de Aula e Terapia",
+    title: "Classrooms and Therapy Rooms",
     category: "facilities",
-    description: "Espaços dedicados para atividades terapêuticas e oficinas educacionais"
+    description: "Dedicated spaces for therapeutic activities and educational workshops"
   },
 ];
 
 const categoryLabels = {
-  dining: "🍽️ Gastronomia",
-  pool: "🏊 Piscinas",
-  sports: "⚽ Esportes",
-  facilities: "🏛️ Facilidades",
-  gardens: "🌿 Jardins",
-  residences: "🏠 Residências",
+  dining: "🍽️ Dining",
+  pool: "🏊 Pools",
+  sports: "⚽ Sports",
+  facilities: "🏛️ Facilities",
+  gardens: "🌿 Gardens",
+  residences: "🏠 Residences",
 };
 
 export function ProjectGallery() {
