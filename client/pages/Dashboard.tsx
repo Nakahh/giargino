@@ -1268,6 +1268,293 @@ export default function Dashboard() {
             </div>
           </div>
 
+          {/* Project Complete Overview Section */}
+          <div className="space-y-6 md:space-y-8">
+            {/* Main Overview */}
+            <div
+              className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderTopColor: GIARDINO_COLORS.primary
+              }}
+            >
+              <h2 className="text-2xl sm:text-3xl font-bold mb-6" style={{ color: GIARDINO_COLORS.primary }}>
+                🏛️ GIARDINO — Projeto Completo e Visão Estratégica
+              </h2>
+              <p className="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed">
+                O projeto GIARDINO é um complexo residencial de luxo voltado para idosos e lifestyle premium, localizado em Mogi das Cruzes, São Paulo. Combina habitação especializada com serviços de wellness, clube social e shopping, criando um ecossistema completo de alta qualidade de vida.
+              </p>
+
+              {/* Two Column Layout */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                {/* Left Column - Vision and Segments */}
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.secondary }}>
+                      Visão Geral
+                    </h3>
+                    <p className="text-sm text-gray-700 leading-relaxed mb-3">
+                      O projeto GIARDINO é um complexo residencial de luxo voltado para idosos e lifestyle premium, localizado em Mogi das Cruzes, São Paulo. Combina habitação especializada com serviços de wellness, clube social e shopping, criando um ecossistema completo de alta qualidade de vida.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.secondary }}>
+                      Segmentos do Projeto
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex gap-3 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-600">
+                        <div className="font-bold text-blue-600 min-w-6">1</div>
+                        <div>
+                          <p className="font-semibold text-blue-900">Residencial Senior + SPA</p>
+                          <p className="text-xs text-gray-600">240 unidades - Pacote all inclusive com cuidados especializados</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-3 p-3 bg-purple-50 rounded-lg border-l-4 border-purple-600">
+                        <div className="font-bold text-purple-600 min-w-6">2</div>
+                        <div>
+                          <p className="font-semibold text-purple-900">Hospedagem Turística</p>
+                          <p className="text-xs text-gray-600">80 unidades - Hotel de luxo integrado ao complexo</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-3 p-3 bg-amber-50 rounded-lg border-l-4 border-amber-600">
+                        <div className="font-bold text-amber-600 min-w-6">3</div>
+                        <div>
+                          <p className="font-semibold text-amber-900">Clube Life Style</p>
+                          <p className="text-xs text-gray-600">6.000 membros com acesso a 360 diárias</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-3 p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
+                        <div className="font-bold text-green-600 min-w-6">4</div>
+                        <div>
+                          <p className="font-semibold text-green-900">Loteamento Residencial</p>
+                          <p className="text-xs text-gray-600">400 terrenos de 500m² com acesso ao clube</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-3 p-3 bg-pink-50 rounded-lg border-l-4 border-pink-600">
+                        <div className="font-bold text-pink-600 min-w-6">5</div>
+                        <div>
+                          <p className="font-semibold text-pink-900">Centro Comercial</p>
+                          <p className="text-xs text-gray-600">Shopping com 250+ lojas, alimentação e cinemas</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column - Key Numbers */}
+                <div>
+                  <h3 className="text-lg font-bold mb-4" style={{ color: GIARDINO_COLORS.accent }}>
+                    Números Principais
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-l-4 border-blue-600">
+                      <p className="text-xs text-gray-600 font-semibold">Total de Unidades Residenciais</p>
+                      <p className="text-2xl font-bold text-blue-600">320</p>
+                    </div>
+                    <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border-l-4 border-green-600">
+                      <p className="text-xs text-gray-600 font-semibold">Membros do Clube</p>
+                      <p className="text-2xl font-bold text-green-600">6.000</p>
+                    </div>
+                    <div className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg border-l-4 border-purple-600">
+                      <p className="text-xs text-gray-600 font-semibold">Total de Funcionários</p>
+                      <p className="text-2xl font-bold text-purple-600">204</p>
+                    </div>
+                    <div className="p-4 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg border-l-4 border-amber-600">
+                      <p className="text-xs text-gray-600 font-semibold">Áreas Comerciais</p>
+                      <p className="text-2xl font-bold text-amber-600">250+</p>
+                    </div>
+                    <div className="p-4 bg-gradient-to-r from-red-50 to-red-100 rounded-lg border-l-4 border-red-600">
+                      <p className="text-xs text-gray-600 font-semibold">Investimento Total</p>
+                      <p className="text-2xl font-bold text-red-600">R$ 250M</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Facilities & Services */}
+            <div
+              className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderTopColor: GIARDINO_COLORS.secondary
+              }}
+            >
+              <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.secondary }}>
+                🏥 Facilities & Serviços
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Spa & Wellness</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Piscinas Olímpicas</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Academia 24h</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Quadras Esportivas</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Restaurante Premium</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Cabeleireiro</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Centro Médico 24h</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Home Care 24h</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Terapias Diversas</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Fisioterapia</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Consultas Médicas</span>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
+                  <span className="text-lg">✓</span>
+                  <span className="text-sm font-medium">Concierge</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Investment Structure */}
+            <div
+              className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderTopColor: GIARDINO_COLORS.gold
+              }}
+            >
+              <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.gold }}>
+                💰 Estrutura de Investimento
+              </h3>
+              <div className="space-y-4">
+                <div className="p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border-l-4 border-blue-600">
+                  <div className="flex items-start gap-4">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 text-white font-bold text-lg">
+                      1
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-blue-900 mb-1">Proposta Inicial (Dinheiro)</h4>
+                      <p className="text-sm text-gray-700 mb-2">R$ 150.000.000 — Entrada + 6 parcelas anuais</p>
+                      <div className="text-xs text-gray-600 space-y-1">
+                        <p>• Entrada: R$ 30.000.000</p>
+                        <p>• 6 parcelas: R$ 20.000.000/ano</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border-l-4 border-green-600">
+                  <div className="flex items-start gap-4">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-600 text-white font-bold text-lg">
+                      2
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-green-900 mb-1">Financiamento Complementar</h4>
+                      <p className="text-sm text-gray-700 mb-2">R$ 100.000.000 — CAPEX com 6% a.a.</p>
+                      <div className="text-xs text-gray-600 space-y-1">
+                        <p>• Prazo: 120 meses (10 anos)</p>
+                        <p>• Pagamento mensal: R$ 1.000.000 + juros</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Revenue Comparison */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+              {/* Initial Sales */}
+              <div
+                className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
+                style={{
+                  backgroundColor: GIARDINO_COLORS.light,
+                  borderTopColor: "#10B981"
+                }}
+              >
+                <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: "#059669" }}>
+                  🎯 Receitas Iniciais (Vendas)
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Residencial Senior</span>
+                    <span className="font-bold text-green-600">R$ 160M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Clube Life Style</span>
+                    <span className="font-bold text-green-600">R$ 300M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Loteamento</span>
+                    <span className="font-bold text-green-600">R$ 144M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Shopping/Mall</span>
+                    <span className="font-bold text-green-600">R$ 2.6M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-100 to-green-200 rounded-lg border-t-2 border-green-600 mt-2">
+                    <span className="font-bold text-gray-800">TOTAL</span>
+                    <span className="text-xl font-bold text-green-700">R$ 606.6M</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Recurring Revenue */}
+              <div
+                className="rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border-t-4"
+                style={{
+                  backgroundColor: GIARDINO_COLORS.light,
+                  borderTopColor: GIARDINO_COLORS.gold
+                }}
+              >
+                <h3 className="text-xl sm:text-2xl font-bold mb-6" style={{ color: GIARDINO_COLORS.gold }}>
+                  💵 Receitas Mensais Recorrentes
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Residencial</span>
+                    <span className="font-bold text-amber-600">R$ 8.4M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Hospedagem</span>
+                    <span className="font-bold text-amber-600">R$ 756k</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Clube</span>
+                    <span className="font-bold text-amber-600">R$ 3.0M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
+                    <span className="text-sm font-medium text-gray-700">Comércios</span>
+                    <span className="font-bold text-amber-600">R$ 1.575M</span>
+                  </div>
+                  <div className="flex justify-between items-center p-4 bg-gradient-to-r from-amber-100 to-amber-200 rounded-lg border-t-2 border-amber-600 mt-2">
+                    <span className="font-bold text-gray-800">TOTAL</span>
+                    <span className="text-xl font-bold text-amber-700">R$ 13.7M</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Gallery Section */}
           <div className="mt-16">
             <ProjectGallery />
