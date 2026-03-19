@@ -1,6 +1,8 @@
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { flipCardVariants, successStateVariants } from "@/hooks/use-animations";
+import { useState } from "react";
 
 interface KPICardProps {
   title: string;
@@ -26,15 +28,21 @@ export function KPICard({
   iconColor = "text-blue-600",
   premium = false,
 }: KPICardProps) {
+  const [isFlipped, setIsFlipped] = useState(false);
+
   return (
     <motion.div
-      whileHover={premium ? { scale: 1.02, y: -4 } : { scale: 1.05 }}
-      transition={{ duration: 0.3 }}
+      variants={premium ? flipCardVariants : undefined}
+      initial={premium ? "initial" : undefined}
+      whileHover={premium ? "whileHover" : { scale: 1.05 }}
+      whileTap={premium ? "whileTap" : undefined}
+      onClick={() => premium && setIsFlipped(!isFlipped)}
+      transition={{ duration: premium ? 0.6 : 0.3 }}
       className={cn(
         "rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 transition-all relative overflow-hidden group",
-        "border border-transparent",
+        "border border-transparent cursor-pointer",
         premium
-          ? "glass-effect-premium shadow-xl"
+          ? "glass-effect-premium shadow-xl perspective"
           : "shadow-lg border-2 hover:shadow-xl hover:scale-105 " + bgColor
       )}
       style={
@@ -43,7 +51,10 @@ export function KPICard({
               backgroundImage:
                 "linear-gradient(135deg, rgba(244,196,48,0.05) 0%, rgba(255,255,255,0) 100%)",
             }
-          : {}
+          : {
+              transformStyle: "preserve-3d",
+              transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+            }
       }
     >
       {/* Decorative corner accent */}
