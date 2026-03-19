@@ -22,14 +22,15 @@ import { SimplePDFExport } from "@/components/SimplePDFExport";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { ResponsiveTable } from "@/components/ResponsiveTable";
 import { PremiumHeader } from "@/components/PremiumHeader";
-import { PremiumTabNav } from "@/components/PremiumTabNav";
 import { PremiumKPICard } from "@/components/PremiumKPICard";
 import { PremiumGallery } from "@/components/PremiumGallery";
 import { PremiumFooter } from "@/components/PremiumFooter";
+import { SectionPositionIndicator } from "@/components/SectionPositionIndicator";
 import { giardino } from "@shared/giardino-data";
 import { useScrollSync } from "@/hooks/use-scroll-sync";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
 import { useMobileGestures } from "@/hooks/use-mobile-gestures";
+import { useKeyboardNavigation } from "@/hooks/use-keyboard-navigation";
 import {
   TrendingUp,
   Users,
@@ -77,8 +78,6 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<
     "overview" | "revenue" | "costs" | "hr" | "viability" | "project"
   >("overview");
-  const tabsContainerRef = useRef<HTMLDivElement>(null);
-  const activeTabButtonRef = useRef<HTMLButtonElement>(null);
 
   // Refs para cada seção de aba
   const sectionRefs = useRef({
@@ -123,21 +122,15 @@ export default function Dashboard() {
     },
   });
 
-  // Auto-scroll para a aba ativa no mobile quando tab muda
-  useEffect(() => {
-    if (activeTabButtonRef.current && tabsContainerRef.current) {
-      const container = tabsContainerRef.current;
-      const button = activeTabButtonRef.current;
+  // useKeyboardNavigation: detecta navegação por teclado
+  useKeyboardNavigation({
+    currentSection: activeTab,
+    onNavigate: (nextSection) => {
+      setActiveTab(nextSection);
+      scrollToSection(nextSection);
+    },
+  });
 
-      setTimeout(() => {
-        button.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "center",
-        });
-      }, 0);
-    }
-  }, [activeTab]);
 
   // Dados de receitas mensais
   const revenueData = [
@@ -301,32 +294,6 @@ export default function Dashboard() {
         <SimplePDFExport />
       </PremiumHeader>
 
-      {/* Navigation Tabs Premium - Mobile Optimized */}
-      <PremiumTabNav
-        tabs={[
-          { id: "overview", label: "📊 Geral" },
-          { id: "revenue", label: "💰 Receitas" },
-          { id: "costs", label: "📉 Custos" },
-          { id: "hr", label: "👥 RH" },
-          { id: "viability", label: "✓ Viabilidade" },
-          { id: "project", label: "🏢 Sobre" },
-        ]}
-        activeTab={activeTab}
-        onTabChange={(tabId) => {
-          const sectionId = tabId as
-            | "overview"
-            | "revenue"
-            | "costs"
-            | "hr"
-            | "viability"
-            | "project";
-          setActiveTab(sectionId);
-          scrollToSection(sectionId);
-        }}
-        primaryColor={GIARDINO_COLORS.primary}
-        accentColor={GIARDINO_COLORS.accent}
-        lightColor={GIARDINO_COLORS.light}
-      />
 
       {/* Content - Mobile Optimized */}
       <div id="dashboard-content" className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth bg-gradient-to-br from-slate-50 via-white to-slate-50 w-full">
@@ -1573,6 +1540,16 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Floating Section Position Indicator */}
+      <SectionPositionIndicator
+        activeSection={activeTab}
+        primaryColor={GIARDINO_COLORS.primary}
+        accentColor={GIARDINO_COLORS.accent}
+        onNavigate={(sectionId) => {
+          setActiveTab(sectionId);
+          scrollToSection(sectionId);
+        }}
+      />
     </div>
   );
 }
