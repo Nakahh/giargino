@@ -1310,29 +1310,22 @@ export default function Dashboard() {
                           <p className="text-xs text-gray-600">240 unidades - Pacote all inclusive com cuidados especializados</p>
                         </div>
                       </div>
-                      <div className="flex gap-3 p-3 bg-purple-50 rounded-lg border-l-4 border-purple-600">
-                        <div className="font-bold text-purple-600 min-w-6">2</div>
-                        <div>
-                          <p className="font-semibold text-purple-900">Hospedagem Turística</p>
-                          <p className="text-xs text-gray-600">80 unidades - Hotel de luxo integrado ao complexo</p>
-                        </div>
-                      </div>
                       <div className="flex gap-3 p-3 bg-amber-50 rounded-lg border-l-4 border-amber-600">
-                        <div className="font-bold text-amber-600 min-w-6">3</div>
+                        <div className="font-bold text-amber-600 min-w-6">2</div>
                         <div>
                           <p className="font-semibold text-amber-900">Clube Life Style</p>
                           <p className="text-xs text-gray-600">6.000 membros com acesso a 360 diárias</p>
                         </div>
                       </div>
                       <div className="flex gap-3 p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
-                        <div className="font-bold text-green-600 min-w-6">4</div>
+                        <div className="font-bold text-green-600 min-w-6">3</div>
                         <div>
                           <p className="font-semibold text-green-900">Loteamento Residencial</p>
                           <p className="text-xs text-gray-600">400 terrenos de 500m² com acesso ao clube</p>
                         </div>
                       </div>
                       <div className="flex gap-3 p-3 bg-pink-50 rounded-lg border-l-4 border-pink-600">
-                        <div className="font-bold text-pink-600 min-w-6">5</div>
+                        <div className="font-bold text-pink-600 min-w-6">4</div>
                         <div>
                           <p className="font-semibold text-pink-900">Centro Comercial</p>
                           <p className="text-xs text-gray-600">Shopping com 250+ lojas, alimentação e cinemas</p>
@@ -1533,10 +1526,6 @@ export default function Dashboard() {
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
                     <span className="text-sm font-medium text-gray-700">Residencial</span>
                     <span className="font-bold text-amber-600">R$ 8.4M</span>
-                  </div>
-                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700">Hospedagem</span>
-                    <span className="font-bold text-amber-600">R$ 756k</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg">
                     <span className="text-sm font-medium text-gray-700">Clube</span>

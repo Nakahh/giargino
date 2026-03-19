@@ -17,7 +17,7 @@ export function PremiumHeader({
   title = "GIARDINO",
   subtitle = "RESIDENCIAL SÊNIOR",
   description = "Modelo de Investimento Premium",
-  logoUrl = "https://cdn.builder.io/api/v1/image/assets%2F1f5c753434a147ec852674a7cae5983c%2F5fcc06ba8d4a407c8933fa63bcffec84?format=webp&width=800&height=1200",
+  logoUrl = "",
   backgroundColor = "#2C3E50",
   accentColor = "#F4C430",
   lightColor = "#FFFFFF",
@@ -87,22 +87,24 @@ export function PremiumHeader({
 
         {!compact && (
           <>
-            {/* Logo - Centralizada com Fundo Branco */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex justify-center mb-0 py-8 md:py-12 px-6 md:px-12 rounded-xl"
-              style={{ backgroundColor: lightColor }}
-            >
-              <motion.img
-                src={logoUrl}
-                alt="GIARDINO Logo"
-                className="h-28 md:h-40 w-auto object-contain"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.div>
+            {/* Logo - Centralizada com Fundo Branco (apenas se logoUrl existe) */}
+            {logoUrl && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex justify-center mb-0 py-8 md:py-12 px-6 md:px-12 rounded-xl"
+                style={{ backgroundColor: lightColor }}
+              >
+                <motion.img
+                  src={logoUrl}
+                  alt="GIARDINO Logo"
+                  className="h-28 md:h-40 w-auto object-contain"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
+            )}
 
             {/* Divider com efeito */}
             <motion.div
