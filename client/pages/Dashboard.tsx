@@ -301,6 +301,38 @@ export default function Dashboard() {
         <SimplePDFExport />
       </PremiumHeader>
 
+      {/* Test Button */}
+      <button
+        onClick={() => {
+          console.log('🧪 Test button clicked');
+          const container = document.getElementById('dashboard-content');
+          if (container) {
+            console.log('📊 Container found, current scrollTop:', container.scrollTop);
+            console.log('📊 Container scrollHeight:', container.scrollHeight);
+            console.log('📊 Container clientHeight:', container.clientHeight);
+            container.scrollTo({ top: 1000, behavior: 'smooth' });
+          } else {
+            console.error('❌ Container not found!');
+          }
+        }}
+        style={{
+          position: 'fixed',
+          top: '100px',
+          right: '20px',
+          backgroundColor: '#ff0000',
+          color: '#fff',
+          padding: '10px 15px',
+          borderRadius: '4px',
+          border: 'none',
+          cursor: 'pointer',
+          zIndex: 9998,
+          fontSize: '12px',
+          fontWeight: 'bold'
+        }}
+      >
+        🧪 TEST SCROLL
+      </button>
+
       {/* Navigation Tabs Premium - Mobile Optimized */}
       <PremiumTabNav
         tabs={[
@@ -313,6 +345,7 @@ export default function Dashboard() {
         ]}
         activeTab={activeTab}
         onTabChange={(tabId) => {
+          console.log('🎯 Tab changed:', tabId);
           const sectionId = tabId as
             | "overview"
             | "revenue"
@@ -330,11 +363,6 @@ export default function Dashboard() {
 
       {/* Content - Mobile Optimized */}
       <div id="dashboard-content" className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth bg-gradient-to-br from-slate-50 via-white to-slate-50 w-full">
-        {/* Debug: Show current section */}
-        <div className="fixed bottom-4 right-4 bg-black text-white px-3 py-2 rounded text-xs font-mono z-50 opacity-70">
-          Seção: {activeTab}
-        </div>
-
         <div className="max-w-7xl w-full mx-auto px-2 sm:px-4 md:px-6 py-4 md:py-8">
         {/* TAB: OVERVIEW - ALWAYS RENDERED */}
         <div
@@ -1576,6 +1604,23 @@ export default function Dashboard() {
           </p>
         </div>
         </div>
+      </div>
+
+      {/* Debug: Show current section */}
+      <div style={{
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        backgroundColor: '#000',
+        color: '#fff',
+        padding: '10px 15px',
+        borderRadius: '4px',
+        fontSize: '12px',
+        fontFamily: 'monospace',
+        zIndex: 9999,
+        opacity: 0.9
+      }}>
+        Seção: {activeTab}
       </div>
     </div>
   );

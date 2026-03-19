@@ -24,12 +24,20 @@ export function useAutoScroll(options: UseAutoScrollOptions = {}) {
   }, []);
 
   const scrollToSection = (sectionId: SectionId) => {
+    console.log('🔄 scrollToSection called with:', sectionId);
     const section = document.getElementById(`tab-${sectionId}`);
-    if (!section || !scrollContainerRef.current) return;
+    console.log('📍 Section element:', section);
+
+    if (!section || !scrollContainerRef.current) {
+      console.error('❌ Section or container not found', { section, container: scrollContainerRef.current });
+      return;
+    }
 
     const container = scrollContainerRef.current;
     const sectionTop = section.offsetTop;
     const scrollTarget = sectionTop - offset;
+
+    console.log('📊 Scrolling to:', { sectionId, sectionTop, scrollTarget, containerHeight: container.clientHeight });
 
     container.scrollTo({
       top: scrollTarget,

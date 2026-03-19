@@ -85,6 +85,8 @@ export function useScrollSync(options: UseScrollSyncOptions = {}) {
         lastSectionRef.current = nearestSection;
         setVisibleSection(nearestSection);
         onSectionChange?.(nearestSection);
+      } else {
+        console.log('📍 Current section (no change):', nearestSection);
       }
     };
 
