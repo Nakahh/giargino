@@ -35,11 +35,14 @@ export function useScrollSync(options: UseScrollSyncOptions = {}) {
     }
 
     scrollContainerRef.current = container;
+    console.log('✅ Container encontrado:', container.id);
+    console.log('📏 Container - height:', container.clientHeight, 'scrollHeight:', container.scrollHeight);
 
     // Função para detectar qual seção está visível
     const detectVisibleSection = () => {
       const sections = Array.from(document.querySelectorAll("[data-section]"));
-      
+      console.log('🔍 Seções encontradas:', sections.length);
+
       if (sections.length === 0) return;
 
       // Encontrar a seção mais próxima do topo do container
@@ -79,29 +82,77 @@ export function useScrollSync(options: UseScrollSyncOptions = {}) {
         }
       }
 
+      // Debug visual
+      const debugPanel = document.getElementById('scroll-sync-debug');
+      if (debugPanel) {
+        debugPanel.innerHTML = `
+          <div>📍 Seção: ${visibleSectionId}</div>
+          <div>📍 Última: ${lastSectionRef.current}</div>
+          <div>🔍 Seções: ${sections.length}</div>
+          <div>📏 Distance: ${minDistance.toFixed(0)}px</div>
+        `;
+      }
+
       // Atualizar apenas se mudou
       if (visibleSectionId !== lastSectionRef.current) {
+        console.log('🎯 Seção mudada:', lastSectionRef.current, '→', visibleSectionId);
         lastSectionRef.current = visibleSectionId;
         setVisibleSection(visibleSectionId);
         onSectionChange?.(visibleSectionId);
+        if (debugPanel) {
+          debugPanel.style.background = 'rgba(0, 100, 0, 0.95)';
+        }
+      } else {
+        console.log('📍 Seção atual:', visibleSectionId, '(sem mudança)');
+        if (debugPanel) {
+          debugPanel.style.background = 'rgba(0, 0, 0, 0.9)';
+        }
       }
     };
 
     // Listener de scroll com debouncing
     const handleScroll = () => {
+      console.log('📜 Scroll evento disparado');
       // Limpar timer anterior
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
 
       // Executar após um pequeno delay (debounce)
-      timerRef.current = setTimeout(detectVisibleSection, 10);
+      timerRef.current = setTimeout(() => {
+        console.log('⏱️ Debounce terminado, detectando seção...');
+        detectVisibleSection();
+      }, 10);
     };
 
+    // Debug visual - criar painel de debug
+    const debugPanel = document.getElementById('scroll-sync-debug') || document.createElement('div');
+    if (!debugPanel.id) {
+      debugPanel.id = 'scroll-sync-debug';
+      debugPanel.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.9);
+        color: #0f0;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 12px;
+        z-index: 9999;
+        max-width: 300px;
+        word-break: break-all;
+      `;
+      document.body.appendChild(debugPanel);
+    }
+    debugPanel.innerHTML += '<div>✅ useScrollSync iniciado</div>';
+
     // Executar imediatamente no mount
+    console.log('🚀 Executando detectVisibleSection inicial');
     setTimeout(detectVisibleSection, 0);
 
     // Adicionar listener de scroll
+    console.log('🎧 Adicionando scroll listener');
     container.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
