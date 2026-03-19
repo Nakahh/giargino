@@ -12,16 +12,23 @@
 export const initialSales = {
   residentialSenior: {
     title: "Residencial Senior",
+    units: 240,
+    pricePerUnit: 5_000_000,
+    total: 1_200_000_000,
+    description: "240 unidades residenciais - venda ao longo de 10 anos",
+  },
+  timeShare: {
+    title: "Time Share",
     units: 80,
     pricePerUnit: 2_000_000,
     total: 160_000_000,
-    description: "Cotas de fração ideal - 360 diárias/ano para associados",
+    description: "80 cotas de time share comercializadas",
   },
   lifeStyleClub: {
     title: "Clube Life Style",
     units: 6_000,
-    pricePerUnit: 50_000,
-    total: 300_000_000,
+    pricePerUnit: 35_000,
+    total: 210_000_000,
     downPayment: 10_000, // por unidade
     annualInstallments: 4,
     annualAmount: 10_000, // por parcela
@@ -30,33 +37,27 @@ export const initialSales = {
   subdivision: {
     title: "Loteamento",
     units: 400,
-    pricePerUnit: 360_000,
-    total: 144_000_000,
+    pricePerUnit: 400_000,
+    total: 160_000_000,
     areaPerUnit: 500, // m²
     description: "400 terrenos - todos ganham acesso ao clube",
   },
   mall: {
     title: "Shopping/Mall",
     stores: [
-      { type: "Lojas comerciais", quantity: 200, size: 50, price: 10_000, total: 2_000_000 },
-      { type: "Alimentação", quantity: 50, size: 50, price: 10_000, total: 500_000 },
-      { type: "Posto de gasolina", quantity: 1, price: 40_000, total: 40_000 },
-      { type: "Cinemas", quantity: 2, price: 40_000, total: 80_000 },
-      { type: "Supermercado", quantity: 1, price: 40_000, total: 40_000 },
-      { type: "Pet Shop", quantity: 1, price: 10_000, total: 10_000 },
-      { type: "Farmácia de Manipulação", quantity: 1, price: 15_000, total: 15_000 },
-      { type: "Drogaria", quantity: 1, price: 15_000, total: 15_000 },
+      { type: "Lojas comerciais", quantity: 250, size: 50, price: 10_000, total: 2_500_000 },
     ],
-    total: 2_660_000,
+    total: 2_500_000,
   },
 };
 
 export const totalInitialSales =
   initialSales.residentialSenior.total +
+  initialSales.timeShare.total +
   initialSales.lifeStyleClub.total +
   initialSales.subdivision.total +
   initialSales.mall.total;
-// TOTAL: R$ 604.660.000
+// TOTAL: R$ 1.732.500.000
 
 // ============================================
 // RECEITAS MENSAIS RECORRENTES
@@ -66,42 +67,40 @@ export const monthlyRecurringRevenue = {
   residentialSenior: {
     title: "Residencial Senior (Mensalidades)",
     units: 240,
-    pricePerUnit: 35_000,
-    monthlyTotal: 8_400_000,
+    pricePerUnit: 38_000,
+    monthlyTotal: 9_120_000,
     description: "240 unidades habitadas - pacote all-inclusive",
-  },
-  hospitality: {
-    title: "Hospedagem (Pousada/Hotel)",
-    units: 80,
-    dailyRate: 1_000,
-    occupancyRate: 0.3, // 30% ocupação estimada
-    estimatedMonthlyGuests: 720, // (80 * 30 dias * 30%)
-    monthlyTotal: 756_000, // 720 hóspedes x R$1.000
-    description: "80 apartamentos - diárias meia pensão",
   },
   lifeStyleClubMembership: {
     title: "Mensalidade Clube Life Style",
     members: 6_000,
-    monthlyFeePerMember: 500,
-    monthlyTotal: 3_000_000,
+    monthlyFeePerMember: 400,
+    monthlyTotal: 2_400_000,
     description: "6.000 títulos ativos pagando mensalidade",
   },
-  barsRestaurantShops: {
-    title: "Bares, Restaurantes, Lojas, Eventos",
-    dailyFootTraffic: 350,
-    averageSpending: 150, // por pessoa
+  shoppingMall: {
+    title: "Aluguel Shopping/Mall",
+    stores: 250,
+    monthlyRentPerStore: 10_000,
+    monthlyTotal: 2_500_000,
+    description: "250 lojas - aluguel mensal",
+  },
+  consumption: {
+    title: "Consumação (Bares, Restaurantes, Eventos)",
+    dailyFootTraffic: 500,
+    averageSpending: 92, // por pessoa
     daysPerMonth: 30,
-    monthlyTotal: 1_575_000, // (350 x 150 x 30)
+    monthlyTotal: 1_380_000, // (500 x 92 x 30)
     description: "Fluxo comercial interno - consumo médio",
   },
 };
 
 export const totalMonthlyRevenue =
   monthlyRecurringRevenue.residentialSenior.monthlyTotal +
-  monthlyRecurringRevenue.hospitality.monthlyTotal +
   monthlyRecurringRevenue.lifeStyleClubMembership.monthlyTotal +
-  monthlyRecurringRevenue.barsRestaurantShops.monthlyTotal;
-// TOTAL MENSAL: R$ 13.731.000
+  monthlyRecurringRevenue.shoppingMall.monthlyTotal +
+  monthlyRecurringRevenue.consumption.monthlyTotal;
+// TOTAL MENSAL: R$ 15.400.000
 
 // ============================================
 // CUSTOS OPERACIONAIS MENSAIS
@@ -408,34 +407,41 @@ export const additionalServices = [
 
 export const generateYearlyProjections = () => {
   const projections = [];
+  let cumulativeProfit = 0;
+
+  // Fator de ocupação/ramp-up: começando com 80% e atingindo 100% no ano 3
+  const rampUpFactors = [0.80, 0.90, 1.0, 1.02, 1.04, 1.06, 1.08, 1.10, 1.12, 1.15];
 
   for (let year = 1; year <= 10; year++) {
-    // Assumindo crescimento conservador de 2% ao ano após ano 1
-    const growthFactor = 1 + (year > 1 ? 0.02 * (year - 1) : 0);
+    const rampFactor = rampUpFactors[year - 1] || 1.15;
 
-    const grossRevenue = totalMonthlyRevenue * 12 * growthFactor;
-    const hrCosts = totalHRCosts * 12 * (1 + 0.03 * (year - 1)); // 3% inflation annually
-    const operationalCosts = totalResidentialCosts * 12 * (1 + 0.03 * (year - 1));
-    const financingPayment = financing.monthlyPayment * 12;
+    // Receita bruta com ramp-up e crescimento gradual
+    const grossRevenue = Math.round(totalMonthlyRevenue * 12 * rampFactor);
+
+    // Custos com inflação anual de 2%
+    const costInflation = 1 + (year > 1 ? 0.02 * (year - 1) : 0);
+    const hrCosts = Math.round(totalHRCosts * 12 * costInflation);
+    const operationalCosts = Math.round(totalResidentialCosts * 12 * costInflation);
+    const financingPayment = Math.round(financing.monthlyPayment * 12);
 
     // Juros decrescem conforme o saldo diminui
-    const remainingBalance = financing.totalLoan - (financing.monthlyPayment * 12 * (year - 1));
-    const interestCost = Math.max(0, remainingBalance * financing.annualInterestRate);
+    const remainingBalance = Math.max(0, financing.totalLoan - (financing.monthlyPayment * 12 * (year - 1)));
+    const interestCost = Math.round(remainingBalance * financing.annualInterestRate);
 
     const totalCosts = hrCosts + operationalCosts + financingPayment + interestCost;
     const netProfit = grossRevenue - totalCosts;
-    const roi = ((netProfit * year) / financing.totalLoan) * 100;
+
+    cumulativeProfit += netProfit;
+
+    // ROI calculado sobre o lucro acumulado vs investimento inicial
+    const roi = ((cumulativeProfit) / financing.totalLoan) * 100;
 
     projections.push({
       year,
-      grossRevenue: Math.round(grossRevenue),
-      hrCosts: Math.round(hrCosts),
-      operationalCosts: Math.round(operationalCosts),
-      financingPayment: Math.round(financingPayment),
-      interestCost: Math.round(interestCost),
-      totalCosts: Math.round(totalCosts),
-      netProfit: Math.round(netProfit),
-      cumulativeProfit: Math.round(netProfit * year),
+      grossRevenue,
+      totalCosts,
+      netProfit,
+      cumulativeProfit: Math.round(cumulativeProfit),
       roi: roi.toFixed(2),
     });
   }

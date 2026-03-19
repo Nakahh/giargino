@@ -137,18 +137,18 @@ export default function Dashboard() {
       fill: CHART_COLORS[0],
     },
     {
-      name: "Hospedagem",
-      value: giardino.monthlyRevenue.hospitality.monthlyTotal,
+      name: "Clube Life Style",
+      value: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal,
       fill: CHART_COLORS[1],
     },
     {
-      name: "Clube Life Style",
-      value: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal,
+      name: "Shopping/Mall",
+      value: giardino.monthlyRevenue.shoppingMall.monthlyTotal,
       fill: CHART_COLORS[2],
     },
     {
-      name: "Bares/Restaurantes",
-      value: giardino.monthlyRevenue.barsRestaurantShops.monthlyTotal,
+      name: "Consumação",
+      value: giardino.monthlyRevenue.consumption.monthlyTotal,
       fill: CHART_COLORS[3],
     },
   ];
@@ -192,22 +192,24 @@ export default function Dashboard() {
   ];
 
   // Dados de fluxo de caixa projetado (12 meses)
+  const monthlyOperatingCosts = giardino.summary.monthlyAnalysis.hrCosts + giardino.summary.monthlyAnalysis.residentialOperatingCosts;
+  const monthlyFinancingCosts = giardino.summary.monthlyAnalysis.financingPayment + giardino.summary.monthlyAnalysis.estimatedMonthlyInterest;
+  const totalMonthlyCosts = monthlyOperatingCosts + monthlyFinancingCosts;
+
   const cashFlowData = Array.from({ length: 12 }).map((_, i) => ({
     month: `Mês ${i + 1}`,
     receita: giardino.totalMonthlyRevenue,
-    custos:
-      469_000 + 4_320_000 + giardino.financing.monthlyPayment + 500_000,
-    lucro:
-      giardino.totalMonthlyRevenue -
-      (469_000 + 4_320_000 + giardino.financing.monthlyPayment + 500_000),
+    custos: totalMonthlyCosts,
+    lucro: giardino.totalMonthlyRevenue - totalMonthlyCosts,
   }));
 
-  // Dados de distribuição de receitas iniciais
+  // Dados de distribuição de vendas iniciais
   const salesDistribution = [
     {
       name: "Residencial Senior",
       value: giardino.sales.residentialSenior.total,
     },
+    { name: "Time Share", value: giardino.sales.timeShare.total },
     { name: "Clube Life Style", value: giardino.sales.lifeStyleClub.total },
     { name: "Loteamento", value: giardino.sales.subdivision.total },
     { name: "Shopping/Mall", value: giardino.sales.mall.total },
@@ -364,7 +366,7 @@ export default function Dashboard() {
                       CUSTOS MENSAIS
                     </p>
                     <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.gold, wordWrap: "break-word" }}>
-                      {formatCurrency(469_000 + 4_320_000)}
+                      {formatCurrency(giardino.summary.monthlyAnalysis.hrCosts + giardino.summary.monthlyAnalysis.residentialOperatingCosts)}
                     </h3>
                     <p className="text-xs text-gray-500">RH + Operacional</p>
                   </div>
@@ -386,10 +388,7 @@ export default function Dashboard() {
                       LUCRO LÍQUIDO
                     </p>
                     <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent, wordWrap: "break-word" }}>
-                      {formatCurrency(
-                        giardino.totalMonthlyRevenue -
-                        (469_000 + 4_320_000 + 1_000_000 + 500_000)
-                      )}
+                      {formatCurrency(giardino.viability.monthlyNetProfit)}
                     </h3>
                     <p className="text-xs text-gray-500">Mensal (aprox.)</p>
                   </div>
@@ -584,10 +583,10 @@ export default function Dashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.secondary }}>
-                    HOSPEDAGEM
+                    SHOPPING/MALL
                   </p>
                   <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary, wordWrap: "break-word" }}>
-                    {formatCurrency(giardino.monthlyRevenue.hospitality.monthlyTotal)}
+                    {formatCurrency(giardino.monthlyRevenue.shoppingMall.monthlyTotal)}
                   </h3>
                   <p className="text-xs text-gray-500">/mês</p>
                 </div>
@@ -616,6 +615,28 @@ export default function Dashboard() {
                 <Flower className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.gold }} />
               </div>
             </div>
+
+            {/* Revenue Card 4 - Consumação */}
+            <div
+              className="rounded-xl p-5 sm:p-6 md:p-7 shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 group hover:scale-105 cursor-pointer fade-in gradient-card hover-lift"
+              style={{
+                backgroundColor: GIARDINO_COLORS.light,
+                borderLeftColor: GIARDINO_COLORS.accent
+              }}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm sm:text-base font-bold mb-2 tracking-wide" style={{ color: GIARDINO_COLORS.accent }}>
+                    CONSUMAÇÃO
+                  </p>
+                  <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: GIARDINO_COLORS.accent, wordWrap: "break-word" }}>
+                    {formatCurrency(giardino.monthlyRevenue.consumption.monthlyTotal)}
+                  </h3>
+                  <p className="text-xs text-gray-500">/mês</p>
+                </div>
+                <ShoppingCart className="w-6 sm:w-8 h-6 sm:h-8 flex-shrink-0" style={{ color: GIARDINO_COLORS.accent }} />
+              </div>
+            </div>
           </div>
 
           {/* Revenue Table */}
@@ -635,9 +656,9 @@ export default function Dashboard() {
             <ResponsiveTable
               data={[
                 { segment: "Residencial Senior", monthly: giardino.monthlyRevenue.residentialSenior.monthlyTotal, annual: giardino.monthlyRevenue.residentialSenior.monthlyTotal * 12 },
-                { segment: "Hospedagem", monthly: giardino.monthlyRevenue.hospitality.monthlyTotal, annual: giardino.monthlyRevenue.hospitality.monthlyTotal * 12 },
                 { segment: "Clube Life Style", monthly: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal, annual: giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal * 12 },
-                { segment: "Bares/Restaurantes", monthly: giardino.monthlyRevenue.barsRestaurantShops.monthlyTotal, annual: giardino.monthlyRevenue.barsRestaurantShops.monthlyTotal * 12 },
+                { segment: "Shopping/Mall", monthly: giardino.monthlyRevenue.shoppingMall.monthlyTotal, annual: giardino.monthlyRevenue.shoppingMall.monthlyTotal * 12 },
+                { segment: "Consumação", monthly: giardino.monthlyRevenue.consumption.monthlyTotal, annual: giardino.monthlyRevenue.consumption.monthlyTotal * 12 },
               ]}
               columns={[
                 { key: "segment", label: "Segmento", render: (v) => v },
@@ -1033,38 +1054,31 @@ export default function Dashboard() {
               borderTopColor: GIARDINO_COLORS.secondary
             }}
           >
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{ color: GIARDINO_COLORS.secondary }}>
-              Projeção Financeira 10 Anos
-            </h2>
-            <ResponsiveContainer width="100%" height={400}>
-              <AreaChart data={cashFlowData}>
-                <defs>
-                  <linearGradient id="colorReceita" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={CHART_COLORS[0]} stopOpacity={0.8} />
-                    <stop offset="95%" stopColor={CHART_COLORS[0]} stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="colorLucro" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={CHART_COLORS[2]} stopOpacity={0.8} />
-                    <stop offset="95%" stopColor={CHART_COLORS[2]} stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip
-                  formatter={(value: number) => formatCurrency(value)}
-                  contentStyle={{
-                    backgroundColor: "#fff",
-                    border: "2px solid #2D5016",
-                    borderRadius: "8px",
-                    padding: "8px",
-                    boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
-                  }}
-                />
-                <Area type="monotone" dataKey="receita" stroke={CHART_COLORS[0]} fillOpacity={1} fill="url(#colorReceita)" />
-                <Area type="monotone" dataKey="lucro" stroke={CHART_COLORS[2]} fillOpacity={1} fill="url(#colorLucro)" />
-              </AreaChart>
-            </ResponsiveContainer>
+            <div className="mb-4 sm:mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: GIARDINO_COLORS.secondary }}>
+                📊 Projeção Financeira 10 Anos
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600">Análise anual de receitas, custos e lucratividade ao longo da década</p>
+            </div>
+            <ResponsiveTable
+              data={giardino.yearlyProjections.map((proj: any) => ({
+                ano: `Ano ${proj.year}`,
+                receita: proj.grossRevenue,
+                custos: proj.totalCosts,
+                lucro: proj.netProfit,
+                acumulado: proj.cumulativeProfit,
+                roi: proj.roi,
+              }))}
+              columns={[
+                { key: "ano", label: "ANO", render: (v) => v },
+                { key: "receita", label: "RECEITA BRUTA", render: (v) => formatCurrency(v) },
+                { key: "custos", label: "CUSTOS TOTAIS", render: (v) => formatCurrency(v) },
+                { key: "lucro", label: "LUCRO LÍQUIDO", render: (v) => formatCurrency(v) },
+                { key: "acumulado", label: "LUCRO ACUMULADO", render: (v) => formatCurrency(v) },
+                { key: "roi", label: "ROI (%)", render: (v) => `${v}%` },
+              ]}
+              headerTextColor={GIARDINO_COLORS.secondary}
+            />
           </div>
         </div>
 
@@ -1171,33 +1185,33 @@ export default function Dashboard() {
               </div>
 
               {/* Revenue Stream 2 */}
-              <div className="p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border-l-4 border-green-600">
-                <h3 className="text-lg font-bold text-green-900 mb-2">Hospedagem</h3>
-                <p className="text-gray-700 mb-2">Diárias de visitantes e hospedes</p>
-                <p className="text-2xl font-bold text-green-600">
-                  {formatCurrency(giardino.monthlyRevenue.hospitality.monthlyTotal)}
-                </p>
-                <span className="text-xs text-green-600">/mês</span>
-              </div>
-
-              {/* Revenue Stream 3 */}
               <div className="p-4 sm:p-6 bg-gradient-to-br from-amber-50 to-amber-100 rounded-lg border-l-4 border-amber-600">
                 <h3 className="text-lg font-bold text-amber-900 mb-2">Clube Life Style</h3>
-                <p className="text-gray-700 mb-2">Membrias e atividades</p>
+                <p className="text-gray-700 mb-2">Mensalidade de 6.000 membros</p>
                 <p className="text-2xl font-bold text-amber-600">
                   {formatCurrency(giardino.monthlyRevenue.lifeStyleClubMembership.monthlyTotal)}
                 </p>
                 <span className="text-xs text-amber-600">/mês</span>
               </div>
 
-              {/* Revenue Stream 4 */}
+              {/* Revenue Stream 3 */}
               <div className="p-4 sm:p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg border-l-4 border-purple-600">
-                <h3 className="text-lg font-bold text-purple-900 mb-2">Shopping/Center</h3>
-                <p className="text-gray-700 mb-2">Aluguel de lojas e espaços comerciais</p>
+                <h3 className="text-lg font-bold text-purple-900 mb-2">Shopping/Mall</h3>
+                <p className="text-gray-700 mb-2">Aluguel de 250 lojas</p>
                 <p className="text-2xl font-bold text-purple-600">
-                  {formatCurrency(giardino.monthlyRevenue.barsRestaurantShops.monthlyTotal)}
+                  {formatCurrency(giardino.monthlyRevenue.shoppingMall.monthlyTotal)}
                 </p>
                 <span className="text-xs text-purple-600">/mês</span>
+              </div>
+
+              {/* Revenue Stream 4 */}
+              <div className="p-4 sm:p-6 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg border-l-4 border-pink-600">
+                <h3 className="text-lg font-bold text-pink-900 mb-2">Consumação</h3>
+                <p className="text-gray-700 mb-2">Bares, restaurantes e eventos</p>
+                <p className="text-2xl font-bold text-pink-600">
+                  {formatCurrency(giardino.monthlyRevenue.consumption.monthlyTotal)}
+                </p>
+                <span className="text-xs text-pink-600">/mês</span>
               </div>
 
               {/* Total Revenue */}
