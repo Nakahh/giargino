@@ -8,11 +8,19 @@ const resources = {
   'en-US': { translation: enUS },
 };
 
+const getStoredLanguage = () => {
+  try {
+    return localStorage.getItem('language') || 'pt-BR';
+  } catch {
+    return 'pt-BR';
+  }
+};
+
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: localStorage.getItem('language') || 'pt-BR',
+    lng: getStoredLanguage(),
     fallbackLng: 'pt-BR',
     interpolation: {
       escapeValue: false,
