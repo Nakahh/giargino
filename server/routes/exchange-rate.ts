@@ -68,9 +68,9 @@ export const handleExchangeRate: RequestHandler = async (_req, res) => {
       } as ExchangeRateResponse);
     }
 
-    // Taxa default como fallback (aproximadamente 0.20)
+    // Taxa default como fallback (aproximadamente 0.189 = 1 USD / 5.26 BRL)
     res.json({
-      rate: 0.2,
+      rate: 0.189,
       timestamp: now,
       baseCurrency: "BRL",
       targetCurrency: "USD",

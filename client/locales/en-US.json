@@ -394,5 +394,70 @@
       "projectComposition": "Senior Residential + Life Style Club + Subdivision + Commercial Center",
       "locationArea": "Location: Mogi das Cruzes, São Paulo — Area: 258,900 m²"
     }
+  },
+  "data": {
+    "initialSales": {
+      "residentialSenior": "Senior Residential",
+      "timeShare": "Time Share",
+      "lifeStyleClub": "Life Style Club",
+      "subdivision": "Subdivision",
+      "mall": "Shopping/Mall"
+    },
+    "monthlyRecurring": {
+      "residentialSenior": "Senior Residential (Monthly Fees)",
+      "lifeStyleClub": "Life Style Club Membership",
+      "shoppingMall": "Shopping/Mall Rent",
+      "consumption": "Consumption (Bars, Restaurants, Events)"
+    },
+    "humanResources": {
+      "housekeeping": "Housekeeping",
+      "culinary": "Cooks + Assistants",
+      "laundry": "Laundry (Washers + Ironers)",
+      "cleaning": "Cleaning Assistants (Common Areas)",
+      "maintenance": "Gardeners + Pool Attendants/Lifeguards",
+      "beauty": "Beauty (Hairdressers, Barbers, Manicurists, Waxers)",
+      "reception": "Receptionists",
+      "security": "Security Guards",
+      "healthcare": "Nurses/Nursing Assistants",
+      "administrative": "Administrative and Management"
+    },
+    "operatingCosts": {
+      "hosting": "Hosting",
+      "meals": "Meals (5 meals/day)",
+      "sportsRecreation": "Sports and Recreation",
+      "medicalCare": "Medical Care/Home Care/Dental",
+      "therapies": "Therapies/Physiotherapy and Workshops",
+      "personalCare": "Personal Care"
+    },
+    "includedServices": [
+      "Daily cleaning",
+      "Linen change 3x/week",
+      "Pool towels daily",
+      "Complete laundry 1x/week",
+      "5 meals per day",
+      "1 sports activity/day",
+      "Therapy or physiotherapy 3x/week + 2x workshops",
+      "Medical care and home care",
+      "Free games room",
+      "8 parties/events per month",
+      "Emergency ambulance",
+      "Concierge and butler",
+      "Internal transportation",
+      "Water, electricity and internet",
+      "Manicure/pedicure (4x/month)",
+      "Hairdresser (4x/month)",
+      "Facial cleaning (2x/month)",
+      "Waxing (2x/month)"
+    ],
+    "additionalServices": [
+      "Personal medications",
+      "Geriatric diapers",
+      "Personal hygiene products",
+      "Transportation for outings ($6/km)",
+      "Leisure travel",
+      "Helicopter transportation",
+      "Personal shopping",
+      "Full-time accompaniment"
+    ]
   }
 }

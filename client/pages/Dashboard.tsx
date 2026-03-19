@@ -281,6 +281,7 @@ export default function Dashboard() {
         title={t('header.title')}
         subtitle={t('header.subtitle')}
         description={t('header.description')}
+        logoUrl="/giardino-logo.png"
         backgroundColor="#2C3E50"
         accentColor={GIARDINO_COLORS.accent}
         lightColor={GIARDINO_COLORS.light}
