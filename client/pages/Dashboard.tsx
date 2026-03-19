@@ -516,25 +516,68 @@ export default function Dashboard() {
                   <p className="text-sm sm:text-base text-gray-600">Receita, custos e lucro mensal estimado</p>
                 </div>
                 <ResponsiveContainer width="100%" height={400}>
-                  <LineChart data={cashFlowData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
+                  <AreaChart data={cashFlowData} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
+                    <defs>
+                      <linearGradient id="colorReceita" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor={CHART_COLORS[0]} stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor={CHART_COLORS[0]} stopOpacity={0.1}/>
+                      </linearGradient>
+                      <linearGradient id="colorCustos" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor={CHART_COLORS[4]} stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor={CHART_COLORS[4]} stopOpacity={0.1}/>
+                      </linearGradient>
+                      <linearGradient id="colorLucro" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor={CHART_COLORS[2]} stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor={CHART_COLORS[2]} stopOpacity={0.1}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                    <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} />
                     <Tooltip
                       formatter={(value: number) => formatCurrency(value)}
+                      labelFormatter={(label) => `${label}`}
                       contentStyle={{
                         backgroundColor: "#fff",
                         border: "2px solid #F4C430",
                         borderRadius: "8px",
-                        padding: "8px",
-                        boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
+                        padding: "12px",
+                        boxShadow: "0 4px 6px rgba(0,0,0,0.15)"
                       }}
                     />
-                    <Legend />
-                    <Line type="monotone" dataKey="receita" stroke={CHART_COLORS[0]} strokeWidth={2} />
-                    <Line type="monotone" dataKey="custos" stroke={CHART_COLORS[4]} strokeWidth={2} />
-                    <Line type="monotone" dataKey="lucro" stroke={CHART_COLORS[2]} strokeWidth={2} />
-                  </LineChart>
+                    <Legend
+                      wrapperStyle={{ paddingTop: "20px", fontSize: "13px" }}
+                      verticalAlign="bottom"
+                      height={30}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="receita"
+                      stroke={CHART_COLORS[0]}
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorReceita)"
+                      name="Receita"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="custos"
+                      stroke={CHART_COLORS[4]}
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorCustos)"
+                      name="Custos"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="lucro"
+                      stroke={CHART_COLORS[2]}
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorLucro)"
+                      name="Lucro"
+                    />
+                  </AreaChart>
                 </ResponsiveContainer>
               </div>
             </div>
