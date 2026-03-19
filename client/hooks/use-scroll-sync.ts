@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 type SectionId = "overview" | "revenue" | "costs" | "hr" | "viability" | "project";
 
@@ -6,6 +6,7 @@ interface UseScrollSyncOptions {
   threshold?: number;
   rootMargin?: string;
   onSectionChange?: (sectionId: SectionId) => void;
+  scrollContainerId?: string;
 }
 
 /**
@@ -14,13 +15,19 @@ interface UseScrollSyncOptions {
  */
 export function useScrollSync(options: UseScrollSyncOptions = {}) {
   const {
-    threshold = 0.3,
-    rootMargin = "-50px 0px -50% 0px",
+    threshold = 0.5,
+    rootMargin = "0px",
     onSectionChange,
+    scrollContainerId = "dashboard-content",
   } = options;
 
   const [visibleSection, setVisibleSection] = useState<SectionId>("overview");
   const observerRef = useRef<IntersectionObserver | null>(null);
+
+  const handleSectionChange = useCallback((sectionId: SectionId) => {
+    setVisibleSection(sectionId);
+    onSectionChange?.(sectionId);
+  }, [onSectionChange]);
 
   useEffect(() => {
     // Limpar observer anterior
@@ -28,18 +35,24 @@ export function useScrollSync(options: UseScrollSyncOptions = {}) {
       observerRef.current.disconnect();
     }
 
-    // Criar novo observer
+    // Encontrar o container scrollável
+    const scrollContainer = document.getElementById(scrollContainerId);
+
+    // Criar novo observer com a root correta
     observerRef.current = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const sectionId = entry.target.id.replace("tab-", "") as SectionId;
-            setVisibleSection(sectionId);
-            onSectionChange?.(sectionId);
-          }
-        });
+        // Filtrar apenas as seções que estão intersetando
+        const visibleEntries = entries.filter(entry => entry.isIntersecting);
+
+        if (visibleEntries.length > 0) {
+          // Usar a primeira seção visível (a mais próxima do topo)
+          const topMostEntry = visibleEntries[0];
+          const sectionId = topMostEntry.target.getAttribute("data-section") as SectionId;
+          handleSectionChange(sectionId);
+        }
       },
       {
+        root: scrollContainer,
         threshold,
         rootMargin,
       }
@@ -54,7 +67,7 @@ export function useScrollSync(options: UseScrollSyncOptions = {}) {
     return () => {
       observerRef.current?.disconnect();
     };
-  }, [threshold, rootMargin, onSectionChange]);
+  }, [threshold, rootMargin, handleSectionChange, scrollContainerId]);
 
   return { visibleSection };
 }
