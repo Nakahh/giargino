@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useCurrency } from "@/hooks/use-currency";
 
 interface AnimatedKPICardProps {
   title: string;
@@ -26,6 +27,8 @@ export function AnimatedKPICard({
   iconColor = "text-blue-600",
   delay = 0,
 }: AnimatedKPICardProps) {
+  const { formatCurrency } = useCurrency();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -144,13 +147,4 @@ export function AnimatedKPICard({
       </div>
     </motion.div>
   );
-}
-
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
 }

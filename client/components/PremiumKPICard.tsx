@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 import { useState } from "react";
+import { useCurrency } from "@/hooks/use-currency";
 
 interface PremiumKPICardProps {
   title: string;
@@ -27,6 +28,7 @@ export function PremiumKPICard({
   delay = 0,
 }: PremiumKPICardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const { formatCurrency } = useCurrency();
 
   return (
     <motion.div
@@ -151,13 +153,4 @@ export function PremiumKPICard({
       </div>
     </motion.div>
   );
-}
-
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
 }

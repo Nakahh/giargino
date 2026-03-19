@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { flipCardVariants, successStateVariants } from "@/hooks/use-animations";
 import { useState } from "react";
+import { useCurrency } from "@/hooks/use-currency";
 
 interface KPICardProps {
   title: string;
@@ -29,6 +30,7 @@ export function KPICard({
   premium = false,
 }: KPICardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const { formatCurrency } = useCurrency();
 
   return (
     <motion.div
@@ -123,13 +125,4 @@ export function KPICard({
       </div>
     </motion.div>
   );
-}
-
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
 }
